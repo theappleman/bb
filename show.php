@@ -11,7 +11,7 @@ $query = 'SELECT title,date,intro,commentable,rateable,rating,image
 	FROM '.$db_prefix.'data
 	WHERE id ="' . $id . '"
 	LIMIT 1';
-$line = $db->fetch($query);
+$result = $db->fetch($query);
 $query2 = 'SELECT id,title,date,intro,rateable,rating,commentable,image
 	FROM '.$db_prefix.'data
 	WHERE moderated != 1
@@ -27,6 +27,7 @@ $head .= enclose('title',$sitename,'');
 $head .= head("comments",$id);
 
 $body .= enclose('div',$sitename,'id="head"');
+foreach($result as $line) {
 $entry .= enclose('div',get_day($line['date']),'class="bigdate"');
 $entry .= enclose('div',enclose('a',html_entity_decode($line['title']),'href="'.$hurl.'/show/'.$id.'"'),'class="title"');
 $entry .= enclose('div',$line['date'],'class="date"');
@@ -67,6 +68,7 @@ if ($line['commentable'] >= 1) {
 	if ($line['commentable'] == 2) { $bot .= enclose('div',enclose('a','Post a comment',''),'class="foot"'); }
 	else { $bot .= enclose('div',enclose('a','No more comments',''),'class="foot"'); }
 	$body .= enclose('div',$bot,'class="entry"');
+}
 }
 if ($line['commentable'] == 2) { $body .= postbox('comments',$id); }
 

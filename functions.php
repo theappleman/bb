@@ -4,9 +4,7 @@
 
 require_once('userconf.php');
 require_once('class_db.php');
-global $db, $cache_time, $db_prefix, $hurl;
-$db = new db(0);
-$db->dir = $cache_dir;
+$db = new db();
 
 function fixup($text) {
   $text = preg_replace("%\[\[(.*?)\|(.*?)\]\]%","<a href=\"$1\">$2</a>",$text); // [[URL|text]] => <a href="URL">text</a>
@@ -17,18 +15,18 @@ function fixup($text) {
  }
 
 function postbox($cat,$id) {
-  global $accept;
+  global $hurl, $accept;
   $box = NULL;
   $name = "form_form";
   if ($cat == "comments") { $ct = 0; } else { $ct = 2; }
-  if ($id != 0) { $box = enclose('input','type="hidden" name="commentref" value="'.$id.'"'); }
-    $box .= enclose('input','type="hidden" name="cat" value="'.$cat.'"');
-    $box .= enclose('input','type="hidden" name="moderated"');
-    $box .= enclose('input','type="hidden" name="transaction_key" value="'.get_transaction_key().'"');
-    $box .= enclose('input','type="hidden" name="commentable" value="'.$ct.'"');
-		$box .= enclose('p','Name: '.enclose('input','name="title" tabindex="1" accesskey="q"').'&nbsp;'.enclose('input','type="file" accesskey="s" name="userfile" tabindex="3" accept="'.$accept.'"'),'class="name"');
+  if ($id != 0) { $box = enclo_s('input','type="hidden" name="commentref" value="'.$id.'"'); }
+    $box .= enclo_s('input','type="hidden" name="cat" value="'.$cat.'"');
+    $box .= enclo_s('input','type="hidden" name="moderated"');
+    $box .= enclo_s('input','type="hidden" name="transaction_key" value="'.get_transaction_key().'"');
+    $box .= enclo_s('input','type="hidden" name="commentable" value="'.$ct.'"');
+		$box .= enclose('p','Name: '.enclo_s('input','name="title" tabindex="1" accesskey="q"').'&nbsp;'.enclo_s('input','type="file" accesskey="s" name="userfile" tabindex="3" accept="'.$accept.'"'),'class="name"');
 		$box .= enclose('textarea','','name="intro" rows="5" columns="100" tabindex="2" accesskey="w"');
-		$box .= enclose('div',enclose('input','type="submit" value="Lets go!"').enclose('input','type="reset" value="Reset"'),'class="foot"');
+		$box .= enclose('div',enclo_s('input','type="submit" value="Lets go!"').enclo_s('input','type="reset" value="Reset"'),'class="foot"');
 		$box = enclose('form',$box,'name="'.$name.'" action="'.$hurl.'/addnew.php" method="post" enctype="multipart/form-data"');
 		$box = enclose('div',$box,'class="entry"');
 		$script .= enclose('script','var frmvalidator  = new Validator("'.$name.'");
@@ -49,6 +47,7 @@ function postbox($cat,$id) {
   }
 
  function chrate($id) {
+ 	global $hurl;
    $rate = NULL;
    $rate .= enclose('a','-','href="'.$hurl.'/rating/lower/'.$id.'/'.get_transaction_key().'"');
    $rate .= '(' . ratings($id) . ')';
@@ -57,7 +56,7 @@ function postbox($cat,$id) {
   }
 
 function show_pic($image) {
-  global $uploaddir;
+  global $uploaddir, $hurl;
   if ($image != "" && is_image($uploaddir.$image)) {
     list($thumb,$rand,$filename) = explode('-',$image,3);
     if($thumb == "thumb" && is_image($uploaddir."thumb-" . $rand . '-' . $filename)) {
@@ -67,7 +66,7 @@ function show_pic($image) {
       $thumbname = $image;
       $filename = $image;
     }
-    return "\n".htmlentities(enclose('a',enclose('img','src="'.$hurl.'/uploaded/'.$thumbname.'" '. implode( array_splice( getimagesize( $uploaddir.$thumbname ), 3, 1 ) ) ),'href="'.$hurl.'/uploaded/'.$filename.'"'));
+    return "\n".htmlentities(enclose('a',enclo_s('img','src="'.$hurl.'/uploaded/'.$thumbname.'" '. implode( array_splice( getimagesize( $uploaddir.$thumbname ), 3, 1 ) ) ),'href="'.$hurl.'/uploaded/'.$filename.'"'));
   } else { return ''; }
 }
 
@@ -110,10 +109,10 @@ function make_thumb($filename) {
 }
 
 function head($cat,$id) {
-  global $style, $sitename;
+  global $style, $sitename, $hurl;
 	$meta = enclose('link','','rel="stylesheet" href="'.$hurl.'/'.$style.'.css" type="text/css" title="default"');
   $meta .= enclose('link','','rel="alternate" type="application/rss+xml" href="'.$hurl.'/rss/'.$cat.'/'.$id.'" title="' . $sitename . ' feed"');
-	$meta .= enclose('meta','http-equiv="Content-Type" content="text/html; charset=UTF-8"');
+	$meta .= enclo_s('meta','http-equiv="Content-Type" content="text/html; charset=UTF-8"');
   $meta .= enclose('script','','src="'.$hurl.'/ie7-standard-p.js" type="text/javascript"');
   $meta .= enclose('script','','src="'.$hurl.'/gen_validatorv2.js" type="text/javascript"');
 	return $meta;
@@ -145,15 +144,17 @@ function mod_change($cat, $id) {
 } //currently unused
 
 function comments($id) {
-	$query = 'SELECT COUNT(*) FROM '.$db_prefix.'data WHERE commentref = "'.$id.'" AND moderated != "1" AND section = "comments"';
-	$result = $db->fetch($query,$cache_time);
+	global $db,$db_prefix;
+	$query = 'SELECT id FROM '.$db_prefix.'data WHERE commentref = "'.$id.'" AND moderated != "1" AND section = "comments"';
+	$result = $db->exec($query,$cache_time);
 	return $result;
 }
 
 function ratings($id) {
+	global $db, $db_prefix;
 	$query = 'SELECT rating FROM '.$db_prefix.'data WHERE id = "'.$id.'"';
 	$result = $db->fetch($query,$cache_time);
-	return $result;
+	return $result['rating'];
 }
 
 if (!function_exists('array_combine')) { function array_combine($keys, $values) {
@@ -164,7 +165,7 @@ if (!function_exists('array_combine')) { function array_combine($keys, $values) 
 } // currently unused
 
 function menu() {
-	global $snapcode;
+	global $menu, $hurl, $db, $snapcode;
 	$return = NULL;
 	foreach ($menu as $key=>$link) {
 		$sitemenu .= enclose('a',ucwords($key),'href="'.$link.'"');
@@ -199,7 +200,10 @@ function enclose($type,$content,$opts = "") {
 	return $return;
 }
 
+function enclo_s($type,$opts) { return '<' . $type . ' ' . $opts . ' />'; }
+
 function check_transaction_key($key) {
+	global $db_prefix;
     if (false === $db->exec('INSERT INTO '.$db_prefix.'transactions (transaction_key) VALUES ("'.$key.'")')) { return false; }
     else { return true; }
 }
