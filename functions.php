@@ -43,7 +43,7 @@ function postbox($cat,$id) {
   $head = enclose('head',$head,'');
   $body = enclose('body',$body,'');
   $finish = enclose('html',$head . $body,'xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"');
-  // $finish .= $GLOBALS['db']->log;
+  //$finish .= $GLOBALS['db']->log;
   return $finish;
   }
 
@@ -168,19 +168,21 @@ if (!function_exists('array_combine')) { function array_combine($keys, $values) 
 } // currently unused
 
 function menu() {
-	global $menu, $hurl, $db, $snapcode,$cache_time;
+	global $menu, $hurl, $db, $snapcode, $cache_time, $db_prefix;
 	$return = NULL;
 	foreach ($menu as $key=>$link) {
 		$sitemenu .= enclose('a',ucwords($key),'href="'.$link.'"');
 		}
 	$return .= enclose("div",$sitemenu,'class="mainmenu"');
 
-	$rslt = $db->fetch('SELECT section FROM '.$db_prefix.'data',$cache_time,"sections");
+	$rslt = $db->fetch('SELECT DISTINCT section FROM '.$db_prefix.'data',$cache_time,"sections");
 
-	foreach($rslt as $ln) {
-	$rry .= $ln['section'] .',';
-	}
-	$array = explode(",",$rry);
+	if ($rslt) {
+    foreach($rslt as $ln) {
+    $rry .= $ln['section'] .',';
+    }
+  }
+  $array = explode(",",$rry);
 
 	$rslt = NULL;
 	foreach (array_unique($array) as $table) { $rslt .= enclose('a',$table,'href="'.$hurl.'/'.$table.'"'); }

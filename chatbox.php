@@ -20,7 +20,7 @@ $query = 'SELECT id,title,date,intro,commentable,rateable,rating,image
 	ORDER BY sticky ASC,lastupd DESC, date DESC ';
 if ($id != "0") { $query .= ' LIMIT '.$id; }
 
-$result = $db->fetch($query,$cache_time,$cat);
+$result = $db->fetch($query,$cache_time,$cat.$page);
 
 $return = NULL;$body = NULL;$head = NULL;
 $head .= enclose("title",$sitename.' '. $cat,"");
