@@ -29,7 +29,7 @@ if( !function_exists('str_split') )
 }
 
 function fixup($text) {
-  $text = preg_replace("/\[\[(.+)\|(.+)\]\]/i","<a href=\"$1\">$2</a>",$text);
+  $text = preg_replace("%\[\[(.*?)\|(.*?)\]\]%i","<a href=\"$1\">$2</a>",$text);
   return $text;
  }
 
