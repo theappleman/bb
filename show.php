@@ -42,7 +42,7 @@ $entry .= enclose('div',$foot,'class="foot"');
 $body .= enclose('div',$entry,'class="entry"');
 
 if ($line['commentable'] >= 1) {
-	foreach($result2 as $line2) {
+	if ($result2) { foreach($result2 as $line2) {
 		$loop = NULL;
 		$foot = NULL;
 		$rate = NULL;
@@ -59,6 +59,7 @@ if ($line['commentable'] >= 1) {
 		}
 		$loop .= enclose('div',$foot,'class="foot"');
 		$comments .= enclose('div',$loop,'class="entry"');
+	}
 	}
 	$body .= enclose('div',$comments,'id="comments"');
 	$bot .= enclose('div',$com_num,'class="bigdate"');

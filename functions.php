@@ -203,7 +203,7 @@ function enclose($type,$content,$opts = "") {
 function enclo_s($type,$opts) { return '<' . $type . ' ' . $opts . ' />'; }
 
 function check_transaction_key($key) {
-	global $db_prefix;
+	global $db_prefix, $db;
     if (false === $db->exec('INSERT INTO '.$db_prefix.'transactions (transaction_key) VALUES ("'.$key.'")')) { return false; }
     else { return true; }
 }
