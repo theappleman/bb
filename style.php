@@ -144,7 +144,7 @@ a.highslide-credits:hover i {
   background-color: gray;
 }
 a.highslide-full-expand {
-	background: url(<? echo $hurl; ?>/highslide/fullexpand.gif) no-repeat;
+	background: url(<? echo $hurl; ?>/graphics/fullexpand.gif) no-repeat;
 	display: block;
 	margin: 0 10px 10px 0;
 	width: 34px;

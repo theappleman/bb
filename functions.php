@@ -11,9 +11,9 @@ function fixup($text) {
 
   $text = preg_replace($patterns,$replacements,$text);
 
-  $text = preg_replace("%\{\{(.*?)\|(.*?)\}\}%","[[$2|{{$1}}",$text); // image with URL // {{imgURL|URL}}
+  $text = preg_replace("%\{\{(.*?)\|(.*?)\}\}%","<a href=\"$2\" class=\"highslide\" rel=\"highslide\" onclick=\"return hs.expand(this)\" ><img src=\"$1\" /></a>",$text); // image with URL // {{imgURL|URL}}
   $text = preg_replace("%\[\[(.*?)\|(.*?)\]\]%","<a href=\"$1\" title=\"$1\" >$2</a>",$text); // [[URL|text]] => <a href="URL">text</a>
-  $text = preg_replace("%\{\{(.*?)\}\}%","<img src=\"$1\" class=\"highslide\" onclick=\"return hs.expand(this)\" />",$text); // just image {{imgURL}}
+  $text = preg_replace("%\{\{(.*?)\}\}%","<a href=\"$1\" class=\"highslide\" rel=\"highslide\" onclick=\"return hs.expand(this)\" ><img src=\"$1\" /></a>",$text); // just image {{imgURL}}
 
   $text = preg_replace("%\s\s+%"," ",$text); // remove whitespace
   $text = preg_replace("%\*(.*?)\*%","<b>*$1*</b>",$text); // *bold* => <b>bold</b>
@@ -122,8 +122,9 @@ function head($cat,$id) {
 	$meta = enclose('link','','rel="stylesheet" href="'.$hurl.'/'.$style.'.php" type="text/css" title="default"');
   $meta .= enclose('link','','rel="alternate" type="application/rss+xml" href="'.$hurl.'/rss/'.$cat.'/'.$id.'" title="' . $sitename . ' feed"');
   $meta .= enclose('script','','src="'.$hurl.'/ie7-standard-p.js" type="text/javascript"');
-  $meta .= enclose('script','','src="'.$hurl.'/highslide.js type="text/javascript"');
+  $meta .= enclose('script','','src="'.$hurl.'/highslide.js" type="text/javascript"');
   $meta .= enclose('script','','src="'.$hurl.'/gen_validatorv2.js" type="text/javascript"');
+  $meta .= enclose('script','hs.graphicsDir = "'.$hurl.'/graphics/"; hs.outlineType = "outer-glow";','type="text/javascript"');
 	return $meta;
 }
 
