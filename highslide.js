@@ -67,9 +67,9 @@ dimmingDuration: 50, // 0 for instant dimming
 
 // HTML extension
 
-previousText : 'Previous',
-nextText : 'Next',
-moveText : 'Move',
+previousText : '',
+nextText : '',
+moveText : '',
 closeText : 'Close',
 closeTitle : 'Click to close',
 resizeTitle : 'Resize',
