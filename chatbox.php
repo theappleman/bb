@@ -31,6 +31,14 @@ if ($result) {
     $loop = NULL; $foot = NULL; $comments = NULL; $rate = NULL;
     $commnum = comments($line['id']);
     $loop .= enclose('div',get_day($line['date']),'class="bigdate"');
+    if ( preg_match("/[^@]+\@.*?$/",$line['title']) ) {
+    	list($title,$address) = explode(" ",$line['title']);
+	if(!$address) { $address=$title; }
+    	if ( !$line['image'] ) {
+		$loop .= enclose('div',enclo_s('img',"src=\"http://www.gravatar.com/avatar/".md5(strtolower($address))."?d=$hurl/black.jpg\""),'class="image"');
+	}
+    	$line['title'] = preg_replace("/([^@]+)\@.*?$/","$1",$title);
+    }
     $loop .= enclose('div',enclose('a',$line['title'],'href="'.$hurl.'/show/'.$line['id'].'"'),'class="title"');
     $loop .= enclose('div',$line['date'],'class="date"');
     $loop .= enclose('div',fixup(show_pic($line['image'])),'class="image"');
@@ -51,6 +59,14 @@ if ($result) {
       foreach($result2 as $line2) {
         $nloop = NULL;$foot = NULL;$rate = NULL;
         $nloop .= enclose('div',get_day($line2['date']),'class="bigdate"');
+	if ( preg_match("/[^@]+\@.*?$/",$line2['title']) ) {
+	        list($title,$address) = explode(" ",$line2['title']);
+	        if(!$address) { $address=$title; }
+	        if ( !$line2['image'] ) {
+                	$nloop .= enclose('div',enclo_s('img',"src=\"http://www.gravatar.com/avatar/".md5(strtolower($address))."?d=$hurl/black.jpg\""),'class="image"');
+		}
+		$line2['title'] = preg_replace("/([^@]+)\@.*?$/","$1",$title);
+	}
         $nloop .= enclose('div',enclose('a',$line2['title'],'href="'.$hurl.'/show/'.$line['id'].'"'),'class="title"');
         $nloop .= enclose('div',$line2['date'],'class="date"');
         $nloop .= enclose('div',fixup(show_pic($line2['image'])),'class="image"');

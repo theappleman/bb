@@ -3,13 +3,15 @@
 	This is just a layout for the config file: change this now!
 	Rename this file userconf.php as well
 */
+// The next 4 variables are required for the system to work, the rest make it work properly.
 $db_host = "localhost"; // database hostname
 $db_user = ""; // username for the database
 $db_pass = ""; // password for said user
 $db_data = ""; // name of the database being used
+
 $db_prefix = ""; // prefix of database tables
 $cache_dir = ""; // Full path to a cache directory, not web readable.
-$cache_time = "300"; // TTL. Don't set this too high.
+$cache_time = "300"; // Cache time. Depending on traffic I guess.
 
 $sitename = ""; // Kinda obvious? unless you can't read that...
 $hurl = ""; // It is best to set this. Very rarely it is ok to leave it blank. Base URL.
