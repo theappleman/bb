@@ -46,17 +46,7 @@ function fixup($text) {
   $head = enclose('head',$head,'');
   $body = enclose('body',$body,'');
   $finish = enclose('html',$head . $body,'xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"');
-  if (isset($_GET['debug'])) { $finish .= $GLOBALS['db']->log; }
   return $finish;
-  }
-
- function chrate($id) {
- 	global $hurl;
-   $rate = NULL;
-   $rate .= enclose('a','-','href="'.$hurl.'/rating/lower/'.$id.'/'.get_transaction_key().'"');
-   $rate .= '(' . ratings($id) . ')';
-   $rate .= enclose('a','+','href="'.$hurl.'/rating/raise/'.$id.'/'.get_transaction_key().'"');
-   return $rate;
   }
 
 function show_pic($image) {
@@ -70,7 +60,6 @@ function show_pic($image) {
       $thumbname = $image;
       $filename = $image;
     }
-    #return "\n".htmlentities(enclose('a',enclo_s('img','src="'.$hurl.'/uploaded/'.$thumbname.'" '. implode( array_splice( getimagesize( $uploaddir.$thumbname ), 3, 1 ) ) ),'href="'.$hurl.'/uploaded/'.$filename.'"'));
     return "\n{{".$hurl."/uploaded/".$thumbname."|".$hurl."/uploaded/".$filename."}}";
   } else { return ''; }
 }
@@ -88,31 +77,40 @@ function make_thumb($filename) {
   $fullfile = $uploaddir . $filename;
   $thumbfile = $uploaddir . 'thumb-' . $filename;
 	if ($image_type = is_image($fullfile)) {
-		list($width_orig, $height_orig) = getimagesize($fullfile);
+		
+    list($width_orig, $height_orig) = getimagesize($fullfile);
+    
     if ($width > $width_orig && $height > $height_orig) { return false; }
-		$ratio_orig = $width_orig/$height_orig;
+		
+    $ratio_orig = $width_orig/$height_orig;
 		if ($width/$height > $ratio_orig) { $width = $height*$ratio_orig; }
-			else { $height = $width/$ratio_orig; }
-		$image_p = imagecreatetruecolor($width, $height);
+    else { $height = $width/$ratio_orig; }
+		
+    $image_p = imagecreatetruecolor($width, $height);
+    
 		switch($image_type) {
 			case 'image/gif': $image = imagecreatefromgif($fullfile);
-          imagecopyresampled($image_p, $image, 0, 0, 0, 0, $width, $height, $width_orig, $height_orig);
-	  if($filtertype) { imagefilter($image_p,$filtertype); }
-          case 'image/gif': $image = imagegif($image_p,$thumbfile);
 				break;
 			case 'image/jpeg': $image = imagecreatefromjpeg($fullfile);
-          imagecopyresampled($image_p, $image, 0, 0, 0, 0, $width, $height, $width_orig, $height_orig);
-	  if($filtertype) { imagefilter($image_p,$filtertype); }
-          case 'image/jpeg': $image = imagejpeg($image_p,$thumbfile);
 				break;
 			case 'image/png': $image = imagecreatefrompng($fullfile);
-          imagecopyresampled($image_p, $image, 0, 0, 0, 0, $width, $height, $width_orig, $height_orig);
-	  if($filtertype) { imagefilter($image_p,$filtertype); }
-          case 'image/png': $image = imagepng($image_p,$thumbfile);
 				break;
 			default: exit("Somehow, there is an error");
 		}
-	}
+    
+    imagecopyresampled($image_p, $image, 0, 0, 0, 0, $width, $height, $width_orig, $height_orig);
+    if($filtertype) { imagefilter($image_p,$filtertype); }
+    
+    switch($image_type) {
+    case 'image/png': $image = imagepng($image_p,$thumbfile);
+      break;
+    case 'image/jpeg': $image = imagejpeg($image_p,$thumbfile);
+      break;
+    case 'image/gif': $image = imagegif($image_p,$thumbfile);
+      break;
+    default: exit("Somehow, there is an error");
+    }
+	} else { return false; }
   return true;
 }
 
@@ -138,20 +136,6 @@ function single_section($cat) {
 	return $cm;
 }
 
-function date_reset($id){
-  global $datefmt;
-	$db->exec('UPDATE '.$db_prefix.'data SET date = '.date($datefmt).' WHERE id = "'.$id.' LIMIT 1', 300) or die('Could not reset date');
-} // currently unused
-
-function mod_change($cat, $id) {
-	$result = $db->fetch('SELECT '.$cat.' FROM '.$db_prefix.'data WHERE id = "'.$id.'"', 0);
-	if ($result['cat'] == 1) { $nr = 0; } else { $nr = 1; }
-	$db->exec('UPDATE '.$db_prefix.'data
-		SET '.$cat.' = "'.$nr.'"
-		WHERE id = "'.$id.'"
-		LIMIT 1',0) or die('Change failed. ' . mysql_error() );
-} //currently unused
-
 function comments($id) {
 	global $db,$db_prefix,$cache_time;
 	$com_num = 0;
@@ -160,20 +144,6 @@ function comments($id) {
 	if ($result) { foreach ($result as $r) { $com_num += 1; } }
 	return $com_num;
 }
-
-function ratings($id) {
-	global $db, $db_prefix, $cache_time;
-	$query = 'SELECT rating FROM '.$db_prefix.'data WHERE id = "'.$id.'"';
-	$result = $db->fetch($query,$cache_time,$id."rati");
-	return $result['rating'];
-} //unused
-
-if (!function_exists('array_combine')) { function array_combine($keys, $values) {
-		$result = array() ;
-		while( ($k=each($keys)) && ($v=each($values)) ) $result[$k[1]] = $v[1] ;
-		return $result ;
-	}
-} // currently unused
 
 function menu() {
 	global $page, $cat, $menu, $hurl, $db, $snapcode, $cache_time, $db_prefix, $nochat;
