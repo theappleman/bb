@@ -26,52 +26,53 @@ $head .= enclose('title',$sitename,'');
 $head .= head("comments",$id);
 
 $body .= enclose('div',$sitename,'id="head"');
-foreach($result as $line) {
-$entry .= enclose('div',get_day($line['date']),'class="bigdate"');
-$entry .= enclose('div',enclose('a',html_entity_decode($line['title']),'href="'.$hurl.'/show/'.$id.'"'),'class="title"');
-$entry .= enclose('div',$line['date'],'class="date"');
-if ($line['rateable'] != 1) { $entry .= enclose('div',chrate($id),'class="rate"'); }
-$line['intro'] .= show_pic($line['image']);
-$entry .= enclose('div',nl2br(fixup(html_entity_decode($line['intro']))),'class="text"');
-if ($line['commentable'] >= 1) {
-	if (comments($id) != 1) { $comment = 's'; } else { $comment = NULL; }
-	$foot .= enclose('a',comments($id). ' comment'.$comment,'href="'.$hurl.'/show/'.$id.'"');
-}
-$entry .= enclose('div',$foot,'class="foot"');
-$body .= enclose('div',$entry,'class="entry"');
+if ($result) {
+  foreach($result as $line) {
+  $entry .= enclose('div',get_day($line['date']),'class="bigdate"');
+  $entry .= enclose('div',enclose('a',html_entity_decode($line['title']),'href="'.$hurl.'/show/'.$id.'"'),'class="title"');
+  $entry .= enclose('div',$line['date'],'class="date"');
+  if ($line['rateable'] != 1) { $entry .= enclose('div',chrate($id),'class="rate"'); }
+  $line['intro'] .= show_pic($line['image']);
+  $entry .= enclose('div',nl2br(fixup(html_entity_decode($line['intro']))),'class="text"');
+  if ($line['commentable'] >= 1) {
+    if (comments($id) != 1) { $comment = 's'; } else { $comment = NULL; }
+    $foot .= enclose('a',comments($id). ' comment'.$comment,'href="'.$hurl.'/show/'.$id.'"');
+  }
+  $entry .= enclose('div',$foot,'class="foot"');
+  $body .= enclose('div',$entry,'class="entry"');
 
-if ($line['commentable'] >= 1) {
-	if ($result2) { foreach($result2 as $line2) {
-		$loop = NULL;
-		$foot = NULL;
-		$rate = NULL;
-		$com_num += 1;
-		$loop .= enclose('div',get_day($line2['date']),'class="bigdate"');
-		$loop .= enclose('div',enclose('a',html_entity_decode($line2['title']),''),'class="title"');
-		$foot .= enclose('div',$line2['date'],'class="date"');
-		if ($line2['rateable'] != 1) { $loop .= enclose('div',chrate($line2['id']),'class="rate"'); }
-    $line2['intro'] .= show_pic($line2['image']);
-		$loop .= enclose('div',nl2br(fixup(html_entity_decode($line2['intro']))),'class="text"');
-		if ($line2['commentable'] >= 1) {
-			if (comments($line2['id']) != 1) { $comment = 's'; } else { $comment = NULL; }
-			$foot .= enclose('a',comments($line2['id']). ' comment'.$comment,'href="'.$hurl.'/show/'.$line2['id'].'"');
-		}
-		$loop .= enclose('div',$foot,'class="foot"');
-		$comments .= enclose('div',$loop,'class="entry"');
-	}
-	}
-	$body .= enclose('div',$comments,'id="comments"');
-	$bot .= enclose('div',$com_num,'class="bigdate"');
-  if ($com_num != 1) { $pl = 's'; } else { $pl = NULL; }
-	$bot .= enclose('div','comment'.$pl,'class="title"');
-	$bot .= enclose('div',enclose('a','Comments through RSS feed','href="'.$hurl.'/rss/comments/'.$id.'"'),'class="text"');
-	if ($line['commentable'] == 2) { $bot .= enclose('div',enclose('a','Post a comment',''),'class="foot"'); }
-	else { $bot .= enclose('div',enclose('a','No more comments',''),'class="foot"'); }
-	$body .= enclose('div',$bot,'class="entry"');
+  if ($line['commentable'] >= 1) {
+    if ($result2) { foreach($result2 as $line2) {
+      $loop = NULL;
+      $foot = NULL;
+      $rate = NULL;
+      $com_num += 1;
+      $loop .= enclose('div',get_day($line2['date']),'class="bigdate"');
+      $loop .= enclose('div',enclose('a',html_entity_decode($line2['title']),''),'class="title"');
+      $foot .= enclose('div',$line2['date'],'class="date"');
+      if ($line2['rateable'] != 1) { $loop .= enclose('div',chrate($line2['id']),'class="rate"'); }
+      $line2['intro'] .= show_pic($line2['image']);
+      $loop .= enclose('div',nl2br(fixup(html_entity_decode($line2['intro']))),'class="text"');
+      if ($line2['commentable'] >= 1) {
+        if (comments($line2['id']) != 1) { $comment = 's'; } else { $comment = NULL; }
+        $foot .= enclose('a',comments($line2['id']). ' comment'.$comment,'href="'.$hurl.'/show/'.$line2['id'].'"');
+      }
+      $loop .= enclose('div',$foot,'class="foot"');
+      $comments .= enclose('div',$loop,'class="entry"');
+    }
+    }
+    $body .= enclose('div',$comments,'id="comments"');
+    $bot .= enclose('div',$com_num,'class="bigdate"');
+    if ($com_num != 1) { $pl = 's'; } else { $pl = NULL; }
+    $bot .= enclose('div','comment'.$pl,'class="title"');
+    $bot .= enclose('div',enclose('a','Comments through RSS feed','href="'.$hurl.'/rss/comments/'.$id.'"'),'class="text"');
+    if ($line['commentable'] == 2) { $bot .= enclose('div',enclose('a','Post a comment',''),'class="foot"'); }
+    else { $bot .= enclose('div',enclose('a','No more comments',''),'class="foot"'); }
+    $body .= enclose('div',$bot,'class="entry"');
+  }
+  }
+  if ($line['commentable'] == 2) { $body .= postbox('comments',$id); }
 }
-}
-if ($line['commentable'] == 2) { $body .= postbox('comments',$id); }
-
 $return = finish_up($head,$body);
 //$return = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">' . $return;
 echo $return;

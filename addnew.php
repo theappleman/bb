@@ -66,13 +66,12 @@ if($allowed == true) {
 } else { exit("There has been an error and you cannot post."); }
 
 if ($commentref == 0) {
-	$db->fetch('SELECT id,title,date,intro,commentable,rateable,rating,image
+	$db->fetch('SELECT title,date,intro,commentable,rateable,rating,image
 	FROM '.$db_prefix.'data
-	WHERE section = "'.single_section($cat).'"
-		AND moderated != 1
-		AND rating >= -50
-	ORDER BY sticky ASC,lastupd DESC, date DESC LIMIT 10',0,single_section($cat));
-  header('Location:'.$hurl.'/'.single_section($cat));
+  WHERE id ="' . $db->last_id . '"
+	WHERE
+	LIMIT 1',0,$db->last_id);
+  header('Location:'.$hurl.'/show/'.$db->last_id);
 } else { $db->exec('UPDATE '.$db_prefix.'data SET lastupd = "'.date($datefmt).'" WHERE id = "'.$commentref.'" LIMIT 1') or die('Could not update post time (don\'t worry, your post has gone through).');
 $query2 = 'SELECT id,title,date,intro,rateable,rating,commentable,image
 	FROM '.$db_prefix.'data
