@@ -12,7 +12,7 @@ RewriteRule ^addnew.php - [F]
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^e/(0-9)$ edit.php?id=$1
+RewriteRule ^e/([0-9])$ edit.php?id=$1
 RewriteRule ^p/([A-Za-z0-9]+)/([0-9]+)$ postbox.php?cat=$1&id=$2
 RewriteRule ^show/([0-9]+)$ show.php?id=$1
 RewriteRule ^([A-Za-z0-9]+)/p([0-9]+)$ chatbox.php?cat=$1&page=$2
@@ -24,8 +24,6 @@ RewriteRule ^rss/([A-Za-z0-9]+)$ rss.php?cat=$1
 RewriteRule ^rss/$ rss.php
 RewriteRule ^thumb/(.+)$ thumbs.php?cat=$1
 RewriteRule ^([A-Za-z0-9]+)$ chatbox.php?cat=$1
-
-RewriteRule ^(.*?)\?debug$ $1?&debug
 
 <IfModule mod_php4.c>
   php_value upload_max_filesize 2M

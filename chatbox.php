@@ -32,9 +32,9 @@ if ($result) {
     $loop = NULL; $foot = NULL; $comments = NULL; $rate = NULL;
 
     $loop .= enclose('div',get_day($line['date']),'class="bigdate"');
-    if (levenshtein($line['ip'],$_SERVER['REMOTE_ADDR']) <= 25 && levenshtein($line['useragent'],$_SERVER['HTTP_USER_AGENT']) <= 50) { $loop = enclose('a',$loop,'href="'.$hurl.'/e/'.$line['id'].'#edit" onclick="return hs.htmlExpand(this, { objectType: \'ajax\'} )"'); }
+    if (levenshtein($line['ip'],$_SERVER['REMOTE_ADDR']) <= 25 && levenshtein($line['useragent'],$_SERVER['HTTP_USER_AGENT']) <= 50) { $edit = enclose('a','edit','href="'.$hurl.'/e/'.$line['id'].'#edit" onclick="return hs.htmlExpand(this, { objectType: \'ajax\'} )"'); } else { $edit = NULL; }
     $loop .= enclose('div',enclose('a',$line['title'],'href="'.$hurl.'/show/'.$line['id'].'"'),'class="title"');
-    $loop .= enclose('div',$line['date'],'class="date"');
+    $loop .= enclose('div',$line['date'].$edit,'class="date"');
     $line['intro'] .= show_pic($line['image']);
     $loop .= enclose('div',fixup(nl2br($line['intro'])),'class="text"');
     if ($line['commentable'] == 2) {
