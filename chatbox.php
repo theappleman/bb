@@ -20,7 +20,7 @@ $query = 'SELECT id,title,date,intro,commentable,rateable,rating,image
 	ORDER BY sticky ASC,lastupd DESC, date DESC ';
 if ($id != "0") { $query .= ' LIMIT '.$id; }
 
-$result = mysql_query($query);
+$result = $db->fetch($query);
 
 $return = NULL;$body = NULL;$head = NULL;
 $head .= enclose("title",$sitename.' '. $cat,"");
@@ -28,7 +28,7 @@ $head .= head($cat,$id);
 
 $body .= enclose('div',$sitename,'id="head"');
 
-while ($line = mysql_fetch_array($result, MYSQL_ASSOC)) {
+foreach($result as $line) {
 	$loop = NULL;
 	$foot = NULL;
 	$comments = NULL;
@@ -51,8 +51,8 @@ if (comments($line['id']) >= 1) {
 			AND rating >= -50
 		ORDER BY sticky ASC, date DESC
 		LIMIT 1';
-	$result2 = mysql_query($query2);
-	while ($line2 = mysql_fetch_array($result2, MYSQL_ASSOC)) {
+	$result2 = $db->fetch($query2);
+	foreach($result2 as $line2) {
 		$nloop = NULL;
 		$foot = NULL;
 		$rate = NULL;

@@ -49,7 +49,7 @@ if (is_uploaded_file($_FILES['userfile']['tmp_name']) ) {
 
 if($allowed == true) {
 	if (check_transaction_key($transaction_key)) {
-		mysql_query('INSERT INTO '.$db_prefix.'data
+		$db->exec('INSERT INTO '.$db_prefix.'data
 			(title,section, date,lastupd, intro, image, moderated, commentable, commentref,sticky,rateable)
 			VALUES ("' . $title . '",
 				"'. $cat .'",
@@ -71,7 +71,7 @@ if ($commentref == 0) {
 		header('Location:'.$hurl.'/chatbox');
 	} else { header('Location:'.$hurl.'/'.$cat); }
 
-} else { mysql_unbuffered_query('UPDATE '.$db_prefix.'data SET lastupd = "'.date($datefmt).'" WHERE id = "'.$commentref.'" LIMIT 1') or die('Could not update post time (don\'t worry, your post has gone through).');
+} else { $db->exec('UPDATE '.$db_prefix.'data SET lastupd = "'.date($datefmt).'" WHERE id = "'.$commentref.'" LIMIT 1') or die('Could not update post time (don\'t worry, your post has gone through).');
 header('Location:'.$hurl.'/show/'.$commentref); }
 
 ?>

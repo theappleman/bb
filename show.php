@@ -11,7 +11,7 @@ $query = 'SELECT title,date,intro,commentable,rateable,rating,image
 	FROM '.$db_prefix.'data
 	WHERE id ="' . $id . '"
 	LIMIT 1';
-$result = mysql_query($query);
+$line = $db->fetch($query);
 $query2 = 'SELECT id,title,date,intro,rateable,rating,commentable,image
 	FROM '.$db_prefix.'data
 	WHERE moderated != 1
@@ -19,9 +19,8 @@ $query2 = 'SELECT id,title,date,intro,rateable,rating,commentable,image
 		AND commentref="'.$id.'"
 		AND rating >= -50
 	ORDER BY date ASC';
-$result2 = mysql_query($query2);
+$result2 = $db->fetch($query2);
 $com_num = 0;
-$line = mysql_fetch_array($result, MYSQL_ASSOC);
 
 $return = NULL;$head = NULL;$body = NULL;$comments = NULL;$bot = NULL;$box = NULL;$script=NULL;
 $head .= enclose('title',$sitename,'');
@@ -42,7 +41,7 @@ $entry .= enclose('div',$foot,'class="foot"');
 $body .= enclose('div',$entry,'class="entry"');
 
 if ($line['commentable'] >= 1) {
-	while ($line2 = mysql_fetch_array($result2, MYSQL_ASSOC)) {
+	foreach($result2 as $line2) {
 		$loop = NULL;
 		$foot = NULL;
 		$rate = NULL;

@@ -8,6 +8,8 @@ $db_user = ""; // username for the database
 $db_pass = ""; // password for said user
 $db_data = ""; // name of the database being used
 $db_prefix = ""; // prefix of database tables
+$cache_dir = ""; // Full path to a cache directory, not web readable.
+$cache_time = "300"; // TTL
 
 $sitename = ""; // Kinda obvious? unless you can't read that...
 $hurl = ""; // It is best to set this. Very rarely it is ok to leave it blank. Base URL.
@@ -35,8 +37,12 @@ $meta_copyright = NULL;
 $meta_keywords = NULL;
 
 /*
+INSTALLATION
+Create the world-writeable uploaded folder. It must be named `uploaded`
+You may want to make a .htaccess rule for Indexes, if wanted.
+
 -- SQL instructions to install the data table
--- If using $db_prefix, change data to `${db_prefix}data`
+-- If using $db_prefix, change data and transactions to `${db_prefix}data` and `${db_prefix}transactions` respectively.
 
 CREATE TABLE IF NOT EXISTS `data` (
   `id` bigint(4) unsigned NOT NULL auto_increment COMMENT 'Unique ID for the entry',

@@ -38,7 +38,7 @@ if ($id != "" && $cat == "comments" && $id != "0")
 	if ($id >= 1) { $query .='LIMIT '.$id; }
 		else { $query .='LIMIT 20'; }
 	}
-$result = mysql_query($query);
+$result = $db->fetch($query);
 
 $return = NULL;
 $channel = NULL;
@@ -50,7 +50,7 @@ $channel .= enclose('language','en-gb','');
 $channel .= enclose('pubDate',date('r',strtotime(date($datefmt))),'');
 $channel .= enclo_s('atom:link','href="'.$hurl.$_SERVER['REQUEST_URI'].'" rel="self" type="application/rss+xml"');
 $nl = array("\r\n","\n","\r");
-while ($line = mysql_fetch_array($result, MYSQL_ASSOC)) {
+foreach($result as $line) {
 	$item = NULL;
 	$item .= enclose('title',strip_tags(str_replace($nl,"",html_entity_decode($line['title']))),'');
   $item .= enclose('description',strip_tags(str_replace($nl,"",html_entity_decode($line['intro']))),'');
