@@ -37,7 +37,13 @@ if ($result) {
     if ($line['rateable'] != 1) { $loop .= enclose('div',chrate($line['id']),'class="rate"'); }
     $line['intro'] .= show_pic($line['image']);
     $loop .= enclose('div',nl2br(fixup(html_entity_decode($line['intro']))),'class="text"');
-    if ($line['commentable'] == 2) { $loop .= enclose('div',enclose('a','Post a comment','href="'.$hurl.'/show/'.$line['id'].'"'),'class="foot"'); }
+    if ($line['commentable'] == 2) {
+      if ( !in_array($cat, $nochat) ) {
+        $loop .= enclose('div',
+          enclose('a','Post a comment','href="'.$hurl.'/p/'.$cat.'/'.$line['id'].'#postbox" onclick="return hs.htmlExpand(this, { objectType: \'ajax\'} )"'),
+        'class="foot"');
+        }
+      }
       else { $loop .= enclose('div',enclose('a','No more comments','href="'.$hurl.'/show/'.$line['id'].'"'),'class="foot"'); }
     if (comments($line['id']) >= 1) {
       $query2 = 'SELECT id,title,date,intro,rateable,rating,image
@@ -68,7 +74,6 @@ if ($result) {
     $body .= enclose('div',$loop,'class="entry"');
   } // foreach
 } // if
-if ( !in_array($cat, $nochat) ) { $body .= postbox($cat,0); }
 $return = finish_up($head,$body);
 //$return = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">' . $return;
 echo $return;

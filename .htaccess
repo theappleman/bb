@@ -12,6 +12,7 @@ RewriteRule ^addnew.php - [F]
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^p/([a-z]+)/(0-9)+$ postbox.php?cat=$1&id=$2
 RewriteRule ^show/([0-9]+)$ show.php?id=$1
 RewriteRule ^([A-Za-z0-9]+)/p([0-9]+)$ chatbox.php?cat=$1&page=$2
 RewriteRule ^([A-Za-z0-9]+)/p([0-9]+)/([0-9]+)$ chatbox.php?cat=$1&page=$2&id=$3

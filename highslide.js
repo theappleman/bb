@@ -69,7 +69,7 @@ dimmingDuration: 50, // 0 for instant dimming
 
 previousText : '',
 nextText : '',
-moveText : '',
+moveText : 'Move',
 closeText : 'Close',
 closeTitle : 'Click to close',
 resizeTitle : 'Resize',
@@ -85,7 +85,7 @@ align : 'auto', // position in the client (overrides anchor)
 targetX: null, // the id of a target element
 targetY: null,
 captionId : null,
-spaceForCaption : 30, // leaves space below images with captions
+spaceForCaption : 0, // leaves space below images with captions
 slideshowGroup : null, // defines groups for next/previous links and keystrokes
 minWidth: 200,
 minHeight: 200,

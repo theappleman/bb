@@ -66,12 +66,11 @@ if ($result) {
     if ($com_num != 1) { $pl = 's'; } else { $pl = NULL; }
     $bot .= enclose('div','comment'.$pl,'class="title"');
     $bot .= enclose('div',enclose('a','Comments through RSS feed','href="'.$hurl.'/rss/comments/'.$id.'"'),'class="text"');
-    if ($line['commentable'] == 2) { $bot .= enclose('div',enclose('a','Post a comment',''),'class="foot"'); }
+    if ($line['commentable'] == 2) { if ($line['commentable'] == 2) { $bot .= enclose('div',enclose('a','Post a comment','href="'.$hurl.'/p/comments/'.$id.'#postbox" onclick="return hs.htmlExpand(this, { objectType: \'ajax\'} )"'),'class="foot"'); } }
     else { $bot .= enclose('div',enclose('a','No more comments',''),'class="foot"'); }
     $body .= enclose('div',$bot,'class="entry"');
   }
   }
-  if ($line['commentable'] == 2) { $body .= postbox('comments',$id); }
 }
 $return = finish_up($head,$body);
 //$return = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">' . $return;

@@ -72,14 +72,27 @@ if ($commentref == 0) {
 	WHERE
 	LIMIT 1',0,$db->last_id);
   header('Location:'.$hurl.'/show/'.$db->last_id);
-} else { $db->exec('UPDATE '.$db_prefix.'data SET lastupd = "'.date($datefmt).'" WHERE id = "'.$commentref.'" LIMIT 1') or die('Could not update post time (don\'t worry, your post has gone through).');
+} else {
+$db->exec('UPDATE '.$db_prefix.'data SET lastupd = "'.date($datefmt).'" WHERE id = "'.$commentref.'" LIMIT 1') or die('Could not update post time (don\'t worry, your post has gone through).');
 $query2 = 'SELECT id,title,date,intro,rateable,rating,commentable,image
 	FROM '.$db_prefix.'data
 	WHERE moderated != 1
-		AND commentref="'.$id.'"
+		AND commentref="'.$commentref.'"
 		AND rating >= -50
 	ORDER BY date ASC';
-$result2 = $db->fetch($query2,0,$commentref."com");
+$query3 = 'SELECT id,title,date,intro,rateable,rating,image
+  FROM '.$db_prefix.'data
+  WHERE moderated != 1
+    AND commentref="'.$line['id'].'"
+    AND rating >= -50
+  ORDER BY sticky ASC, lastupd DESC
+  LIMIT 1';
+$query4 = 'SELECT id FROM '.$db_prefix.'data WHERE commentref = "'.$id.'" AND moderated != "1" AND section = "comments"';
+
+$db->fetch($query2,0,$commentref."com");
+$db->fetch($query3,0,single_section($cat).$commentref."1com");
+$db->fetch($query4,0,$commentref."coms");
+
 header('Location:'.$hurl.'/show/'.$commentref); }
 
 ?>
