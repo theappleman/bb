@@ -11,7 +11,7 @@ $query = 'SELECT title,date,intro,commentable,rateable,rating,image
 	FROM '.$db_prefix.'data
 	WHERE id ="' . $id . '"
 	LIMIT 1';
-$result = $db->fetch($query);
+$result = $db->fetch($query,$cache_time,$id);
 $query2 = 'SELECT id,title,date,intro,rateable,rating,commentable,image
 	FROM '.$db_prefix.'data
 	WHERE moderated != 1
@@ -19,7 +19,7 @@ $query2 = 'SELECT id,title,date,intro,rateable,rating,commentable,image
 		AND commentref="'.$id.'"
 		AND rating >= -50
 	ORDER BY date ASC';
-$result2 = $db->fetch($query2);
+$result2 = $db->fetch($query2,$cache_time,$id."com");
 $com_num = 0;
 
 $return = NULL;$head = NULL;$body = NULL;$comments = NULL;$bot = NULL;$box = NULL;$script=NULL;

@@ -32,7 +32,7 @@ class db {
   The class constructor. You can set some defaults here if desired.
   */
   function db($cnn_id=0) {
-    global $cache_dir;
+    global $cache_dir,$cache_time;
     $this->log = "initialize db() called<br />";
     $this->cnn_id = $cnn_id;
     $this->dir = $cache_dir;
@@ -104,7 +104,7 @@ class db {
   fetch() is used to retrieve a dataaset. fetch() determines whether to use the
   cache or not, and queries either the database or the cache file accordingly.
   */
-  function fetch($sql="",$ttl=0,$name="") {
+  function fetch($sql="",$ttl=300,$name="") {
     $this->log .= "---------------------------------<br />fetch() called<br />";
     $this->rows_affected = 0;
     if (!$sql) {

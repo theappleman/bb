@@ -18,6 +18,7 @@ if ($id != "" && $cat == "comments" && $id != "0")
 				AND rating >= -50
 				AND date <= "'.date($datefmt).'"
 			ORDER BY sticky ASC, date DESC';
+	$type = $id.$section;
 	}
 	else {
 		if($cat != "") {
@@ -27,6 +28,7 @@ if ($id != "" && $cat == "comments" && $id != "0")
 				AND date <= "'.date($datefmt).'"
 				AND rating >= -50
 			ORDER BY sticky ASC, date DESC ';
+		$type = $cat;
 
 		}
 		else {
@@ -34,11 +36,12 @@ if ($id != "" && $cat == "comments" && $id != "0")
 				AND date <= "'.date($datefmt).'"
 				AND rating >= -50
 			ORDER BY sticky ASC, date DESC ';
+			$type = "all";
 		}
-	if ($id >= 1) { $query .='LIMIT '.$id; }
-		else { $query .='LIMIT 20'; }
+	if ($id >= 1) { $query .='LIMIT '.$id; $type .= $id; }
+		else { $query .='LIMIT 20'; $type .= 20; }
 	}
-$result = $db->fetch($query);
+$result = $db->fetch($query,$cache_time,$type);
 
 $return = NULL;
 $channel = NULL;

@@ -43,6 +43,7 @@ function postbox($cat,$id) {
   $head = enclose('head',$head,'');
   $body = enclose('body',$body,'');
   $finish = enclose('html',$head . $body,'xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"');
+  // $finish .= $GLOBALS['db']->log;
   return $finish;
   }
 
@@ -144,14 +145,16 @@ function mod_change($cat, $id) {
 } //currently unused
 
 function comments($id) {
-	global $db,$db_prefix;
+	global $db,$db_prefix,$cache_time;
+	$com_num = 0;
 	$query = 'SELECT id FROM '.$db_prefix.'data WHERE commentref = "'.$id.'" AND moderated != "1" AND section = "comments"';
-	$result = $db->exec($query,$cache_time);
-	return $result;
+	$result = $db->fetch($query,$cache_time);
+	if ($result) { foreach ($result as $r) { $com_num += 1; } }
+	return $com_num;
 }
 
 function ratings($id) {
-	global $db, $db_prefix;
+	global $db, $db_prefix, $cache_time;
 	$query = 'SELECT rating FROM '.$db_prefix.'data WHERE id = "'.$id.'"';
 	$result = $db->fetch($query,$cache_time);
 	return $result['rating'];
@@ -165,14 +168,14 @@ if (!function_exists('array_combine')) { function array_combine($keys, $values) 
 } // currently unused
 
 function menu() {
-	global $menu, $hurl, $db, $snapcode;
+	global $menu, $hurl, $db, $snapcode,$cache_time;
 	$return = NULL;
 	foreach ($menu as $key=>$link) {
 		$sitemenu .= enclose('a',ucwords($key),'href="'.$link.'"');
 		}
 	$return .= enclose("div",$sitemenu,'class="mainmenu"');
 
-	$rslt = $db->fetch('SELECT section FROM '.$db_prefix.'data');
+	$rslt = $db->fetch('SELECT section FROM '.$db_prefix.'data',$cache_time,"sections");
 
 	foreach($rslt as $ln) {
 	$rry .= $ln['section'] .',';

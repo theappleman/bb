@@ -20,7 +20,7 @@ $query = 'SELECT id,title,date,intro,commentable,rateable,rating,image
 	ORDER BY sticky ASC,lastupd DESC, date DESC ';
 if ($id != "0") { $query .= ' LIMIT '.$id; }
 
-$result = $db->fetch($query);
+$result = $db->fetch($query,$cache_time,$cat);
 
 $return = NULL;$body = NULL;$head = NULL;
 $head .= enclose("title",$sitename.' '. $cat,"");
@@ -46,12 +46,12 @@ if (comments($line['id']) >= 1) {
 	$query2 = 'SELECT id,title,date,intro,rateable,rating,image
 		FROM '.$db_prefix.'data
 		WHERE moderated != 1
-			AND date <= "'.date($datefmt).'"
 			AND commentref="'.$line['id'].'"
+			AND date <= "'.date($datefmt).'"
 			AND rating >= -50
 		ORDER BY sticky ASC, date DESC
 		LIMIT 1';
-	$result2 = $db->fetch($query2);
+	$result2 = $db->fetch($query2,$cache_time,$cat.$line['id']."1com");
 	foreach($result2 as $line2) {
 		$nloop = NULL;
 		$foot = NULL;
