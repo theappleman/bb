@@ -14,7 +14,6 @@ if ($page != "") { $id = $id . ', OFFSET ' . $page*$id; }
 $query = 'SELECT id,title,date,intro,commentable,image
 	FROM '.$db_prefix.'data
 	WHERE section = "'.$cat.'"
-		AND moderated != 1
 	ORDER BY sticky ASC,lastupd DESC, date DESC ';
 if ($id != "0") { $query .= ' LIMIT '.$id; }
 
@@ -33,20 +32,19 @@ if ($result) {
     $loop .= enclose('div',get_day($line['date']),'class="bigdate"');
     $loop .= enclose('div',enclose('a',$line['title'],'href="'.$hurl.'/show/'.$line['id'].'"'),'class="title"');
     $loop .= enclose('div',$line['date'],'class="date"');
-    $loop .= enclose('div',fixup(show_pic($line['image']);),'class="image"');
+    $loop .= enclose('div',fixup(show_pic($line['image'])),'class="image"');
     $image = NULL;
     $loop .= enclose('div',fixup(nl2br($line['intro'])),'class="text"');
     if ($line['commentable'] == 2) {
         $loop .= enclose('div',
-          enclose('a','Post a comment','href="'.$hurl.'/show/'.$line['id']),
+          enclose('a','Post a comment','href="'.$hurl.'/show/'.$line['id'].'"'),
         'class="foot"');
       }
       else { $loop .= enclose('div',enclose('a','No more comments','href="'.$hurl.'/show/'.$line['id'].'"'),'class="foot"'); }
     if (comments($line['id']) >= 1) {
       $query2 = 'SELECT id,title,date,intro,image
         FROM '.$db_prefix.'data
-        WHERE moderated != 1
-          AND commentref="'.$line['id'].'"
+        WHERE commentref="'.$line['id'].'"
         ORDER BY sticky ASC, date DESC
         LIMIT 1';
       $result2 = $db->fetch($query2,$cache_time,$cat.$line['id']."1com");
@@ -68,6 +66,7 @@ if ($result) {
     $body .= enclose('div',$loop,'class="entry"');
   } // foreach
 } // if
+if(!in_array($cat, $nochat)) { $body .= enclose('div',postbox($cat,0),'class="entry"'); }
 $return = finish_up($head,$body);
 //$return = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">' . $return;
 echo $return;

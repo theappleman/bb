@@ -12,6 +12,7 @@ function check_edit($ip,$userconf) {
 
 
 function postbox($cat,$id) {
+global $hurl;
   $box = NULL;
   $name = "form_form";
   if ($cat == "comments") { $ct = 0; } else { $ct = 2; }
@@ -24,7 +25,6 @@ function postbox($cat,$id) {
 		$box .= enclose('textarea','','name="intro" rows="5" columns="100" tabindex="2" accesskey="w"');
 		$box .= enclose('div',enclo_s('input','type="submit" value="Lets go!"')/*.enclo_s('input','type="reset" value="Reset"')*/,'class="foot"');
 		$box = enclose('form',$box,'name="'.$name.'" action="'.$hurl.'/addnew.php" method="post" enctype="multipart/form-data"');
-		$box = enclose('div',$box,'class="entry"');
 		$box .= enclose('script','var frmvalidator  = new Validator("'.$name.'");
 				frmvalidator.addValidation("title","req","Name is required");
         frmvalidator.addValidation("title","maxlength=100","Name must be less than 100 characters");
@@ -203,7 +203,6 @@ function menu() {
 
   if ( isset($cat) ) {
     if ( $page != "" && $page != "0" ) { $pages .= enclose('a','Previous','href="'.$hurl.'/'.$cat.'/p'.($page-1).'"'); }
-    if (!in_array($cat, $nochat)) { $pages .= enclose('a','Post','href="'.$hurl.'/p/'.$cat.'/0#postbox" onclick="return hs.htmlExpand(this, { objectType: \'ajax\'} )"'); }
    $pages .= enclose('a','Next','href="'.$hurl.'/'.$cat.'/p'.($page+1).'"');
   }
 

@@ -36,7 +36,7 @@ if ($result) {
     if (comments($id) != 1) { $comment = 's'; } else { $comment = NULL; }
     $foot .= enclose('a',comments($id). ' comment'.$comment,'href="'.$hurl.'/show/'.$id.'"');
   }
-  $entry .= enclose('div',$edit,'class="foot"');
+  $entry .= enclose('div',$foot,'class="foot"');
   $body .= enclose('div',$entry,'class="entry"');
 
   if ($line['commentable'] >= 1) {
@@ -48,10 +48,9 @@ if ($result) {
                 $com_num += 1;
                 $loop .= enclose('div',get_day($line2['date']),'class="bigdate"');
                 $loop .= enclose('div',enclose('a',html_entity_decode($line2['title']),''),'class="title"');
-                $loop .= enclose('div',$line2['date'],'class="date"');
                 $loop .= enclose('div',fixup(show_pic($line2['image'])),'class="image"');
                 $loop .= enclose('div',nl2br(fixup(html_entity_decode($line2['intro']))),'class="text"');
-                $loop .= enclose('div',$edit,'class="foot"');
+                $loop .= enclose('div',$line2['date'],'class="foot"');
                 $comments .= enclose('div',$loop,'class="entry"');
 	}
     	}
@@ -61,7 +60,7 @@ if ($result) {
     $bot .= enclose('div','comment'.$pl,'class="title"');
     $bot .= enclose('div',enclose('a','Comments through RSS feed','href="'.$hurl.'/rss/comments/'.$id.'"'),'class="text"');
     if ($line['commentable'] == 2) { 
-      $bot .= enclose('div', postbox("comments",$id) ),'class="foot"'); 
+      $bot .= enclose('div', postbox("comments",$id) ,'class="foot"'); 
     }
     else { $bot .= enclose('div',enclose('a','No more comments',''),'class="foot"'); }
     $body .= enclose('div',$bot,'class="entry"');
