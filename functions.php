@@ -17,7 +17,8 @@ function fixup($text) {
 
   $text = preg_replace("%\s\s+%"," ",$text); // remove whitespace
   $text = preg_replace("%\*(.*?)\*%","<b>*$1*</b>",$text); // *bold* => <b>bold</b>
-  $text = preg_replace("%\s\/(.*?)\/\s%","<i>$1</i>&nbsp;",$text); // /italic/ => <i>italic</i> // whitespace is required
+  // $text = preg_replace("%\s\/(.*?)\/\s%","<i>$1</i>&nbsp;",$text); // /italic/ => <i>italic</i> // whitespace is required
+  // $text = preg_replace("%\s\_(.*?)\_\s%","&nbsp;_<ins>$1</ins>_&nbsp;",$text);
   return $text;
  }
 
