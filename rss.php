@@ -47,7 +47,7 @@ $channel .= enclose('title',$sitename.' '.$cat);
 $channel .= enclose('link',$hurl);
 $channel .= enclose('description',$meta_desc);
 $channel .= enclose('language','en-gb');
-$channel .= enclose('pubDate',date('r');
+$channel .= enclose('pubDate',date('r'));
 $channel .= enclo_s('atom:link','href="'.$hurl.$_SERVER['REQUEST_URI'].'" rel="self" type="application/rss+xml"');
 $nl = array("\r\n","\n","\r");
 if ($result) {
