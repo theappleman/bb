@@ -178,7 +178,7 @@ if (!function_exists('array_combine')) { function array_combine($keys, $values) 
 } // currently unused
 
 function menu() {
-	global $menu, $hurl, $db, $snapcode, $cache_time, $db_prefix;
+	global $page, $cat, $menu, $hurl, $db, $snapcode, $cache_time, $db_prefix;
 	$return = NULL;
 	foreach ($menu as $key=>$link) {
 		$sitemenu .= enclose('a',ucwords($key),'href="'.$link.'"');
@@ -197,6 +197,14 @@ function menu() {
 	$rslt = NULL;
 	foreach (array_unique($array) as $table) { $rslt .= enclose('a',$table,'href="'.$hurl.'/'.$table.'"'); }
 	$return .= enclose('div',$rslt,'class="mainmenu"');
+
+  if ( isset($cat) ) {
+    if ( $page === TRUE ) { $pages .= enclose('a','Previous','href="'.$hurl.'/'.$cat.'/'.$page-1.'"'); }
+   $pages .= enclose('a','Previous','href="'.$hurl.'/'.$cat.'/'.$page+1.'"');
+  }
+
+  if ($pages) { $return .= enclose('div',$pages,'class=mainmenu'); }
+
 	if ($snapcode != "") {
 		$return .= enclose('script','','type="text/javascript" src="http://shots.snap.com/ss/'.$snapcode.'/snap_shots.js"');
 	}
