@@ -13,8 +13,7 @@ function fixup($text) {
   $text = preg_replace("%\{\{(.*?)\}\}%","<img src=\"$1\" />",$text); // just image
   $text = preg_replace("%\s\s+%"," ",$text); // remove whitespace
   $text = preg_replace("%\*(.*?)\*%","<b>*$1*</b>",$text); // *bold* => <b>bold</b>
-  //$text = preg_replace("%\s+\/(.*?)\/\s+%","<i>$1</i>",$text); // /italic/ => <i>italic</i>
-  //$text = preg_replace("%\s+\_(.*?)\_\s+%","<u>$1</u>",$text); // _underline_ => <u>underline</u>
+  $text = preg_replace("%\s\/(.*?)\/\s%","<i>$1</i>&nbsp;",$text); // /italic/ => <i>italic</i>
   return $text;
  }
 
