@@ -1,0 +1,85 @@
+html {
+	font-family: courier;
+	margin:0;
+    padding:0;
+}
+body {
+	background-color: #000000;
+	font-size: 16;
+	background-repeat: no-repeat;
+	background-attachment: fixed;
+	background-position: top center;
+	color: #00ff00;
+}
+div#head {
+	text-align: center;
+	font-size: 56;
+	font-weight: bold;
+	font-variant: small-caps;
+	color: #ffffff;
+}
+a {
+	color: #ffff00;
+	text-decoration: none;
+}
+a:hover {
+	color: #000000;
+	text-decoration: none;
+	background-color: #ffff00;
+	cursor: crosshair;
+}
+div.mainmenu {
+	#margin-right: 50px;
+	font-variant: small-caps;
+	text-align: center;
+	clear: both;
+}
+div#content {
+	margin: 10px;
+}
+div.entry {
+	background-color: #000000;
+	clear: both;
+	margin-bottom: 10px;
+	border-bottom: solid thin #555555;
+}
+div.bigdate {
+	font-size: 36;
+	padding: 5px;
+	float: left;
+}
+div.title {
+	font-size: 24;
+	font-variant: small-caps;
+	display: inline;
+}
+div.date {
+	display: inline;
+}
+div.text {
+	text-align:right;
+	text-indent: 1em;
+}
+div.foot {
+	text-align: center;
+	letter-spacing: 2;
+	font-variant: small-caps;
+	word-spacing: 2;
+	clear: both;
+	font-size: 8;
+}
+div#comments {
+	margin-left: 50px;
+}
+textarea {
+	margin-left: 5%;
+	margin-right: 5%;
+	width: 90%;
+}
+p.name {
+	text-align: center;
+	margin-bottom: 0px
+}
+div.rate {
+	display: inline;
+}
