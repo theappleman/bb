@@ -49,11 +49,11 @@ $channel .= enclose('description',$meta_desc,'');
 $channel .= enclose('language','en-gb','');
 $channel .= enclose('pubDate',date('r',strtotime(date($datefmt))),'');
 $channel .= enclo_s('atom:link','href="'.$hurl.$_SERVER['REQUEST_URI'].'" rel="self" type="application/rss+xml"');
-
+$nl = array("\r\n","\n","\r");
 while ($line = mysql_fetch_array($result, MYSQL_ASSOC)) {
 	$item = NULL;
-	$item .= enclose('title',strip_tags(str_replace("\n","",html_entity_decode($line['title']))),'');
-  $item .= enclose('description',strip_tags(str_replace("\n","",html_entity_decode($line['intro']))),'');
+	$item .= enclose('title',strip_tags(str_replace($nl,"",html_entity_decode($line['title']))),'');
+  $item .= enclose('description',strip_tags(str_replace($nl,"",html_entity_decode($line['intro']))),'');
 	$item .= enclose('pubDate',date('r',strtotime($line['date'])),'');
 	if ($cat == "comments") { $perm = $id; }
 		else {	$perm = $line['id']; }
