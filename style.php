@@ -89,7 +89,6 @@ div.rate {
 }
 
 .highslide {
-	cursor: url(<? echo $hurl; ?>/graphics/zoomin.cur), pointer;
   outline: none;
 }
 .highslide img {
@@ -129,10 +128,6 @@ div.rate {
 	border-top: 1px solid white;
 	border-bottom: 1px solid white;
   background-color: black;
-  padding-left: 22px;
-  background-image: url(<? echo $hurl; ?>/graphics/loader.gif);
-  background-repeat: no-repeat;
-  background-position: 3px 1px;
 }
 a.highslide-credits,
 a.highslide-credits i {

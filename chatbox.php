@@ -31,7 +31,7 @@ if ($result) {
     $loop = NULL; $foot = NULL; $comments = NULL; $rate = NULL;
     $commnum = comments($line['id']);
     $loop .= enclose('div',get_day($line['date']),'class="bigdate"');
-    if ( preg_match("/\s+?[^@]+\@.*?$/",$line['title']) ) {
+    if ( preg_match("/\s?[^@]+\@.*?$/",$line['title']) ) {
     	$name = explode(" ",$line['title']);
 	$address = array_pop($name);
 	$line['title'] = implode(" ",$name);
@@ -60,7 +60,7 @@ if ($result) {
       foreach($result2 as $line2) {
         $nloop = NULL;$foot = NULL;$rate = NULL;
         $nloop .= enclose('div',get_day($line2['date']),'class="bigdate"');
-	if ( preg_match("/\s+?[^@]+\@.*?$/",$line2['title']) ) {
+	if ( preg_match("/\s?[^@]+\@.*?$/",$line2['title']) ) {
 	$name = explode(" ",$line2['title']);
 	$address = array_pop($name);
 	$line2['title'] = implode(" ",$name);
