@@ -28,12 +28,11 @@ $body .= enclose('div',$sitename,'id="head"');
 if ($result) {
   foreach($result as $line) {
     $loop = NULL; $foot = NULL; $comments = NULL; $rate = NULL;
-
+    $commnum = comments($line['id']);
     $loop .= enclose('div',get_day($line['date']),'class="bigdate"');
     $loop .= enclose('div',enclose('a',$line['title'],'href="'.$hurl.'/show/'.$line['id'].'"'),'class="title"');
     $loop .= enclose('div',$line['date'],'class="date"');
     $loop .= enclose('div',fixup(show_pic($line['image'])),'class="image"');
-    $image = NULL;
     $loop .= enclose('div',fixup(nl2br($line['intro'])),'class="text"');
     if ($line['commentable'] == 2) {
         $loop .= enclose('div',
@@ -41,7 +40,7 @@ if ($result) {
         'class="foot"');
       }
       else { $loop .= enclose('div',enclose('a','No more comments','href="'.$hurl.'/show/'.$line['id'].'"'),'class="foot"'); }
-    if (comments($line['id']) >= 1) {
+    if ($commnum >= 1) {
       $query2 = 'SELECT id,title,date,intro,image
         FROM '.$db_prefix.'data
         WHERE commentref="'.$line['id'].'"
@@ -57,8 +56,8 @@ if ($result) {
         $nloop .= enclose('div',$line2['date'],'class="date"');
         $nloop .= enclose('div',fixup(show_pic($line2['image'])),'class="image"');
         $nloop .= enclose('div',fixup(nl2br(html_entity_decode($line2['intro']))),'class="text"');
-        if (comments($line['id']) != 1) { $comment = 's'; } else { $comment = NULL; }
-        $nloop .= enclose('div',enclose('a',comments($line['id']). ' comment'.$comment,'href="'.$hurl.'/show/'.$line['id'].'"'),'class="foot"');
+        if ($commnum != 1) { $comment = 's'; } else { $comment = NULL; }
+        $nloop .= enclose('div',enclose('a',$commnum. ' comment'.$comment,'href="'.$hurl.'/show/'.$line['id'].'"'),'class="foot"');
         $comments .= enclose('div',$nloop,'class="entry"');
       } // foreach
       $loop .= enclose('div',$comments,'id="comments"');

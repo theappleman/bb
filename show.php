@@ -26,14 +26,15 @@ $head .= head("comments",$id);
 $body .= enclose('div',$sitename,'id="head"');
 if ($result) {
   foreach($result as $line) {
+  $commnum = comments($id);
   $entry .= enclose('div',get_day($line['date']),'class="bigdate"');
   $entry .= enclose('div',enclose('a',html_entity_decode($line['title']),'href="'.$hurl.'/show/'.$id.'"'),'class="title"');
   $entry .= enclose('div',fixup(show_pic($line['image'])),'class="image"');
   $entry .= enclose('div',$line['date'],'class="date"');
   $entry .= enclose('div',nl2br(fixup(html_entity_decode($line['intro']))),'class="text"');
   if ($line['commentable'] >= 1) {
-    if (comments($id) != 1) { $comment = 's'; } else { $comment = NULL; }
-    $foot .= enclose('a',comments($id). ' comment'.$comment,'href="'.$hurl.'/show/'.$id.'"');
+    if ($commnum != 1) { $comment = 's'; } else { $comment = NULL; }
+    $foot .= enclose('a',$commnum. ' comment'.$comment,'href="'.$hurl.'/show/'.$id.'"');
   }
   $entry .= enclose('div',$foot,'class="foot"');
   $body .= enclose('div',$entry,'class="entry"');
