@@ -121,7 +121,7 @@ class db {
     } else {
       if (strlen(trim($this->name)) == 0) { $this->name = MD5($this->sql); }
       $this->filename = $this->dir."db_".$this->name;
-      $this->log .= "Filename: ".$this->filename."<br />";
+      $this->log .= "Filename: ".$this->name."<br />";
       $this->getFile_ts();
       if ($this->ttl == "daily") {
         if (date('Y-m-d',$this->data_ts) != date('Y-m-d',time())) {
