@@ -104,7 +104,7 @@ class db {
   fetch() is used to retrieve a dataaset. fetch() determines whether to use the
   cache or not, and queries either the database or the cache file accordingly.
   */
-  function fetch($sql="",$ttl=300,$name="") {
+  function fetch($sql="",$ttl=0,$name="") {
     $this->log .= "---------------------------------<br />fetch() called<br />";
     $this->rows_affected = 0;
     if (!$sql) {
