@@ -76,7 +76,7 @@ resizeTitle : 'Resize',
 allowWidthReduction : false,
 allowHeightReduction : true,
 preserveContent : true, // Preserve changes made to the content and position of HTML popups.
-objectLoadTime : 'before', // Load iframes 'before' or 'after' expansion.
+objectLoadTime : 'after', // Load iframes 'before' or 'after' expansion.
 cacheAjax : true, // Cache ajax popups for instant display. Can be overridden for each popup.
 
 // These settings can also be overridden inline for each image
@@ -85,7 +85,7 @@ align : 'auto', // position in the client (overrides anchor)
 targetX: null, // the id of a target element
 targetY: null,
 captionId : null,
-spaceForCaption : 0, // leaves space below images with captions
+spaceForCaption : 30, // leaves space below images with captions
 slideshowGroup : null, // defines groups for next/previous links and keystrokes
 minWidth: 200,
 minHeight: 200,

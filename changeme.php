@@ -9,7 +9,7 @@ $db_pass = ""; // password for said user
 $db_data = ""; // name of the database being used
 $db_prefix = ""; // prefix of database tables
 $cache_dir = ""; // Full path to a cache directory, not web readable.
-$cache_time = "300"; // TTL
+$cache_time = "300"; // TTL. Don't set this too high.
 
 $sitename = ""; // Kinda obvious? unless you can't read that...
 $hurl = ""; // It is best to set this. Very rarely it is ok to leave it blank. Base URL.
@@ -43,6 +43,7 @@ $meta_keywords = NULL;
 /*
 INSTALLATION
 Create the world-writeable uploaded folder. It must be named `uploaded`
+Create the world-writeable cache folder.
 You may want to make a .htaccess rule for Indexes, if wanted.
 
 -- SQL instructions to install the data table

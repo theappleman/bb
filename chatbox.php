@@ -38,11 +38,9 @@ if ($result) {
     $line['intro'] .= show_pic($line['image']);
     $loop .= enclose('div',nl2br(fixup(html_entity_decode($line['intro']))),'class="text"');
     if ($line['commentable'] == 2) {
-      if ( !in_array($cat, $nochat) ) {
         $loop .= enclose('div',
-          enclose('a','Post a comment','href="'.$hurl.'/p/'.$cat.'/'.$line['id'].'#postbox" onclick="return hs.htmlExpand(this, { objectType: \'ajax\'} )"'),
+          enclose('a','Post a comment','href="'.$hurl.'/p/comments/'.$line['id'].'#postbox" onclick="return hs.htmlExpand(this, { objectType: \'ajax\'} )"'),
         'class="foot"');
-        }
       }
       else { $loop .= enclose('div',enclose('a','No more comments','href="'.$hurl.'/show/'.$line['id'].'"'),'class="foot"'); }
     if (comments($line['id']) >= 1) {

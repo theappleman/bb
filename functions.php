@@ -94,7 +94,7 @@ function make_thumb($filename) {
   return true;
 }
 
-function head($cat,$id) {
+function head($cat="",$id="") {
   global $style, $sitename, $hurl;
 	$meta = enclose('link','','rel="stylesheet" href="'.$hurl.'/'.$style.'.php" type="text/css" title="default"');
   $meta .= enclose('link','','rel="alternate" type="application/rss+xml" href="'.$hurl.'/rss/'.$cat.'/'.$id.'" title="' . $sitename . ' feed"');
@@ -154,7 +154,7 @@ if (!function_exists('array_combine')) { function array_combine($keys, $values) 
 } // currently unused
 
 function menu() {
-	global $page, $cat, $menu, $hurl, $db, $snapcode, $cache_time, $db_prefix;
+	global $page, $cat, $menu, $hurl, $db, $snapcode, $cache_time, $db_prefix, $nochat;
 	$return = NULL;
 	foreach ($menu as $key=>$link) {
 		$sitemenu .= enclose('a',ucwords($key),'href="'.$link.'"');
@@ -176,6 +176,7 @@ function menu() {
 
   if ( isset($cat) ) {
     if ( $page != "" && $page != "0" ) { $pages .= enclose('a','Previous','href="'.$hurl.'/'.$cat.'/p'.($page-1).'"'); }
+    if (!in_array($cat, $nochat)) { $pages .= enclose('a','Post','href="'.$hurl.'/p/'.$cat.'/0#postbox" onclick="return hs.htmlExpand(this, { objectType: \'ajax\'} )"'); }
    $pages .= enclose('a','Next','href="'.$hurl.'/'.$cat.'/p'.($page+1).'"');
   }
 

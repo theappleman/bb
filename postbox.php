@@ -3,7 +3,7 @@
 
   $cat = $_GET['cat'];
   $id = $_GET['id'];
-  if (!$cat or !$id) { exit(); }
+  if (!$cat or $id == "") { exit(); }
 
   $box = NULL;
   $name = "form_form";
@@ -18,11 +18,11 @@
 		$box .= enclose('div',enclo_s('input','type="submit" value="Lets go!"')/*.enclo_s('input','type="reset" value="Reset"')*/,'class="foot"');
 		$box = enclose('form',$box,'name="'.$name.'" action="'.$hurl.'/addnew.php" method="post" enctype="multipart/form-data"');
 		$box = enclose('div',$box,'class="entry"');
-		$script .= enclose('script','var frmvalidator  = new Validator("'.$name.'");
+		$box .= enclose('script','var frmvalidator  = new Validator("'.$name.'");
 				frmvalidator.addValidation("title","req","Name is required");
         frmvalidator.addValidation("title","maxlength=100","Name must be less than 100 characters");
 				frmvalidator.addValidation("intro","req","Comment is required");
         frmvalidator.addValidation("intro","maxlength=1000","Comment must be less than 1000 characters");','type="text/javascript"');
-		$box = enclose('div',$box . $script,'id="postbox"');
-		return $box;
+		$box = enclose('div',$box,'id="postbox"');
+		echo finish_up(head(), $box);
 ?>
