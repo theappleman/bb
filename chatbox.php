@@ -12,9 +12,8 @@ $_REQUEST = array(NULL);
 if ($id == "") { $id = "10"; }
 if ($page != "") { $id = $id . ' OFFSET ' . $page*$id; }
 $query = 'SELECT id,title,date,intro,commentable,image
-	FROM '.$db_prefix.'data ';
-if ($cat == "all") { $query .='WHERE section != "comments"'; } else { $query .= 'WHERE section = "'.$cat.'"'; }
-$query .=	' ORDER BY sticky ASC,lastupd DESC, date DESC ';
+	FROM '.$db_prefix.'data WHERE section = "'.$cat.'"
+  ORDER BY sticky ASC,lastupd DESC, date DESC ';
 if ($id != "0") { $query .= ' LIMIT '.$id; }
 
 $result = $db->fetch($query,$cache_time,$cat.$page);
@@ -25,11 +24,7 @@ $head .= head($cat,$id);
 
 $body .= enclose('div',$sitename,'id="head"');
 
-if ($cat == "all") {
-	if(!in_array($default, $nochat)) { $body .= enclose('div',postbox($default,0),'class="entry"'); }
-} else {
-	if(!in_array($cat, $nochat)) { $body .= enclose('div',postbox($cat,0),'class="entry"'); }
-}
+if(!in_array($cat, $nochat)) { $body .= enclose('div',postbox($cat,0),'class="entry"'); }
 
 if ($result) {
   foreach($result as $line) {
