@@ -10,7 +10,7 @@ $page = $_REQUEST['page'];
 $_REQUEST = array(NULL);
 
 if ($id == "") { $id = "10"; }
-if ($page != "") { $id = $page*$id . ', ' . $id; }
+if ($page != "") { $id = $id . ', OFFSET ' . $page*$id; }
 $query = 'SELECT id,title,date,intro,commentable,image,ip,useragent
 	FROM '.$db_prefix.'data
 	WHERE section = "'.$cat.'"
@@ -31,7 +31,7 @@ if ($result) {
     $loop = NULL; $foot = NULL; $comments = NULL; $rate = NULL;
 
     $loop .= enclose('div',get_day($line['date']),'class="bigdate"');
-    if (levenshtein($line['ip'],$_SERVER['REMOTE_ADDR']) <= 6 && levenshtein($line['useragent'],$_SERVER['HTTP_USER_AGENT']) <= 50) { $edit = enclose('a','edit','href="'.$hurl.'/e/'.$line['id'].'#edit" onclick="return hs.htmlExpand(this, { objectType: \'ajax\'} )"'); } else { $edit = NULL; }
+    if ( check_edit($line['ip'],$line['userconf']) { $edit = enclose('a','edit','href="'.$hurl.'/e/'.$line['id'].'#edit" onclick="return hs.htmlExpand(this, { objectType: \'ajax\'} )"'); } else { $edit = NULL; }
     $loop .= enclose('div',enclose('a',$line['title'],'href="'.$hurl.'/show/'.$line['id'].'"'),'class="title"');
     $loop .= enclose('div',$line['date'].$edit,'class="date"');
     $image .= show_pic($line['image']);
@@ -58,7 +58,7 @@ if ($result) {
         $rate = NULL;
         $nloop .= enclose('div',get_day($line2['date']),'class="bigdate"');
         $nloop .= enclose('div',enclose('a',$line2['title'],'href="'.$hurl.'/show/'.$line['id'].'"'),'class="title"');
-	if (levenshtein($line2['ip'],$_SERVER['REMOTE_ADDR']) <= 6 && levenshtein($line2['useragent'],$_SERVER['HTTP_USER_AGENT']) <= 50) { $edit = enclose('a','edit','href="'.$hurl.'/e/'.$line2['id'].'#edit" onclick="return hs.htmlExpand(this, { objectType: \'ajax\'} )"'); } else { $edit = NULL; }
+	if ( check_edit($line2['ip'],$line2['userconf']) { $edit = enclose('a','edit','href="'.$hurl.'/e/'.$line2['id'].'#edit" onclick="return hs.htmlExpand(this, { objectType: \'ajax\'} )"'); } else { $edit = NULL; }
         $nloop .= enclose('div',$line2['date'].$edit,'class="date"');
         $nloop .= enclose('div',fixup(show_pic($line2['image'])),'class="image"');
         $nloop .= enclose('div',fixup(nl2br(html_entity_decode($line2['intro']))),'class="text"');

@@ -14,7 +14,7 @@
 	if ($ipres){
 		foreach($ipres as $line){
 			$image = $line['image'];
-			if (levenshtein($line['ip'],$_SERVER['REMOTE_ADDR']) > 6 or levenshtein($line['useragent'],$_SERVER['HTTP_USER_AGENT']) > 50) { exit('Not your post.'); }
+			if ( !check_edit($line['ip'],$line['userconf']) { exit('Not your post.'); }
 		}
 	} else { exit('No such ID.'); }
 

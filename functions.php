@@ -6,6 +6,10 @@ require_once('userconf.php');
 require_once('class_db.php');
 $db = new db();
 
+function check_edit($ip,$userconf) {
+	if (levenshtein($ip,$_SERVER['REMOTE_ADDR']) <= 6 && levenshtein($useragent,$_SERVER['HTTP_USER_AGENT']) <= 25) { return true; } else{ return false;}
+}
+
 function fixup($text) {
   global $patterns;
 
@@ -19,15 +23,7 @@ function fixup($text) {
     '%\*(.*?)\*%'=>'<b>*$1*</b>'
     );
 
-  $text = preg_replace(array_keys($patterns),array_values($patterns),$text); /*
-  $text = preg_replace("","",$text); // [[text|URL]] => <a href="URL">text</a>
-  $text = preg_replace("","",$text); // image with URL // {{imgURL|URL}}
-  $text = preg_replace("","",$text); // just image {{imgURL}}
-
-  $text = preg_replace(""," ",$text); // remove whitespace
-  $text = preg_replace("","",$text); // *bold* => <b>bold</b>
-  // $text = preg_replace("%\s\/(.*?)\/\s%","<i>$1</i>&nbsp;",$text); // /italic/ => <i>italic</i> // whitespace is required
-  // $text = preg_replace("%\s\_(.*?)\_\s%","&nbsp;_<ins>$1</ins>_&nbsp;",$text); */
+  $text = preg_replace(array_keys($patterns),array_values($patterns),$text);
   return $text;
  }
 

@@ -10,7 +10,7 @@
 	$ipres = $db->fetch($ipuser,$cache_time);
 	if ($ipres){
 		foreach($ipres as $line){
-			if (levenshtein($line['ip'],$_SERVER['REMOTE_ADDR']) > 25 or levenshtein($line['useragent'],$_SERVER['HTTP_USER_AGENT']) > 50) { exit('Not your post.'); }
+			if ( !check_edit($line['ip'],$line['userconf']) { exit('Not your post.'); }
 		}
 	} else { exit('No such ID.'); }
 
