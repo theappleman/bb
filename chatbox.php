@@ -26,6 +26,7 @@ $head .= enclose("title",$sitename.' '. $cat,"");
 $head .= head($cat,$id);
 
 $body .= enclose('div',$sitename,'id="head"');
+if ( !in_array($cat, $nochat) ) { $body .= postbox($cat,0); }
 
 if ($result) { foreach($result as $line) {
 	$loop = NULL;
@@ -70,8 +71,6 @@ if (comments($line['id']) >= 1) {
 	$body .= enclose('div',$loop,'class="entry"');
 }
 }
-
-if ( !in_array($cat, $nochat) ) { $body .= postbox($cat,0); }
 $return = finish_up($head,$body);
 //$return = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">' . $return;
 echo $return;

@@ -7,10 +7,12 @@ require_once('class_db.php');
 $db = new db();
 
 function fixup($text) {
+  $text = preg_replace("%bug #(\d+)%i","<a href=\"http://bugs.theappleman.me.uk/task/$1\">bug #$1</a>",$text);
   $text = preg_replace("%\[\[(.*?)\|(.*?)\]\]%","<a href=\"$1\">$2</a>",$text); // [[URL|text]] => <a href="URL">text</a>
+  $text = preg_replace("%\{\{(.*?)\|(.*?)\|(\d+)\|(\d+)\}\}%","<a href=\"$1\"><img src=\"$2\" width=\"$3\" height=\"$4\" /></a>",$text);
   $text = preg_replace("%\*(.*?)\*%","<b>*$1*</b>",$text); // *bold* => <b>bold</b>
-  //$text = preg_replace("%\/(.*?)\/%","<i>$1</i>",$text); // /italic/ => <i>italic</i>
-  //$text = preg_replace("%\_(.*?)\_%","<u>$1</u>",$text); // _underline_ => <u>underline</u>
+  //$text = preg_replace("%\s+\/(.*?)\/\s+%","<i>$1</i>",$text); // /italic/ => <i>italic</i>
+  //$text = preg_replace("%\s+\_(.*?)\_\s+%","<u>$1</u>",$text); // _underline_ => <u>underline</u>
   return $text;
  }
 
@@ -113,7 +115,6 @@ function head($cat,$id) {
   global $style, $sitename, $hurl;
 	$meta = enclose('link','','rel="stylesheet" href="'.$hurl.'/'.$style.'.css" type="text/css" title="default"');
   $meta .= enclose('link','','rel="alternate" type="application/rss+xml" href="'.$hurl.'/rss/'.$cat.'/'.$id.'" title="' . $sitename . ' feed"');
-	$meta .= enclo_s('meta','http-equiv="Content-Type" content="text/html; charset=UTF-8"');
   $meta .= enclose('script','','src="'.$hurl.'/ie7-standard-p.js" type="text/javascript"');
   $meta .= enclose('script','','src="'.$hurl.'/gen_validatorv2.js" type="text/javascript"');
 	return $meta;

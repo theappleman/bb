@@ -10,6 +10,7 @@ body {
 	background-attachment: fixed;
 	background-position: top center;
 	color: #00ff00;
+	cursor: crosshair;
 }
 div#head {
 	text-align: center;
@@ -26,7 +27,6 @@ a:hover {
 	color: #000000;
 	text-decoration: none;
 	background-color: #ffff00;
-	cursor: crosshair;
 }
 div.mainmenu {
 	#margin-right: 50px;
