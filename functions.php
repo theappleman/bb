@@ -6,12 +6,6 @@ require_once('userconf.php');
 require_once('class_db.php');
 $db = new db();
 
-if (!function_exists("imagefilter")) {
-  function imagefilter($filter="") {
-    return true;
-   }
-}
-
 function postbox($cat,$id,$message="") {
 global $hurl, $accept;
   $box = NULL;
@@ -107,7 +101,6 @@ function make_thumb($filename) {
 		}
     
     imagecopyresampled($image_p, $image, 0, 0, 0, 0, $width, $height, $width_orig, $height_orig);
-    if($filtertype) { imagefilter($image_p,$filtertype); }
     
     switch($image_type) {
     case 'image/png': $image = imagepng($image_p,$thumbfile);
