@@ -11,8 +11,8 @@ function fixup($text) {
 
   $text = preg_replace($patterns,$replacements,$text);
 
-  $text = preg_replace("%\{\{(.*?)\|(.*?)\}\}%","<a href=\"$2\" class=\"highslide\" rel=\"highslide\" onclick=\"return hs.expand(this)\" ><img src=\"$1\" /></a>",$text); // image with URL // {{imgURL|URL}}
   $text = preg_replace("%\[\[(.*?)\|(.*?)\]\]%","<a href=\"$1\" title=\"$1\" >$2</a>",$text); // [[URL|text]] => <a href="URL">text</a>
+  $text = preg_replace("%\{\{(.*?)\|(.*?)\}\}%","<a href=\"$2\" class=\"highslide\" rel=\"highslide\" onclick=\"return hs.expand(this)\" ><img src=\"$1\" /></a>",$text); // image with URL // {{imgURL|URL}}
   $text = preg_replace("%\{\{(.*?)\}\}%","<a href=\"$1\" class=\"highslide\" rel=\"highslide\" onclick=\"return hs.expand(this)\" ><img src=\"$1\" /></a>",$text); // just image {{imgURL}}
 
   $text = preg_replace("%\s\s+%"," ",$text); // remove whitespace
