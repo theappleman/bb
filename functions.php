@@ -7,18 +7,25 @@ require_once('class_db.php');
 $db = new db();
 
 function fixup($text) {
-  global $patterns, $replacements;
+  global $patterns;
 
-  $text = preg_replace($patterns,$replacements,$text);
+  $text = preg_replace(array_keys($patterns),array_values($patterns),$text);
 
-  $text = preg_replace("%\[\[(.*?)\|(.*?)\]\]%","<a href=\"$1\" title=\"$1\" >$2</a>",$text); // [[text|URL]] => <a href="URL">text</a>
-  $text = preg_replace("%\{\{(.*?)\|(.*?)\}\}%","<a href=\"$2\" class=\"highslide\" rel=\"highslide\" onclick=\"return hs.expand(this)\" ><img src=\"$1\" /></a>",$text); // image with URL // {{imgURL|URL}}
-  $text = preg_replace("%\{\{(.*?)\}\}%","<a href=\"$1\" class=\"highslide\" rel=\"highslide\" onclick=\"return hs.expand(this)\" ><img src=\"$1\" /></a>",$text); // just image {{imgURL}}
+  $patterns = array('%\[\[(.*?)\|(.*?)\]\]%'=>'<a href=\"$1\" title=\"$1\" >$2</a>',
+    '%\{\{(.*?)\|(.*?)\}\}%'=>'<a href=\"$2\" class=\"highslide\" rel=\"highslide\" onclick=\"return hs.expand(this)\" ><img src=\"$1\" /></a>',
+    '%\{\{(.*?)\}\}%'=>'<a href=\"$1\" class=\"highslide\" rel=\"highslide\" onclick=\"return hs.expand(this)\" ><img src=\"$1\" /></a>',
+    '%\s\s+%'=>' ',
+    '%\*(.*?)\*%'=>'<b>*$1*</b>');
 
-  $text = preg_replace("%\s\s+%"," ",$text); // remove whitespace
-  $text = preg_replace("%\*(.*?)\*%","<b>*$1*</b>",$text); // *bold* => <b>bold</b>
+  $text = preg_replace(array_keys($patterns),array_values($patterns),$text); /*
+  $text = preg_replace("","",$text); // [[text|URL]] => <a href="URL">text</a>
+  $text = preg_replace("","",$text); // image with URL // {{imgURL|URL}}
+  $text = preg_replace("","",$text); // just image {{imgURL}}
+
+  $text = preg_replace(""," ",$text); // remove whitespace
+  $text = preg_replace("","",$text); // *bold* => <b>bold</b>
   // $text = preg_replace("%\s\/(.*?)\/\s%","<i>$1</i>&nbsp;",$text); // /italic/ => <i>italic</i> // whitespace is required
-  // $text = preg_replace("%\s\_(.*?)\_\s%","&nbsp;_<ins>$1</ins>_&nbsp;",$text);
+  // $text = preg_replace("%\s\_(.*?)\_\s%","&nbsp;_<ins>$1</ins>_&nbsp;",$text); */
   return $text;
  }
 

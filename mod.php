@@ -2,6 +2,7 @@
 	require_once 'functions.php';
 	$action = $_POST['action'];
 	$id = $_POST['id'];
+  $allowed = true;
 	$transaction_key = $_POST['transaction_key'];
 
 	if(!in_array($action,array('edit','delete'))) { exit('No valid action provided.'); }
@@ -30,10 +31,10 @@
 		} else { $allowed = false; }
 	}
 	if (isset($_POST['image'])) { $image = NULL; }
-	
+	if ( preg_match("%\[URL=.*?\].*?\[/URL\]%i",$intro) ) { $allowed = false; }
 	$nqry = 'UPDATE '.$db_prefix.'data SET title = "'.$title.'", intro = "'.$intro.'", image = "'.$image.'" WHERE id = '.$id.' LIMIT 1';
 
-	if(check_transaction_key($transaction_key)){	$db->exec($nqry); }
+	if ($allowed == true) { if(check_transaction_key($transaction_key)){ $db->exec($nqry); } }
 	if ($line['commentref'] === FALSE) {
 	header('Location:'.$hurl.'/show/'.$id);
 	} else {

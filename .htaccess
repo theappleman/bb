@@ -5,6 +5,7 @@ RewriteEngine on
 RewriteCond %{HTTP_REFERER} ^$
 RewriteCond %{REQUEST_METHOD} ^POST$
 RewriteRule ^addnew.php - [F]
+RewriteRule ^mod.php - [F]
 
 #RewriteCond %{HTTP_REFERER} !^http://(www\.)?theappleman\.me\.uk [NC]
 #RewriteCond %{REQUEST_FILENAME} !^(index\.html)? [NC]

@@ -29,8 +29,7 @@ $width = 200;
 $height = 200;
 
 // text replacements
-$patterns = array("%\[\[(.*?)\]\]%","%bug #(\d+)%i");
-$replacements = array("[[http://wiki.theappleman.me.uk/$1|$1]]","[[http://bugs.theappleman.me.uk/task/$1|bug #$1]]");
+$patterns = array(''=>'');
 
 // the following variables
 // are used for header bits and the RSS feed
