@@ -41,7 +41,7 @@ marginTop : 15,
 marginBottom : 15,
 zIndexCounter : 1001, // adjust to other absolutely positioned elements
 
-restoreTitle : 'Click to close image, click and drag to move. Use arrow keys for next and previous.',
+restoreTitle : 'Click to close, drag to move. Navigate with arrow keys.',
 loadingText : 'Loading...',
 loadingTitle : 'Click to cancel',
 loadingOpacity : 0.75,
