@@ -1,6 +1,9 @@
 Options -Indexes
 RewriteEngine on
 
+RewriteCond %{HTTP_REFFERER} !^www\.theappleman\.me\.uk [NC]
+RewriteRule ^index\.html
+
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^show/([0-9]+)$ show.php?id=$1 [QSA]

@@ -69,7 +69,7 @@ if($allowed == true) {
 if ($commentref == 0) {
 	$db->fetch('SELECT id,title,date,intro,commentable,rateable,rating,image
 	FROM '.$db_prefix.'data
-	WHERE section = "'.$cat.'"
+	WHERE section = "'.single_section($cat).'"
 		AND moderated != 1
 		AND rating >= -50
 	ORDER BY sticky ASC,lastupd DESC, date DESC LIMIT 10',0,single_section($cat));
