@@ -15,23 +15,22 @@ if ($id != "" && $cat == "comments" && $id != "0")
 	$query .= 'WHERE section = "comments"
 				AND commentref = "'.$id.'"
 				AND date <= "'.date($datefmt).'"
-			ORDER BY sticky ASC, date DESC';
+			ORDER BY date DESC';
 	$type = $id.$section;
 	}
 	else {
 		if($cat != "") {
 			$query .= '
 			WHERE section LIKE "%'.$cat.'%"
-				AND date <= "'.date($datefmt).'"
-			ORDER BY sticky ASC, date DESC ';
+				AND date <= "'.date($datefmt).'"';
 		$type = $cat;
 
 		}
 		else {
-			$query .= 'WHERE date <= "'.date($datefmt).'"
-			ORDER BY sticky ASC, date DESC ';
+			$query .= 'WHERE date <= "'.date($datefmt).'"';
 			$type = "all";
 		}
+  $query .= " ORDER BY date DESC ";
 	if ($id >= 1) { $query .='LIMIT '.$id; $type .= $id; }
 		else { $query .='LIMIT 20'; $type .= 20; }
 	}
