@@ -6,7 +6,7 @@ require_once('userconf.php');
 require_once('class_db.php');
 $db = new db();
 
-function postbox($cat,$id) {
+function postbox($cat,$id,$message="") {
 global $hurl, $accept;
   $box = NULL;
   $name = "form_form";
@@ -17,8 +17,8 @@ global $hurl, $accept;
     $box .= enclo_s('input','type="hidden" name="transaction_key" value="'.get_transaction_key().'"');
     $box .= enclo_s('input','type="hidden" name="commentable" value="'.$ct.'"');
 		$box .= enclose('p','Name: '.enclo_s('input','name="title" tabindex="1" accesskey="q"').'&nbsp;'.enclo_s('input','type="file" accesskey="s" name="userfile" tabindex="3" accept="'.$accept.'"'),'class="name"');
-		$box .= enclose('textarea','','name="intro" rows="5" columns="100" tabindex="2" accesskey="w"');
-		$box .= enclose('div',enclo_s('input','type="submit" value="Lets go!"')/*.enclo_s('input','type="reset" value="Reset"')*/,'class="foot"');
+		$box .= enclose('textarea',$message,'name="intro" rows="5" columns="100" tabindex="2" accesskey="w"');
+		$box .= enclose('div',enclo_s('input','type="submit" tabindex=4" value="Lets go!"')/*.enclo_s('input','type="reset" value="Reset"')*/,'class="foot"');
 		$box = enclose('form',$box,'name="'.$name.'" action="'.$hurl.'/addnew.php" method="post" enctype="multipart/form-data"');
 		$box .= enclose('script','var frmvalidator  = new Validator("'.$name.'");
 				frmvalidator.addValidation("title","req","Name is required");
