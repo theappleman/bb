@@ -5,17 +5,18 @@
 	$transaction_key = $_POST['transaction_key'];
 
 	if(!in_array($action,array('edit','delete'))) { exit('No valid action provided.'); }
-	$ipuser = 'SELECT ip,useragent,image
+	$ipuser = 'SELECT ip,useragent,image,commentref
 	                FROM '.$db_prefix.'data
-			                WHERE id = '.$id.'
-					                LIMIT 1';
-							        $ipres = $db->fetch($ipuser,$cache_time);
-								        if ($ipres){
-									                foreach($ipres as $line){
-											                        $image = $line['image'];
-														                        if (levenshtein($line['ip'],$_SERVER['REMOTE_ADDR']) > 25 or levenshtein($line['useragent'],$_SERVER['HTTP_USER_AGENT']) > 50) { exit('Not your post.'); }
-																	                }
-																			        } else { exit('No such ID.'); }
+	                WHERE id = '.$id.'
+	                LIMIT 1';
+	$ipres = $db->fetch($ipuser,$cache_time);
+	if ($ipres){
+		foreach($ipres as $line){
+			$image = $line['image'];
+			if (levenshtein($line['ip'],$_SERVER['REMOTE_ADDR']) > 25 or levenshtein($line['useragent'],$_SERVER['HTTP_USER_AGENT']) > 50) { exit('Not your post.'); }
+		}
+	} else { exit('No such ID.'); }
+
 	if ($action == 'edit') {
 	$title = $_POST['title'];
 	$intro = $_POST['intro'];
@@ -33,7 +34,11 @@
 	$nqry = 'UPDATE '.$db_prefix.'data SET title = "'.$title.'", intro = "'.$intro.'", image = "'.$image.'" WHERE id = '.$id.' LIMIT 1';
 
 	if(check_transaction_key($transaction_key)){	$db->exec($nqry); }
+	if ($line['commentref'] === FALSE) {
 	header('Location:'.$hurl.'/show/'.$id);
+	} else {
+		header('Location:'.$hurl.'/show/'.$line['commentref']);
+	}
 	}
 	if ($action == 'delete'){
 		$db->exec('DELETE
