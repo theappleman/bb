@@ -3,7 +3,6 @@ html {
 	font-family: courier;
 	margin:0;
 	padding:0;
-	cursor: crosshair;
 }
 body {
 	background-color: #000000;
@@ -28,6 +27,7 @@ a:hover {
 	color: #000000;
 	text-decoration: none;
 	background-color: #ffff00;
+  cursor: crosshair;
 }
 div.mainmenu {
 	#margin-right: 50px;
