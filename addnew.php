@@ -14,12 +14,13 @@ else {
 
 if (isset($_POST['moderated'])) { $moderated = 0; }	else { $moderated = 1; }
 if (isset($_POST['sticky'])) { $sticky = 0; } else { $sticky = 1; }
-$commentable = $_POST['commentable'];
+if (isset($_POST['commentable'])) { $commentable = $_POST['commentable']; } else { $commentable = 0; }
 
 if (isset($_POST['rateable'])) { $rateable = 0; } else { $rateable = 1; }
-if ($_POST['rating'] != "") { $rating = $_POST['rating']; } else { $rating = 0; }
 
 if (isset($_POST['commentref']) && $_POST['commentref'] != 0) { $commentref = $_POST['commentref']; } else { $commentref=0; }
+
+if ($_POST['cat'] == "") { $allowed = false; }
 
 if ($_POST['cat'] == "other") {
 	if (isset($_POST['section']) && $_POST['section'] != "") {
@@ -30,13 +31,12 @@ if ($_POST['cat'] == "other") {
 $title = htmlentities(strip_tags($_POST['title']));
 $intro = htmlentities(strip_tags($_POST['intro']));
 
+if ( preg_match("%\[URL=.*?\].*?\[/URL\]%i",$intro) ) { $allowed = false; }
+
 $transaction_key = $_POST['transaction_key'];
-$sess_id = $_POST['session_id'];
 $_REQUEST = array(NULL);
 
-if (is_uploaded_file($_FILES['userfile']['tmp_name']) ) {
-
-	if ( is_image($_FILES['userfile']['tmp_name']) ) {
+if (is_uploaded_file($_FILES['userfile']['tmp_name']) && is_image($_FILES['userfile']['tmp_name']) ) {
 		$rand = mt_rand();
 		$uploadfilename = $rand . '-' . basename($_FILES['userfile']['name']);
 		$uploadfile = $uploaddir . $uploadfilename;
@@ -44,8 +44,7 @@ if (is_uploaded_file($_FILES['userfile']['tmp_name']) ) {
       if(make_thumb($uploadfilename)) { $thumb = "thumb-"; } else { $thumb = NULL; }
       $image = $thumb.$uploadfilename;
 		} else { $allowed = false; }
-	}
-}
+} else { $image = NULL; }
 
 if($allowed == true) {
 	if (check_transaction_key($transaction_key)) {

@@ -14,7 +14,7 @@ if ($id != "" && $cat == "comments" && $id != "0")
 	{
 	$query .= 'WHERE section = "comments"
 				AND commentref = "'.$id.'"
-				AND moderated != "1"
+				AND moderated != 1
 				AND rating >= -50
 				AND date <= "'.date($datefmt).'"
 			ORDER BY sticky ASC, date DESC';
@@ -53,15 +53,17 @@ $channel .= enclose('language','en-gb','');
 $channel .= enclose('pubDate',date('r',strtotime(date($datefmt))),'');
 $channel .= enclo_s('atom:link','href="'.$hurl.$_SERVER['REQUEST_URI'].'" rel="self" type="application/rss+xml"');
 $nl = array("\r\n","\n","\r");
-foreach($result as $line) {
-	$item = NULL;
-	$item .= enclose('title',strip_tags(str_replace($nl,"",html_entity_decode($line['title']))),'');
-  $item .= enclose('description',strip_tags(str_replace($nl,"",html_entity_decode($line['intro']))),'');
-	$item .= enclose('pubDate',date('r',strtotime($line['date'])),'');
-	if ($cat == "comments") { $perm = $id; }
-		else {	$perm = $line['id']; }
-	$item .= enclose('guid',$hurl.'/show/'.$perm,'');
-	$items .= enclose('item',$item,'');
+if ($result) {
+  foreach($result as $line) {
+    $item = NULL;
+    $item .= enclose('title',strip_tags(str_replace($nl,"",html_entity_decode($line['title']))),'');
+    $item .= enclose('description',strip_tags(str_replace($nl,"",html_entity_decode($line['intro']))),'');
+    $item .= enclose('pubDate',date('r',strtotime($line['date'])),'');
+    if ($cat == "comments") { $perm = $id; }
+      else {	$perm = $line['id']; }
+    $item .= enclose('guid',$hurl.'/show/'.$perm,'');
+    $items .= enclose('item',$item,'');
+  }
 }
 $channel = enclose('channel',$channel.$items,'');
 $return = enclose('rss',$channel,'version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"');
