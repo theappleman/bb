@@ -60,7 +60,7 @@ if ($result) {
 			$name = explode(" ",$line2['title']);
 			$address = array_pop($name);
 			$line2['title'] = implode(" ",$name);
-			if (!$line2['title']) { $line2['title'] = preg_replace("/([^@]+)\@.*?/","$1",$address);  }              
+			if (!$line2['title']) { $line2['title'] = preg_replace("/([^@]+)\@.*?$/","$1",$address);  }              
 			if ( !$line2['image'] ) {
 				$loop .= enclose('div',enclo_s('img',"src=\"http://www.gravatar.com/avatar/".md5(strtolower($address))."?d=$hurl/black.jpg\""),'class="image"');
 			}
