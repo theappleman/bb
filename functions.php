@@ -6,11 +6,6 @@ require_once('userconf.php');
 require_once('class_db.php');
 $db = new db();
 
-function check_edit($ip,$userconf) {
-	if (levenshtein($ip,$_SERVER['REMOTE_ADDR']) <= 15 && levenshtein($useragent,$_SERVER['HTTP_USER_AGENT']) <= 50) { return true; } else { return false; }
-}
-
-
 function postbox($cat,$id) {
 global $hurl;
   $box = NULL;
@@ -34,9 +29,7 @@ global $hurl;
  }
 function fixup($text) {
   global $patterns;
-
   $text = preg_replace(array_keys($patterns),array_values($patterns),$text);
-
   $patterns = array(
     '%\[\[(.*?)\|(.*?)\]\]%'=>'<a href="$1" title="$1" >$2</a>',
     '%\{\{(.*?)\|(.*?)\}\}%'=>'<a href="$2" class="highslide" rel="highslide" onclick="return hs.expand(this)" ><img src="$1" /></a>',
@@ -44,7 +37,6 @@ function fixup($text) {
     '%\s\s+%'=>' ',
     '%\*(.*?)\*%'=>'<b>*$1*</b>'
     );
-
   $text = preg_replace(array_keys($patterns),array_values($patterns),$text);
   return $text;
  }
