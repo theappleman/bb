@@ -78,7 +78,7 @@ function fixup($text) {
 
 function show_pic($image) {
   if (!$image) { return ''; }
-  global $uploaddir, $hurl;
+  global $uploaddir, $hurl, $snapcode;
   if ( is_image($uploaddir.$image)) {
     list($thumb,$rand) = explode('-',$image,2);
     if($thumb == "thumb" && is_image($uploaddir."thumb-" . $rand)) {
@@ -89,7 +89,8 @@ function show_pic($image) {
       $filename = $image;
     }
     return "{{".$hurl."/uploaded/".$thumbname."|".$hurl."/uploaded/".$filename."}}";
-  } else { return "[[$hurl/uploaded/$image|$image]]"; }
+  } else { if ($snapcode) { $snap = "class=\"snap_shots\"";}
+  return "<a href=\"$hurl/uploaded/$image\" $snap >$image</a>"; }
 }
 
 function is_image($filename) {
