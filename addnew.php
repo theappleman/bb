@@ -14,8 +14,6 @@ else {
 	if ($_POST['date'] != "") { $date = htmlspecialchars($_POST['date']); }
 	else { $date = date($datefmt); }
 }
-
-if (isset($_POST['moderated'])) { $moderated = 0; }	else { $moderated = 1; }
 if (isset($_POST['sticky'])) { $sticky = 0; } else { $sticky = 1; }
 if (isset($_POST['commentable'])) { $commentable = $_POST['commentable']; } else { $commentable = 0; }
 
@@ -50,26 +48,23 @@ if (is_uploaded_file($_FILES['userfile']['tmp_name']) && is_image($_FILES['userf
 if($allowed == true) {
 	if (check_transaction_key($transaction_key)) {
 		$db->exec('INSERT INTO '.$db_prefix.'data
-			(title,section, date,lastupd, intro, image, moderated, commentable, commentref,sticky,ip,useragent)
+			(title,section, date,lastupd, intro, image, commentable, commentref,sticky)
 			VALUES ("' . $title . '",
 				"'. $cat .'",
 				"'.$date.'",
 				"'.$date.'",
 				"' . $intro . '",
         "'.$image.'",
-				"' . $moderated . '",
 				"' . $commentable . '",
 				"' . $commentref . '",
-				"'.$sticky.'",
-				"'.$ip.'",
-				"'.$useragent.'"
+				"'.$sticky.'"
 				)') or die('Sorry, there was a problem and your post could not be completed. ' .mysql_error() );
 	} else { exit("Double post detected!"); }
 } else { echo "$title - $intro - ";
 exit("There has been an error and you cannot post.");}
 
 if ($commentref == 0) {
-	$db->fetch('SELECT title,date,intro,commentable,image,ip,useragent
+	$db->fetch('SELECT title,date,intro,commentable,image
 	FROM '.$db_prefix.'data
   WHERE id ="' . $db->last_id . '"
 	WHERE
@@ -77,13 +72,13 @@ if ($commentref == 0) {
   header('Location:'.$hurl.'/show/'.$db->last_id);
 } else {
 $db->exec('UPDATE '.$db_prefix.'data SET lastupd = "'.date($datefmt).'" WHERE id = "'.$commentref.'" LIMIT 1') or die('Could not update post time (don\'t worry, your post has gone through).');
-$query2 = 'SELECT id,title,date,intro,commentable,image,ip,useragent
+$query2 = 'SELECT id,title,date,intro,commentable,image
 	FROM '.$db_prefix.'data
 	WHERE moderated != 1
 		AND commentref="'.$commentref.'"
 		AND rating >= -50
 	ORDER BY date ASC';
-$query3 = 'SELECT id,title,date,intro,rateable,rating,image
+$query3 = 'SELECT id,title,date,intro,image
   FROM '.$db_prefix.'data
   WHERE moderated != 1
     AND commentref="'.$line['id'].'"
