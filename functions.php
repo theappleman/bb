@@ -151,7 +151,7 @@ function menu() {
 	foreach ($menu as $key=>$link) {
 		$sitemenu .= enclose('a',ucwords($key),'href="'.$link.'"');
 		}
-	$return .= enclose("div",$sitemenu,'class="mainmenu"');
+	$return .= enclose("div",'Links:'.$sitemenu,'class="mainmenu"');
 
 	$rslt = $db->fetch('SELECT DISTINCT section FROM '.$db_prefix.'data',$cache_time,"sections");
 
@@ -164,7 +164,7 @@ function menu() {
 
 	$rslt = NULL;
 	foreach (array_unique($array) as $table) { $rslt .= enclose('a',$table,'href="'.$hurl.'/'.$table.'"'); }
-	$return .= enclose('div',$rslt,'class="mainmenu"');
+	$return .= enclose('div','Cats:'.$rslt,'class="mainmenu"');
 
   if ( isset($cat) ) {
     if ( $page != "" && $page != "0" ) { $pages .= enclose('a','Previous','href="'.$hurl.'/'.$cat.'/p'.($page-1).'"'); }
