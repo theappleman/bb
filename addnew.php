@@ -30,6 +30,8 @@ if ($_POST['cat'] == "other") {
 if ($_POST['title']) { $title = strip_tags($_POST['title']); } else { $allowed = false; $title = $_POST['title']; }
 if ($_POST['intro']) { $intro = strip_tags($_POST['intro']); } else { $allowed = false; $intro = $_POST['intro']; }
 
+if ($title == "" or $intro == "") { $allowed = false; }
+
 if ( preg_match("%\[URL=.*?\].*?\[/URL\]%i",$intro) ) { $allowed = false; }
 
 $transaction_key = $_POST['transaction_key'];
