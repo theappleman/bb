@@ -1,8 +1,12 @@
 Options -Indexes
 RewriteEngine on
 
-RewriteCond %{HTTP_REFFERER} !^www\.theappleman\.me\.uk [NC]
-RewriteRule ^index\.html
+RewriteCond %{HTTP_REFERER} ^$
+RewriteCond %{REQUEST_METHOD} ^POST$
+RewriteRule ^addnew.php - [F]
+
+RewriteCond %{HTTP_REFERER} !^http://(www\.)?192\.168\.2\.6 [NC]
+RewriteRule ^.* / [R]
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
