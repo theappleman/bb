@@ -61,7 +61,9 @@ if (is_uploaded_file($_FILES['userfile']['tmp_name'])) {
 		} else { $allowed = false; }
   } else {  $uploadfilename = $_FILES['userfile']['name'];
             $uploadfile = $uploaddir . $uploadfilename;
-            move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile); }
+            move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile);
+	    $image = $uploadfilename;
+	    }
 } else { $image = NULL; }
 
 if($allowed == true) {
