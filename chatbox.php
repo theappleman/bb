@@ -11,7 +11,7 @@ $_REQUEST = array(NULL);
 
 if ($id == "") { $id = "10"; }
 if ($page != "") { $id = $id . ', OFFSET ' . $page*$id; }
-$query = 'SELECT id,title,date,intro,commentable,image,ip,useragent
+$query = 'SELECT id,title,date,intro,commentable,image
 	FROM '.$db_prefix.'data
 	WHERE section = "'.$cat.'"
 		AND moderated != 1
@@ -31,21 +31,19 @@ if ($result) {
     $loop = NULL; $foot = NULL; $comments = NULL; $rate = NULL;
 
     $loop .= enclose('div',get_day($line['date']),'class="bigdate"');
-    if ( check_edit($line['ip'],$line['userconf']) ) { $edit = enclose('a','edit','href="'.$hurl.'/e/'.$line['id'].'#edit" onclick="return hs.htmlExpand(this, { objectType: \'ajax\'} )"'); } else { $edit = NULL; }
     $loop .= enclose('div',enclose('a',$line['title'],'href="'.$hurl.'/show/'.$line['id'].'"'),'class="title"');
-    $loop .= enclose('div',$line['date'].$edit,'class="date"');
-    $image .= show_pic($line['image']);
-    $loop .= enclose('div',fixup($image),'class="image"');
+    $loop .= enclose('div',$line['date'],'class="date"');
+    $loop .= enclose('div',fixup(show_pic($line['image']);),'class="image"');
     $image = NULL;
     $loop .= enclose('div',fixup(nl2br($line['intro'])),'class="text"');
     if ($line['commentable'] == 2) {
         $loop .= enclose('div',
-          enclose('a','Post a comment','href="'.$hurl.'/p/comments/'.$line['id'].'#postbox" onclick="return hs.htmlExpand(this, { objectType: \'ajax\'} )"'),
+          enclose('a','Post a comment','href="'.$hurl.'/show/'.$line['id']),
         'class="foot"');
       }
       else { $loop .= enclose('div',enclose('a','No more comments','href="'.$hurl.'/show/'.$line['id'].'"'),'class="foot"'); }
     if (comments($line['id']) >= 1) {
-      $query2 = 'SELECT id,title,date,intro,image,ip,useragent
+      $query2 = 'SELECT id,title,date,intro,image
         FROM '.$db_prefix.'data
         WHERE moderated != 1
           AND commentref="'.$line['id'].'"
@@ -58,13 +56,11 @@ if ($result) {
         $rate = NULL;
         $nloop .= enclose('div',get_day($line2['date']),'class="bigdate"');
         $nloop .= enclose('div',enclose('a',$line2['title'],'href="'.$hurl.'/show/'.$line['id'].'"'),'class="title"');
-	if ( check_edit($line2['ip'],$line2['userconf']) ) { $edit = enclose('a','edit','href="'.$hurl.'/e/'.$line2['id'].'#edit" onclick="return hs.htmlExpand(this, { objectType: \'ajax\'} )"'); } else { $edit = NULL; }
-        $nloop .= enclose('div',$line2['date'].$edit,'class="date"');
+        $nloop .= enclose('div',$line2['date'],'class="date"');
         $nloop .= enclose('div',fixup(show_pic($line2['image'])),'class="image"');
         $nloop .= enclose('div',fixup(nl2br(html_entity_decode($line2['intro']))),'class="text"');
         if (comments($line['id']) != 1) { $comment = 's'; } else { $comment = NULL; }
-        $foot .= enclose('a',comments($line['id']). ' comment'.$comment,'href="'.$hurl.'/show/'.$line['id'].'#comments" onclick="return hs.htmlExpand(this, { objectType: \'ajax\'} )"');
-        $nloop .= enclose('div',$foot,'class="foot"');
+        $nloop .= enclose('div',enclose('a',comments($line['id']). ' comment'.$comment,'href="'.$hurl.'/show/'.$line['id'].'"'),'class="foot"');
         $comments .= enclose('div',$nloop,'class="entry"');
       } // foreach
       $loop .= enclose('div',$comments,'id="comments"');
