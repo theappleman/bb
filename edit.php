@@ -10,7 +10,7 @@
 	$ipres = $db->fetch($ipuser,$cache_time);
 	if ($ipres){
 		foreach($ipres as $line){
-			if ( !check_edit($line['ip'],$line['userconf']) { exit('Not your post.'); }
+			if ( !check_edit($line['ip'],$line['userconf'])) { exit('Not your post.'); }
 		}
 	} else { exit('No such ID.'); }
 

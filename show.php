@@ -36,7 +36,7 @@ if ($result) {
     if (comments($id) != 1) { $comment = 's'; } else { $comment = NULL; }
     $foot .= enclose('a',comments($id). ' comment'.$comment,'href="'.$hurl.'/show/'.$id.'"');
   }
-  if ( check_edit($line['ip'],$line['userconf']) { $edit = enclose('a','edit','href="'.$hurl.'/e/'.$id.'#edit" onclick="return hs.htmlExpand(this, { objectType: \'ajax\'} )"'); } else { $edit = '&nbsp;'; }
+  if ( check_edit($line['ip'],$line['userconf']) ) { $edit = enclose('a','edit','href="'.$hurl.'/e/'.$id.'#edit" onclick="return hs.htmlExpand(this, { objectType: \'ajax\'} )"'); } else { $edit = '&nbsp;'; }
   $entry .= enclose('div',$edit,'class="foot"');
   $body .= enclose('div',$entry,'class="entry"');
 
@@ -52,7 +52,7 @@ if ($result) {
                 $loop .= enclose('div',$line2['date'],'class="date"');
                 $loop .= enclose('div',fixup(show_pic($line2['image'])),'class="image"');
                 $loop .= enclose('div',nl2br(fixup(html_entity_decode($line2['intro']))),'class="text"');
-		if ( check_edit($line2['ip'],$line2['userconf']) { $edit = enclose('a','edit','href="'.$hurl.'/e/'.$line2['id'].'#edit" onclick="return hs.htmlExpand(this, { objectType: \'ajax\'} )"'); } else { $edit = '&nbsp;'; }
+		if ( check_edit($line2['ip'],$line2['userconf']) ) { $edit = enclose('a','edit','href="'.$hurl.'/e/'.$line2['id'].'#edit" onclick="return hs.htmlExpand(this, { objectType: \'ajax\'} )"'); } else { $edit = '&nbsp;'; }
                 $loop .= enclose('div',$edit,'class="foot"');
                 $comments .= enclose('div',$loop,'class="entry"');
 	}

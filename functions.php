@@ -7,7 +7,7 @@ require_once('class_db.php');
 $db = new db();
 
 function check_edit($ip,$userconf) {
-	if (levenshtein($ip,$_SERVER['REMOTE_ADDR']) <= 6 && levenshtein($useragent,$_SERVER['HTTP_USER_AGENT']) <= 25) { return true; } else{ return false;}
+	if (levenshtein($ip,$_SERVER['REMOTE_ADDR']) <= 15 && levenshtein($useragent,$_SERVER['HTTP_USER_AGENT']) <= 50) { return true; } else { return false; }
 }
 
 function fixup($text) {

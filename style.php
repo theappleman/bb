@@ -1,8 +1,9 @@
-<?php require 'userconf.php'; ?>
+<?php include 'userconf.php'; ?>
 html {
 	font-family: courier;
 	margin:0;
-  padding:0;
+	padding:0;
+	cursor: crosshair;
 }
 body {
 	background-color: #000000;
@@ -11,7 +12,6 @@ body {
 	background-attachment: fixed;
 	background-position: top center;
 	color: #00ff00;
-	cursor: crosshair;
 }
 div#head {
 	text-align: center;
