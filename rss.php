@@ -14,8 +14,6 @@ if ($id != "" && $cat == "comments" && $id != "0")
 	{
 	$query .= 'WHERE section = "comments"
 				AND commentref = "'.$id.'"
-				AND moderated != 1
-				AND rating >= -50
 				AND date <= "'.date($datefmt).'"
 			ORDER BY sticky ASC, date DESC';
 	$type = $id.$section;
@@ -24,17 +22,13 @@ if ($id != "" && $cat == "comments" && $id != "0")
 		if($cat != "") {
 			$query .= '
 			WHERE section LIKE "%'.$cat.'%"
-				AND moderated != 1
 				AND date <= "'.date($datefmt).'"
-				AND rating >= -50
 			ORDER BY sticky ASC, date DESC ';
 		$type = $cat;
 
 		}
 		else {
-			$query .= 'WHERE moderated != 1
-				AND date <= "'.date($datefmt).'"
-				AND rating >= -50
+			$query .= 'WHERE date <= "'.date($datefmt).'"
 			ORDER BY sticky ASC, date DESC ';
 			$type = "all";
 		}

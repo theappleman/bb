@@ -10,7 +10,7 @@ $page = $_REQUEST['page'];
 $_REQUEST = array(NULL);
 
 if ($id == "") { $id = "10"; }
-if ($page != "") { $id = $id . ', OFFSET ' . $page*$id; }
+if ($page != "") { $id = $page*$id . ',' . $id; }
 $query = 'SELECT id,title,date,intro,commentable,image
 	FROM '.$db_prefix.'data
 	WHERE section = "'.$cat.'"

@@ -160,7 +160,7 @@ function mod_change($cat, $id) {
 function comments($id) {
 	global $db,$db_prefix,$cache_time;
 	$com_num = 0;
-	$query = 'SELECT id FROM '.$db_prefix.'data WHERE commentref = "'.$id.'" AND moderated != "1" AND section = "comments"';
+	$query = 'SELECT id FROM '.$db_prefix.'data WHERE commentref = "'.$id.'" AND section = "comments"';
 	$result = $db->fetch($query,$cache_time,$id."coms");
 	if ($result) { foreach ($result as $r) { $com_num += 1; } }
 	return $com_num;
@@ -171,7 +171,7 @@ function ratings($id) {
 	$query = 'SELECT rating FROM '.$db_prefix.'data WHERE id = "'.$id.'"';
 	$result = $db->fetch($query,$cache_time,$id."rati");
 	return $result['rating'];
-}
+} //unused
 
 if (!function_exists('array_combine')) { function array_combine($keys, $values) {
 		$result = array() ;

@@ -14,8 +14,7 @@ $query = 'SELECT title,date,intro,commentable,image
 $result = $db->fetch($query,$cache_time,$id);
 $query2 = 'SELECT id,title,date,intro,image
 	FROM '.$db_prefix.'data
-	WHERE moderated != 1
-		AND commentref="'.$id.'"
+	WHERE commentref="'.$id.'"
 	ORDER BY date ASC';
 $result2 = $db->fetch($query2,$cache_time,$id."com");
 $com_num = 0;
