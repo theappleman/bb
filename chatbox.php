@@ -13,7 +13,7 @@ if ($id == "") { $id = "10"; }
 if ($page != "") { $id = $id . ' OFFSET ' . $page*$id; }
 $query = 'SELECT id,title,date,intro,commentable,image
 	FROM '.$db_prefix.'data ';
-if ($cat == "all") { $cat = $default; $query .='WHERE section != "comments"'; } else { $query .= 'WHERE section = "'.$cat.'"'; }
+if ($cat == "all") { $query .='WHERE section != "comments"'; } else { $query .= 'WHERE section = "'.$cat.'"'; }
 $query .=	' ORDER BY sticky ASC,lastupd DESC, date DESC ';
 if ($id != "0") { $query .= ' LIMIT '.$id; }
 
@@ -65,7 +65,11 @@ if ($result) {
     $body .= enclose('div',$loop,'class="entry"');
   } // foreach
 } // if
-if(!in_array($cat, $nochat)) { $body .= enclose('div',postbox($cat,0),'class="entry"'); }
+if ($cat == "all") {
+	if(!in_array($default, $nochat)) { $body .= enclose('div',postbox($default,0),'class="entry"'); }
+} else {
+	if(!in_array($cat, $nochat)) { $body .= enclose('div',postbox($cat,0),'class="entry"'); }
+}
 $return = finish_up($head,$body);
 //$return = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">' . $return;
 echo $return;
