@@ -28,6 +28,7 @@ if(!in_array($cat, $nochat)) { $body .= enclose('div',postbox($cat,0),'class="en
 
 if ($result) {
   foreach($result as $line) {
+  if ($num < $id) {
     $loop = NULL; $foot = NULL; $comments = NULL; $rate = NULL;$num += 1;
     $loop .= enclose('div',get_day($line['date']),'class="bigdate"');
     if ( preg_match("/\s?\@[a-z0-9]*?$/",$line['title']) ) {
@@ -75,6 +76,7 @@ if ($result) {
     } // if
     $body .= enclose('div',$loop,'class="entry"');
   } // foreach
+  } // if
 } // if
 $return = finish_up($head,$body);
 //$return = '<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">' . $return;

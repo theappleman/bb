@@ -196,8 +196,8 @@ function menu() {
 	$return .= enclose('div','Cats:'.$rslt,'class="mainmenu"');
 
   if ( isset($cat) ) {
-    if ( $page != "" && $page != "0" ) { $pages .= enclose('a','Previous','href="'.$hurl.'/'.$cat.'/p'.($page-1).'"').':'; }
-   $pages .= 'Page:';
+    if ( $page != "" && $page != "0" ) { $pages .= enclose('a','Previous','href="'.$hurl.'/'.$cat.'/p'.($page-1).'"'); }
+	$pages .= ":Page:";
    if ($num == $id) { $pages .= enclose('a','Next','href="'.$hurl.'/'.$cat.'/p'.($page+1).'"'); }
   }
 
