@@ -8,7 +8,7 @@ $cat = $_GET['cat'];
 $id = $_GET['id'];
 $_REQUEST = array(NULL);
 
-$query = 'SELECT id,title,date,intro FROM '.$db_prefix.'data ';
+$query = 'SELECT id,title,date,intro,section FROM '.$db_prefix.'data ';
 
 if ($id != "" && $cat == "comments" && $id != "0")
 	{
@@ -50,6 +50,7 @@ $nl = array("\r\n","\n","\r");
 if ($result) {
   foreach($result as $line) {
     $item = NULL;
+    $item .= enclose('author',str_replace($nl,"",$line['section']));
     $item .= enclose('title',str_replace($nl,"",$line['title']));
     $item .= enclose('description',str_replace($nl,"",$line['intro']));
     $item .= enclose('pubDate',date('r',strtotime($line['date'])));
