@@ -148,7 +148,7 @@ function comments($id) {
 	global $db,$db_prefix,$cache_time;
 	$com_num = 0;
 	$query = 'SELECT id FROM '.$db_prefix.'data WHERE commentref = "'.$id.'" AND moderated != "1" AND section = "comments"';
-	$result = $db->fetch($query,$cache_time);
+	$result = $db->fetch($query,$cache_time,$id."coms");
 	if ($result) { foreach ($result as $r) { $com_num += 1; } }
 	return $com_num;
 }
@@ -156,7 +156,7 @@ function comments($id) {
 function ratings($id) {
 	global $db, $db_prefix, $cache_time;
 	$query = 'SELECT rating FROM '.$db_prefix.'data WHERE id = "'.$id.'"';
-	$result = $db->fetch($query,$cache_time);
+	$result = $db->fetch($query,$cache_time,$id."rati");
 	return $result['rating'];
 }
 
