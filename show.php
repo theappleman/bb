@@ -49,10 +49,10 @@ if ($line['commentable'] >= 1) {
 		$com_num += 1;
 		$loop .= enclose('div',get_day($line2['date']),'class="bigdate"');
 		$loop .= enclose('div',enclose('a',html_entity_decode($line2['title']),''),'class="title"');
-		$loop .= enclose('div',$line2['date'],'class="date"');
+		$foot .= enclose('div',$line2['date'],'class="date"');
 		if ($line2['rateable'] != 1) { $loop .= enclose('div',chrate($line2['id']),'class="rate"'); }
     $line2['intro'] .= show_pic($line2['image']);
-		$loop .= enclose('div',nl2br(html_entity_decode($line2['intro'])),'class="text"');
+		$loop .= enclose('div',nl2br(fixup(html_entity_decode($line2['intro']))),'class="text"');
 		if ($line2['commentable'] >= 1) {
 			if (comments($line2['id']) != 1) { $comment = 's'; } else { $comment = NULL; }
 			$foot .= enclose('a',comments($line2['id']). ' comment'.$comment,'href="'.$hurl.'/show/'.$line2['id'].'"');
