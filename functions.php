@@ -175,7 +175,7 @@ function comments($id) {
 }
 
 function menu() {
-	global $page, $cat, $menu, $hurl, $db, $snapcode, $cache_time, $db_prefix, $nochat;
+	global $page, $cat, $menu, $hurl, $db, $snapcode, $cache_time, $db_prefix, $nochat, $num, $id;
 	$return = NULL;
 	foreach ($menu as $key=>$link) {
 		$sitemenu .= enclose('a',ucwords($key),'href="'.$link.'"');
@@ -197,7 +197,8 @@ function menu() {
 
   if ( isset($cat) ) {
     if ( $page != "" && $page != "0" ) { $pages .= enclose('a','Previous','href="'.$hurl.'/'.$cat.'/p'.($page-1).'"').':'; }
-   $pages .= 'Page:'.enclose('a','Next','href="'.$hurl.'/'.$cat.'/p'.($page+1).'"');
+   $pages .= 'Page:';
+   if ($num == $id) { $pages .= enclose('a','Next','href="'.$hurl.'/'.$cat.'/p'.($page+1).'"'); }
   }
 
   if ($pages) { $return .= enclose('div',$pages,'class=mainmenu'); }

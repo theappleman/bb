@@ -18,7 +18,7 @@ if ($id != "0") { $query .= ' LIMIT '.$id; }
 
 $result = $db->fetch($query,$cache_time,$cat.$page);
 
-$return = NULL;$body = NULL;$head = NULL;
+$return = NULL;$body = NULL;$head = NULL;$num=0;
 $head .= enclose("title",$sitename.' '. $cat,"");
 $head .= head($cat,$id);
 
@@ -28,7 +28,7 @@ if(!in_array($cat, $nochat)) { $body .= enclose('div',postbox($cat,0),'class="en
 
 if ($result) {
   foreach($result as $line) {
-    $loop = NULL; $foot = NULL; $comments = NULL; $rate = NULL;
+    $loop = NULL; $foot = NULL; $comments = NULL; $rate = NULL;$num += 1;
     $loop .= enclose('div',get_day($line['date']),'class="bigdate"');
     if ( preg_match("/\s?\@[a-z0-9]*?$/",$line['title']) ) {
     	list($line['title'],$address) = get_name_md5($line['title']);
