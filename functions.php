@@ -70,7 +70,8 @@ function show_pic($image) {
       $thumbname = $image;
       $filename = $image;
     }
-    return "\n".htmlentities(enclose('a',enclo_s('img','src="'.$hurl.'/uploaded/'.$thumbname.'" '. implode( array_splice( getimagesize( $uploaddir.$thumbname ), 3, 1 ) ) ),'href="'.$hurl.'/uploaded/'.$filename.'"'));
+    #return "\n".htmlentities(enclose('a',enclo_s('img','src="'.$hurl.'/uploaded/'.$thumbname.'" '. implode( array_splice( getimagesize( $uploaddir.$thumbname ), 3, 1 ) ) ),'href="'.$hurl.'/uploaded/'.$filename.'"'));
+    return "\n{{".$hurl."/uploaded/".$thumbname."|".$hurl."/uploaded/".$filename."}}";
   } else { return ''; }
 }
 
