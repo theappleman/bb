@@ -38,6 +38,7 @@ if ($_POST['intro']) { $intro = strip_tags(htmlspecialchars($_POST['intro'])); }
 if ($title == "" or $intro == "") { $allowed = false; }
 
 if ( preg_match("%\[URL=.*?\].*?\[/URL\]%i",$intro) ) { $allowed = false; }
+if ( preg_match("%a href%i",$intro) ) { $allowed = false; }
 
 $transaction_key = $_POST['transaction_key'];
 $_REQUEST[] = array();
