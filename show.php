@@ -33,7 +33,7 @@ $entry .= enclose('div',enclose('a',html_entity_decode($line['title']),'href="'.
 $entry .= enclose('div',$line['date'],'class="date"');
 if ($line['rateable'] != 1) { $entry .= enclose('div',chrate($id),'class="rate"'); }
 $line['intro'] .= show_pic($line['image']);
-$entry .= enclose('div',nl2br(html_entity_decode($line['intro'])),'class="text"');
+$entry .= enclose('div',nl2br(fixup(html_entity_decode($line['intro']))),'class="text"');
 if ($line['commentable'] >= 1) {
 	if (comments($id) != 1) { $comment = 's'; } else { $comment = NULL; }
 	$foot .= enclose('a',comments($id). ' comment'.$comment,'href="'.$hurl.'/show/'.$id.'"');

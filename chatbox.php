@@ -39,7 +39,7 @@ while ($line = mysql_fetch_array($result, MYSQL_ASSOC)) {
 	$loop .= enclose('div',$line['date'],'class="date"');
 	if ($line['rateable'] != 1) { $loop .= enclose('div',chrate($line['id']),'class="rate"'); }
   $line['intro'] .= show_pic($line['image']);
-	$loop .= enclose('div',nl2br(html_entity_decode($line['intro'])),'class="text"');
+	$loop .= enclose('div',nl2br(fixup(html_entity_decode($line['intro']))),'class="text"');
   if ($line['commentable'] == 2) { $loop .= enclose('div',enclose('a','Post a comment','href="'.$hurl.'/show/'.$line['id'].'"'),'class="foot"'); }
     else { $loop .= enclose('div',enclose('a','No more comments','href="'.$hurl.'/show/'.$line['id'].'"'),'class="foot"'); }
 if (comments($line['id']) >= 1) {
@@ -61,7 +61,7 @@ if (comments($line['id']) >= 1) {
 		$nloop .= enclose('div',$line2['date'],'class="date"');
 		if ($line2['rateable'] != 1) { $nloop .= enclose('div',chrate($line2['id']),'class="rate"'); }
     $line2['intro'] .= show_pic($line2['image']);
-		$nloop .= enclose('div',nl2br(html_entity_decode($line2['intro'])),'class="text"');
+		$nloop .= enclose('div',nl2br(fixup(html_entity_decode($line2['intro']))),'class="text"');
     if (comments($line['id']) != 1) { $comment = 's'; } else { $comment = NULL; }
 		$foot .= enclose('a',comments($line['id']). ' comment'.$comment,'href="'.$hurl.'/show/'.$line['id'].'"');
     $nloop .= enclose('div',$foot,'class="foot"');
