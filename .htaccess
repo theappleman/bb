@@ -26,4 +26,5 @@ RewriteRule ^([A-Za-z0-9]+)$ chatbox.php?cat=$1
 <IfModule mod_php4.c>
   php_value upload_max_filesize 2M
   php_value post_max_size 5M
+  php_flag zlib.output_compression on
 </IfModule>

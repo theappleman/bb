@@ -7,7 +7,7 @@ require_once('class_db.php');
 $db = new db();
 
 function postbox($cat,$id) {
-global $hurl;
+global $hurl, $accept;
   $box = NULL;
   $name = "form_form";
   if ($cat == "comments") { $ct = 0; } else { $ct = 2; }
