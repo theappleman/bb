@@ -4,21 +4,31 @@
 
 require_once('userconf.php');
 require_once('class_db.php');
+
 $db = new db();
 
-function get_age($date)
+function hurl($secure, $cat, $rhurl)
 {
-	global $fuzzy;
-	if (!$fuzzy) { return $date; }
+	$hurl = $secure ? "https://" : "http://";
+	$hurl .= $cat;
+	$hurl .= $rhurl;
+}
+
+function get_age($date, $fuzzy=true)
+{
+	if (!$fuzzy)
+		return $date;
+
 	$age = time() - strtotime($date);
+
 	if ($age > 60*60*24*365*2) {
-	        $age_str = intval($age/60/60/24/365);
-	        $age_str .= " years ago";
+		$age_str = intval($age/60/60/24/365);
+		$age_str .= " years ago";
 	} elseif ($age > 60*60*24*(365/12)*2) {
 		$age_str = intval($age/60/60/24/(365/12));
 		$age_str .= " months ago";
 	} elseif ($age > 60*60*24*7*2) {
-                $age_str = intval($age/60/60/24/7);
+		$age_str = intval($age/60/60/24/7);
 		$age_str .= " weeks ago";
 	} elseif ($age > 60*60*24*2) {
 		$age_str = intval($age/60/60/24);
@@ -38,7 +48,8 @@ function get_age($date)
 	return $age_str;
 }
 
-function postbox($cat,$id,$message="") {
+function postbox($cat,$id,$message="")
+{
 global $hurl, $accept;
   $box = NULL;
   if ($cat == "comments") { $ct = 0; } else { $ct = 2; }
@@ -55,7 +66,8 @@ global $hurl, $accept;
     return $box;
 }
 
-function fixup($text) {
+function fixup($text)
+{
   global $patterns;
   foreach($patterns as $key=>$value) {
     $text = preg_replace($key,$value,$text);
@@ -71,8 +83,8 @@ function fixup($text) {
   return $text;
  }
 
- function finish_up($head,$body) {
-  $body = enclose('div',$body,'id="content"') . menu();
+ function finish_up($head,$body,$show=false) {
+  $body = enclose('div',$body,'id="content"') . menu($show);
   $head = enclose('head',$head,'');
   $body = enclose('body',$body,'');
   $finish = enclose('html',$head . $body,'xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"');
@@ -156,10 +168,10 @@ function make_thumb($filename) {
 }
 
 function head($cat="",$id="") {
-  global $style, $sitename, $hurl, $link;
+  global $style, $hurl, $link;
 	$meta = enclose('link','','rel="stylesheet" href="'.$hurl.'/'.$style.'.css" type="text/css" title="default"');
-	if( $link ) { $rss = '/rss/'; $di = '/'; } else { $rss = '/rss.php?cat='; $di = '&id='; }
-	$meta .= enclose('link','','rel="alternate" type="application/rss+xml" href="'.$hurl.$rss.$cat.$di.$id.'" title="' . $sitename . ' feed"');
+	if( $link ) { $rss = '/rss'; $di = '/'; } else { $rss = '/rss.php?cat='; $di = '&id='; }
+	$meta .= enclose('link','','rel="alternate" type="application/rss+xml" href="'.$hurl.$rss.$di.$id.'" title="' . $cat. ' feed"');
 	$meta .= enclose('link','','rel="stylesheet" href="'.$hurl.'/iv.css" type="text/css"'); // image viewer
 	$meta .= enclose('script','','src="'.$hurl.'/iv.js" type="text/javascript"');
 	$meta .= '<meta name="robots" content="noindex, nofollow">';
@@ -186,8 +198,9 @@ function comments($id) {
 	return $com_num;
 }
 
-function menu() {
+function menu($show=false) {
 	global $page, $cat, $menu, $hurl, $db, $snapcode, $cache_time, $db_prefix, $nochat, $link;
+	global $secure, $rhurl;
 	$return = NULL;
 	foreach ($menu as $key=>$knil) {
 		$sitemenu .= enclose('a',ucwords($key),'href="'.$knil.'"');
@@ -204,18 +217,24 @@ function menu() {
   $array = explode(",",$rry);
 
 	$rslt = NULL;
-	if( $link ) { $elbat = '/'; } else { $elbat = '/chatbox.php?cat='; }
 	foreach (array_unique($array) as $table) {
 		if (!preg_match("/_private$/",$table)) {
-			$rslt .= enclose('a',$table,'href="'.$hurl.$elbat.$table.'"');
+			if($secure == true) {
+				$thurl = "https://";
+			} else {
+				$thurl = "http://";
+			}
+			$thurl .= $table;
+			$thurl .= $rhurl;
+			$rslt .= enclose('a',$table,'href="'.$hurl.'"');
 			}
 	}
 	$return .= enclose('div',$rslt,'class="mainmenu"');
 
-  if ( isset($cat) ) {
+  if ($show==false) {
   	if( $link ) { $egap = '/p'; } else { $egap = '&page='; }
-    if ( $page != "" && $page != "0" ) { $pages .= enclose('a','Previous','href="'.$hurl.$elbat.$cat.$egap.($page-1).'"'); }
-   $pages .= enclose('a','Next','href="'.$hurl.$elbat.$cat.$egap.($page+1).'"');
+    if ( $page != "" && $page != "0" ) { $pages .= enclose('a','Previous','href="'.$hurl.$egap.($page-1).'"'); }
+   $pages .= enclose('a','Next','href="'.$hurl.$egap.($page+1).'"');
   }
 
   if ($pages) { $return .= enclose('div',$pages,'class=mainmenu'); }
@@ -242,8 +261,8 @@ function enclo_s($type,$opts) { return '<' . $type . ' ' . $opts . ' />'; }
 
 function check_transaction_key($key) {
 	global $db_prefix, $db;
-    if (false === $db->exec('INSERT INTO '.$db_prefix.'transactions (transaction_key) VALUES ("'.$key.'")')) { return false; }
-    else { return true; }
+	if (false === $db->exec('INSERT INTO '.$db_prefix.'transactions (transaction_key) VALUES ("'.$key.'")')) { return false; }
+	else { return true; }
 }
 
 ?>

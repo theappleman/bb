@@ -13,15 +13,16 @@ $db_prefix = ""; // prefix of database tables
 $cache_dir = ""; // Full path to a cache directory, not web readable. Needs trailing slash.
 $cache_time = "0"; // Cache time. Depending on traffic I guess.
 
-$sitename = ""; // Kinda obvious? unless you can't read that...
-$hurl = ""; // It is best to set this. Very rarely it is ok to leave it blank. Base URL. Does not needs trailing slash.
+$sitename = $cat; // string to use at the top of each page
+$secure = false; // Use HTTPS?
+$rhurl = ""; // domain name (incl. .) e.g. ".applehq.eu"
 $datefmt = "Y-m-d H:i:s"; // Another valid format is "c".
 $fuzzy = true; // turn on fuzzy dates. not an expensive operation, there is little reason to have this off
-$style = ""; // stylesheet name
+$style = "style"; // stylesheet name
 $out = 15; // The number of items to take out of the database
 $link = false; // Set true to use mod_rewrite
 
-$menu = array('Link1'=>'http://url.to/link/1'); // array containing links for the main menu
+$menu = array(/*'Link1'=>'http://url.to/link/1'*/); // array containing links for the main menu
 $snapcode = ""; // Your snap shots, just the number
 
 $nochat = array('comments'); // categories that will not be easily postable to.
