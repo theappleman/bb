@@ -3,16 +3,16 @@ RewriteEngine on
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule ^show/([0-9]+)$ show.php?id=$1
-RewriteRule ^([A-Za-z0-9]+)/p([0-9]+)$ chatbox.php?cat=$1&page=$2
-RewriteRule ^([A-Za-z0-9]+)/p([0-9]+)/([0-9]+)$ chatbox.php?cat=$1&page=$2&id=$3
-RewriteRule ^rating/([a-z]+)/([0-9]+)/(.+)$ rating.php?cat=$1&id=$2&key=$3
-RewriteRule ^([A-Za-z0-9]+)/([0-9]+)$ chatbox.php?cat=$1&id=$2
-RewriteRule ^rss/([A-Za-z0-9]+)/([0-9]+)$ rss.php?cat=$1&id=$2
-RewriteRule ^rss/([A-Za-z0-9]+)$ rss.php?cat=$1
-RewriteRule ^rss/$ rss.php
-RewriteRule ^thumb/(.+)$ thumbs.php?cat=$1
-RewriteRule ^([A-Za-z0-9]+)$ chatbox.php?cat=$1
+RewriteRule ^show/([0-9]+)$ show.php?id=$1 [QSA]
+RewriteRule ^([A-Za-z0-9]+)/p([0-9]+)$ chatbox.php?cat=$1&page=$2 [QSA]
+RewriteRule ^([A-Za-z0-9]+)/p([0-9]+)/([0-9]+)$ chatbox.php?cat=$1&page=$2&id=$3 [QSA]
+RewriteRule ^rating/([a-z]+)/([0-9]+)/(.+)$ rating.php?cat=$1&id=$2&key=$3 [QSA]
+RewriteRule ^([A-Za-z0-9]+)/([0-9]+)$ chatbox.php?cat=$1&id=$2 [QSA]
+RewriteRule ^rss/([A-Za-z0-9]+)/([0-9]+)$ rss.php?cat=$1&id=$2 [QSA]
+RewriteRule ^rss/([A-Za-z0-9]+)$ rss.php?cat=$1 [QSA]
+RewriteRule ^rss/$ rss.php [QSA]
+RewriteRule ^thumb/(.+)$ thumbs.php?cat=$1 [QSA]
+RewriteRule ^([A-Za-z0-9]+)$ chatbox.php?cat=$1 [QSA]
 <IfModule mod_php4.c>
   php_value upload_max_filesize 2M
   php_value post_max_size 5M

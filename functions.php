@@ -43,7 +43,7 @@ function postbox($cat,$id) {
   $head = enclose('head',$head,'');
   $body = enclose('body',$body,'');
   $finish = enclose('html',$head . $body,'xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"');
-  //$finish .= $GLOBALS['db']->log;
+  if (isset($_GET['debug'])) { $finish .= $GLOBALS['db']->log; }
   return $finish;
   }
 
