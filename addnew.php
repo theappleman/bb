@@ -24,7 +24,15 @@ if ($_POST['cat'] == "other") {
 	} else { $cat = "other"; }
 } else { $cat = $_POST['cat']; }
 
-if ($_POST['title']) { $title = strip_tags(htmlspecialchars($_POST['title'])); } else { $allowed = false; $title = $_POST['title']; }
+if ($_POST['title']) { 
+	if ( preg_match("/[^@]+\@.*?$/",$_POST['title']) ) {
+		$name = explode(" ",$_POST['title']);
+	        $address = array_pop($name);
+		$title = strip_tags(htmlspecialchars(implode(" ",$name)));
+		if (!$title) { $title = preg_replace("/([^@]+)\@.*?$/","$1",$address);  }
+		$title .= "@".md5(strtolower($address));
+	}
+	else { $title = strip_tags(htmlspecialchars($_POST['title'])); } } else { $allowed = false; $title = $_POST['title']; }
 if ($_POST['intro']) { $intro = strip_tags(htmlspecialchars($_POST['intro'])); } else { $allowed = false; $intro = $_POST['intro']; }
 
 if ($title == "" or $intro == "") { $allowed = false; }

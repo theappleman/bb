@@ -6,6 +6,11 @@ require_once('userconf.php');
 require_once('class_db.php');
 $db = new db();
 
+function get_name_md5($line) {
+	list($name,$address) = explode("@",$line);
+	return array(chop($name),$address);
+}
+
 function postbox($cat,$id,$message="") {
 global $hurl, $accept;
   $box = NULL;

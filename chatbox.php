@@ -31,13 +31,10 @@ if ($result) {
     $loop = NULL; $foot = NULL; $comments = NULL; $rate = NULL;
     $commnum = comments($line['id']);
     $loop .= enclose('div',get_day($line['date']),'class="bigdate"');
-    if ( preg_match("/\s?[^@]+\@.*?$/",$line['title']) ) {
-    	$name = explode(" ",$line['title']);
-	$address = array_pop($name);
-	$line['title'] = implode(" ",$name);
-	if (!$line['title']) { $line['title'] = preg_replace("/([^@]+)\@.*?$/","$1",$address);  }
+    if ( preg_match("/\s?\@[a-z0-9]*?$/",$line['title']) ) {
+    	list($line['title'],$address) = get_name_md5($line['title']);
 	if ( !$line['image'] ) {
-		$loop .= enclose('div',enclo_s('img',"src=\"http://www.gravatar.com/avatar/".md5(strtolower($address))."?d=$hurl/black.jpg\""),'class="image"');
+		$loop .= enclose('div',enclo_s('img',"src=\"http://www.gravatar.com/avatar/".$address."?d=$hurl/black.jpg\""),'class="image"');
 	}
     }
     $loop .= enclose('div',enclose('a',$line['title'],'href="'.$hurl.'/show/'.$line['id'].'"'),'class="title"');
@@ -60,13 +57,10 @@ if ($result) {
       foreach($result2 as $line2) {
         $nloop = NULL;$foot = NULL;$rate = NULL;
         $nloop .= enclose('div',get_day($line2['date']),'class="bigdate"');
-	if ( preg_match("/\s?[^@]+\@.*?$/",$line2['title']) ) {
-	$name = explode(" ",$line2['title']);
-	$address = array_pop($name);
-	$line2['title'] = implode(" ",$name);
-	if (!$line2['title']) { $line2['title'] = preg_replace("/([^@]+)\@.*?$/","$1",$address);  }              
+	if ( preg_match("/\s?\@[a-z0-9]*?$/",$line2['title']) ) {
+	list($line2['title'],$address) = get_name_md5($line2['title']);
 	if ( !$line2['image'] ) {
-		$nloop .= enclose('div',enclo_s('img',"src=\"http://www.gravatar.com/avatar/".md5(strtolower($address))."?d=$hurl/black.jpg\""),'class="image"');
+		$nloop .= enclose('div',enclo_s('img',"src=\"http://www.gravatar.com/avatar/".$address."?d=$hurl/black.jpg\""),'class="image"');
 	}
 	}
         $nloop .= enclose('div',enclose('a',$line2['title'],'href="'.$hurl.'/show/'.$line['id'].'"'),'class="title"');
