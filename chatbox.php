@@ -15,7 +15,6 @@ $query = 'SELECT id,title,date,intro,commentable,image,ip,useragent
 	FROM '.$db_prefix.'data
 	WHERE section = "'.$cat.'"
 		AND moderated != 1
-		AND rating >= -50
 	ORDER BY sticky ASC,lastupd DESC, date DESC ';
 if ($id != "0") { $query .= ' LIMIT '.$id; }
 
@@ -44,11 +43,10 @@ if ($result) {
       }
       else { $loop .= enclose('div',enclose('a','No more comments','href="'.$hurl.'/show/'.$line['id'].'"'),'class="foot"'); }
     if (comments($line['id']) >= 1) {
-      $query2 = 'SELECT id,title,date,intro,image
+      $query2 = 'SELECT id,title,date,intro,image,ip,useragent
         FROM '.$db_prefix.'data
         WHERE moderated != 1
           AND commentref="'.$line['id'].'"
-          AND rating >= -50
         ORDER BY sticky ASC, date DESC
         LIMIT 1';
       $result2 = $db->fetch($query2,$cache_time,$cat.$line['id']."1com");
@@ -58,7 +56,8 @@ if ($result) {
         $rate = NULL;
         $nloop .= enclose('div',get_day($line2['date']),'class="bigdate"');
         $nloop .= enclose('div',enclose('a',$line2['title'],'href="'.$hurl.'/show/'.$line['id'].'"'),'class="title"');
-        $nloop .= enclose('div',$line2['date'],'class="date"');
+	if (levenshtein($line2['ip'],$_SERVER['REMOTE_ADDR']) <= 25 && levenshtein($line2['useragent'],$_SERVER['HTTP_USER_AGENT']) <= 50) { $edit = enclose('a','edit','href="'.$hurl.'/e/'.$line2['id'].'#edit" onclick="return hs.htmlExpand(this, { objectType: \'ajax\'} )"'); } else { $edit = NULL; }
+        $nloop .= enclose('div',$line2['date'].$edit,'class="date"');
         $line2['intro'] .= show_pic($line2['image']);
         $nloop .= enclose('div',fixup(nl2br(html_entity_decode($line2['intro']))),'class="text"');
         if (comments($line['id']) != 1) { $comment = 's'; } else { $comment = NULL; }

@@ -32,7 +32,7 @@
 	
 	$nqry = 'UPDATE '.$db_prefix.'data SET title = "'.$title.'", intro = "'.$intro.'", image = "'.$image.'" WHERE id = '.$id.' LIMIT 1';
 
-	if(check_transaction_key($transaction_key)){	$db->exec($nqry) or die($db->log); }
+	if(check_transaction_key($transaction_key)){	$db->exec($nqry); }
 	header('Location:'.$hurl.'/show/'.$id);
 	}
 	if ($action == 'delete'){
