@@ -35,7 +35,7 @@ if ($id != "" && $cat == "comments" && $id != "0")
 	if ($id >= 1) { $query .='LIMIT '.$id; $type .= $id; }
 		else { $query .='LIMIT 20'; $type .= 20; }
 	}
-$result = $db->fetch($query,60*60,$type);
+$result = $db->fetch($query,60*60,"rss".$type);
 
 $return = NULL;
 $channel = NULL;
@@ -50,8 +50,14 @@ $nl = array("\r\n","\n","\r");
 if ($result) {
   foreach($result as $line) {
     $item = NULL;
-    $item .= enclose('author',str_replace($nl,"",$line['section']));
+    if ( preg_match("/\s?[^@]+\@.*?$/",$line['title']) ) {
+    	$name = explode(" ",$line['title']);
+	$address = array_pop($name);
+	$line['title'] = implode(" ",$name);
+	if (!$line['title']) { $line['title'] = preg_replace("/([^@]+)\@.*?$/","$1",$address);  }
+  }
     $item .= enclose('title',str_replace($nl,"",$line['title']));
+    $item .= enclose('author',str_replace($nl,"",$line['section']));
     $item .= enclose('description',str_replace($nl,"",$line['intro']));
     $item .= enclose('pubDate',date('r',strtotime($line['date'])));
     if ($cat == "comments") { $perm = $id; }
