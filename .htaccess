@@ -6,6 +6,7 @@ RewriteCond %{REQUEST_METHOD} ^POST$
 RewriteRule ^addnew.php - [F]
 
 RewriteCond %{HTTP_REFERER} !^http://(www\.)?192\.168\.2\.6 [NC]
+RewriteCond %{HTTP_REFERER} !^$
 RewriteRule ^.* / [R]
 
 RewriteCond %{REQUEST_FILENAME} !-f
