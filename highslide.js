@@ -29,7 +29,7 @@ Your fair use and other rights are in no way affected by the above.
 var hs = {
 
 // Apply your own settings here, or override them in the html file.  
-graphicsDir : 'highslide/graphics/',
+graphicsDir : 'graphics/',
 restoreCursor : 'zoomout.cur', // necessary for preload
 expandSteps : 10, // number of steps in zoom. Each step lasts for duration/step milliseconds.
 expandDuration : 250, // milliseconds
@@ -41,7 +41,7 @@ marginTop : 15,
 marginBottom : 15,
 zIndexCounter : 1001, // adjust to other absolutely positioned elements
 
-restoreTitle : 'Click to close image, click and drag to move. Use arrow keys for next and previous.',
+restoreTitle : 'Click to close, drag to move. Arrow keys for next and previous.',
 loadingText : 'Loading...',
 loadingTitle : 'Click to cancel',
 loadingOpacity : 0.75,
@@ -55,7 +55,7 @@ outlineStartOffset : 3, // ends at 10
 fullExpandTitle : 'Expand to actual size',
 fullExpandPosition : 'bottom right',
 fullExpandOpacity : 1,
-showCredits : true, // you can set this to false if you want
+showCredits : false, // you can set this to false if you want
 creditsText : 'Powered by <i>Highslide JS</i>',
 creditsHref : 'http://vikjavev.no/highslide/',
 creditsTitle : 'Go to the Highslide JS homepage',
