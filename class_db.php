@@ -77,25 +77,6 @@ class db {
           return false;
         }
         break;
-      case "postgres":
-        if (!$this->cnn = pg_connect("host=$this->server dbname=$this->dbuser=$user password=$pwd")) {
-          $this->log .= "pg_connect() failed<br />";
-          $this->log .= pg_last_error()."<br />";
-          return false;
-        }
-        break;
-      case "mssql":
-        if (!$this->cnn = mssql_connect($this->server,$user,$pwd )) {
-          $this->log .= "mssql_connect() failed<br />";
-          $this->log .= mssql_error()."<br />";
-          return false;
-        }
-        if (!mssql_select_db($this->db,$this->cnn)) {
-          $this->log .= "Could not select database named ".$this->db."<br />";
-          $this->log .= mssql_error()."<br />";
-          return false;
-        }
-        break;
     }
     return true;
   }
@@ -166,20 +147,6 @@ class db {
           return false;
         }
         break;
-      case "postgres":
-        if (!$res = @pg_query($this->cnn, $this->sql)) {
-          $this->log .= "Query execution failed.<br />";
-          $this->log .= pg_last_error()."<br />";
-          return false;
-        }
-        break;
-      case "mssql":
-        if (!$res = @mssql_query($this->sql, $this->cnn)) {
-          $this->log .= "Query execution failed.<br />";
-          $this->log .= mssql_error()."<br />";
-          return false;
-        }
-        break;
     }
 
     /*
@@ -190,16 +157,6 @@ class db {
       case "mysql":
         $this->last_id = mysql_insert_id();
         $this->rows_affected = mysql_affected_rows($this->cnn);
-        $this->log .= $this->rows_affected." rows affected<br />";
-        return $this->rows_affected;
-      case "postgres":
-        $this->last_id = pg_last_oid($res);
-        $this->rows_affected = pg_affected_rows($res);
-        $this->log .= $this->rows_affected." rows affected<br />";
-        return $this->rows_affected;
-      case "mssql":
-        $this->last_id = @mssql_result(@mysql_query("select SCOPE_IDENTITY()"),0,0);
-        $this->rows_affected = mssql_rows_affected($this->cnn);
         $this->log .= $this->rows_affected." rows affected<br />";
         return $this->rows_affected;
     }
@@ -314,27 +271,6 @@ class db {
           return false;
         }
         while ($row = mysql_fetch_array($res, MYSQL_ASSOC)) {
-          $data[] = $row;
-        }
-        break;
-      case "postgres":
-        if (!$res = @pg_query($this->cnn, $this->sql)) {
-          $this->log .= "Query execution failed.<br />";
-          $this->log .= pg_last_error()."<br />";
-          return false;
-        }
-        if (!$data = @pg_fetch_all($res)) {
-          $this->log .= "getFromDB() failed<br />";
-          return false;
-        }
-        break;
-      case "mssql":
-        if (!$res = @mssql_query($this->sql, $this->cnn)) {
-          $this->log .= "Query execution failed.<br />";
-          $this->log .= mssql_error()."<br />";
-          return false;
-        }
-        while ($row = mssql_fetch_array($res)) {
           $data[] = $row;
         }
         break;
