@@ -32,6 +32,7 @@ function postbox($cat,$id) {
   global $hurl, $accept;
   $box = NULL;
   $name = "form_form";
+  if ($cat == "comments") { $ct = 0; } else { $ct = 0; }
   if ($id != 0) { $box = enclo_s('input','type="hidden" name="commentref" value="'.$id.'"'); }
     $box .= enclo_s('input','type="hidden" name="cat" value="'.$cat.'"');
     $box .= enclo_s('input','type="hidden" name="moderated"');
