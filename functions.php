@@ -57,6 +57,7 @@ function fixup($text) {
   }
   $textrep = array(
     '%\[\[([^\|]*?)\]\]%'=>'[[$1|-link-]]',
+    '%\[\[#(.*?)@(irc\.[.*?])%i'=>"[[irc://$2/$1|#$1@$2]]",
     '%\[\[(.*?)\|(.*?)\]\]%'=>'<a href="$1" title="$1" >$2</a>',
     '%\{\{(.*?)\|(.*?)\}\}%'=>'<a href="$2" class="highslide" rel="highslide" onclick="return hs.expand(this)" ><img src="$1" /></a>',
     '%\{\{(.*?)\}\}%'=>'<a href="$1" class="highslide" rel="highslide" onclick="return hs.expand(this)" ><img src="$1" /></a>',
