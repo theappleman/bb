@@ -11,7 +11,7 @@ $_REQUEST = array(NULL);
 
 if ($id == "") { $id = "10"; }
 if ($page != "") { $id = $page*$id . ', ' . $id; }
-$query = 'SELECT id,title,date,intro,commentable,image
+$query = 'SELECT id,title,date,intro,commentable,image,ip,useragent
 	FROM '.$db_prefix.'data
 	WHERE section = "'.$cat.'"
 		AND moderated != 1
@@ -32,10 +32,11 @@ if ($result) {
     $loop = NULL; $foot = NULL; $comments = NULL; $rate = NULL;
 
     $loop .= enclose('div',get_day($line['date']),'class="bigdate"');
-    $loop .= enclose('div',enclose('a',html_entity_decode($line['title']),'href="'.$hurl.'/show/'.$line['id'].'"'),'class="title"');
+    if (levenshtein($line['ip'],$_SERVER['REMOTE_ADDR']) <= 25 && levenshtein($line['useragent'],$_SERVER['HTTP_USER_AGENT']) <= 50) { $loop = enclose('a',$loop,'href="'.$hurl.'/e/'.$line['id'].'#edit" onclick="return hs.htmlExpand(this, { objectType: \'ajax\'} )"'); }
+    $loop .= enclose('div',enclose('a',$line['title'],'href="'.$hurl.'/show/'.$line['id'].'"'),'class="title"');
     $loop .= enclose('div',$line['date'],'class="date"');
     $line['intro'] .= show_pic($line['image']);
-    $loop .= enclose('div',nl2br(fixup(html_entity_decode($line['intro']))),'class="text"');
+    $loop .= enclose('div',fixup(nl2br($line['intro'])),'class="text"');
     if ($line['commentable'] == 2) {
         $loop .= enclose('div',
           enclose('a','Post a comment','href="'.$hurl.'/p/comments/'.$line['id'].'#postbox" onclick="return hs.htmlExpand(this, { objectType: \'ajax\'} )"'),
@@ -56,10 +57,10 @@ if ($result) {
         $foot = NULL;
         $rate = NULL;
         $nloop .= enclose('div',get_day($line2['date']),'class="bigdate"');
-        $nloop .= enclose('div',enclose('a',html_entity_decode($line2['title']),'href="'.$hurl.'/show/'.$line['id'].'"'),'class="title"');
+        $nloop .= enclose('div',enclose('a',$line2['title'],'href="'.$hurl.'/show/'.$line['id'].'"'),'class="title"');
         $nloop .= enclose('div',$line2['date'],'class="date"');
         $line2['intro'] .= show_pic($line2['image']);
-        $nloop .= enclose('div',nl2br(fixup(html_entity_decode($line2['intro']))),'class="text"');
+        $nloop .= enclose('div',fixup(nl2br(html_entity_decode($line2['intro']))),'class="text"');
         if (comments($line['id']) != 1) { $comment = 's'; } else { $comment = NULL; }
         $foot .= enclose('a',comments($line['id']). ' comment'.$comment,'href="'.$hurl.'/show/'.$line['id'].'#comments" onclick="return hs.htmlExpand(this, { objectType: \'ajax\'} )"');
         $nloop .= enclose('div',$foot,'class="foot"');

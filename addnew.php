@@ -6,6 +6,9 @@ require_once('functions.php');
 
 $allowed = true;
 
+$ip = $_SERVER['REMOTE_ADDR'];
+$useragent = $_SERVER['HTTP_USER_AGENT'];
+
 if (isset($_POST['reset'])) { $date = date($datefmt); }
 else {
 	if ($_POST['date'] != "") { $date = htmlspecialchars($_POST['date']); }
@@ -47,7 +50,7 @@ if (is_uploaded_file($_FILES['userfile']['tmp_name']) && is_image($_FILES['userf
 if($allowed == true) {
 	if (check_transaction_key($transaction_key)) {
 		$db->exec('INSERT INTO '.$db_prefix.'data
-			(title,section, date,lastupd, intro, image, moderated, commentable, commentref,sticky,rateable)
+			(title,section, date,lastupd, intro, image, moderated, commentable, commentref,sticky,ip,useragent)
 			VALUES ("' . $title . '",
 				"'. $cat .'",
 				"'.$date.'",
@@ -58,14 +61,15 @@ if($allowed == true) {
 				"' . $commentable . '",
 				"' . $commentref . '",
 				"'.$sticky.'",
-				"'.$rateable.'"
+				"'.$ip.'",
+				"'.$useragent.'"
 				)') or die('Sorry, there was a problem and your post could not be completed. ' .mysql_error() );
 	} else { exit("Double post detected!"); }
 } else { echo "$title - $intro - ";
 exit("There has been an error and you cannot post.");}
 
 if ($commentref == 0) {
-	$db->fetch('SELECT title,date,intro,commentable,rateable,rating,image
+	$db->fetch('SELECT title,date,intro,commentable,image,ip,useragent
 	FROM '.$db_prefix.'data
   WHERE id ="' . $db->last_id . '"
 	WHERE
@@ -73,7 +77,7 @@ if ($commentref == 0) {
   header('Location:'.$hurl.'/show/'.$db->last_id);
 } else {
 $db->exec('UPDATE '.$db_prefix.'data SET lastupd = "'.date($datefmt).'" WHERE id = "'.$commentref.'" LIMIT 1') or die('Could not update post time (don\'t worry, your post has gone through).');
-$query2 = 'SELECT id,title,date,intro,rateable,rating,commentable,image
+$query2 = 'SELECT id,title,date,intro,commentable,image,ip,useragent
 	FROM '.$db_prefix.'data
 	WHERE moderated != 1
 		AND commentref="'.$commentref.'"
