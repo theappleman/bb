@@ -32,12 +32,12 @@ function postbox($cat,$id) {
   global $hurl, $accept;
   $box = NULL;
   $name = "form_form";
-  if ($cat == "comments") { $ct = 0; } else { $ct = 0; }
+  if ($cat == "comments") { $ct = 0; } else { $ct = 2; }
   if ($id != 0) { $box = enclo_s('input','type="hidden" name="commentref" value="'.$id.'"'); }
     $box .= enclo_s('input','type="hidden" name="cat" value="'.$cat.'"');
     $box .= enclo_s('input','type="hidden" name="moderated"');
     $box .= enclo_s('input','type="hidden" name="transaction_key" value="'.get_transaction_key().'"');
-    $box .= enclo_s('input','type="hidden" name="commentable" value="2"');
+    $box .= enclo_s('input','type="hidden" name="commentable" value="'.$ct.'"');
 		$box .= enclose('p','Name: '.enclo_s('input','name="title" tabindex="1" accesskey="q"').'&nbsp;'.enclo_s('input','type="file" accesskey="s" name="userfile" tabindex="3" accept="'.$accept.'"'),'class="name"');
 		$box .= enclose('textarea','','name="intro" rows="5" columns="100" tabindex="2" accesskey="w"');
 		$box .= enclose('div',enclo_s('input','type="submit" value="Lets go!"').enclo_s('input','type="reset" value="Reset"'),'class="foot"');
