@@ -27,7 +27,6 @@ $uploaddir = ''; // world writable folder for uploaded images. System absolute p
 // thumbnail max sizes DO NOT SET $height TO 0 (ZERO)
 $width = 200;
 $height = 200;
-$filtertype = NULL; // Leave blank for no filter. PHP 5+
 
 // text replacements
 $patterns = array(''=>'');
