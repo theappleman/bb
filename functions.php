@@ -7,13 +7,17 @@ require_once('class_db.php');
 $db = new db();
 
 function fixup($text) {
-  $text = preg_replace("%bug #(\d+)%i","<a href=\"http://bugs.theappleman.me.uk/task/$1\">bug #$1</a>",$text); // bug tracker
-  $text = preg_replace("%\[\[(.*?)\|(.*?)\]\]%","<a href=\"$1\">$2</a>",$text); // [[URL|text]] => <a href="URL">text</a>
-  $text = preg_replace("%\{\{(.*?)\|(.*?)\}\}%","<a href=\"$2\"><img src=\"$1\" /></a>",$text); // image with URL
-  $text = preg_replace("%\{\{(.*?)\}\}%","<img src=\"$1\" />",$text); // just image
+  global $patterns, $replacements;
+
+  $text = preg_replace($patterns,$replacements,$text);
+
+  $text = preg_replace("%\{\{(.*?)\|(.*?)\}\}%","[[$2|{{$1}}",$text); // image with URL // {{imgURL|URL}}
+  $text = preg_replace("%\[\[(.*?)\|(.*?)\]\]%","<a href=\"$1\" title=\"$1\" >$2</a>",$text); // [[URL|text]] => <a href="URL">text</a>
+  $text = preg_replace("%\{\{(.*?)\}\}%","<img src=\"$1\" class=\"highslide\" onclick=\"return hs.expand(this)\" />",$text); // just image {{imgURL}}
+
   $text = preg_replace("%\s\s+%"," ",$text); // remove whitespace
   $text = preg_replace("%\*(.*?)\*%","<b>*$1*</b>",$text); // *bold* => <b>bold</b>
-  $text = preg_replace("%\s\/(.*?)\/\s%","<i>$1</i>&nbsp;",$text); // /italic/ => <i>italic</i>
+  $text = preg_replace("%\s\/(.*?)\/\s%","<i>$1</i>&nbsp;",$text); // /italic/ => <i>italic</i> // whitespace is required
   return $text;
  }
 
@@ -115,9 +119,10 @@ function make_thumb($filename) {
 
 function head($cat,$id) {
   global $style, $sitename, $hurl;
-	$meta = enclose('link','','rel="stylesheet" href="'.$hurl.'/'.$style.'.css" type="text/css" title="default"');
+	$meta = enclose('link','','rel="stylesheet" href="'.$hurl.'/'.$style.'.php" type="text/css" title="default"');
   $meta .= enclose('link','','rel="alternate" type="application/rss+xml" href="'.$hurl.'/rss/'.$cat.'/'.$id.'" title="' . $sitename . ' feed"');
   $meta .= enclose('script','','src="'.$hurl.'/ie7-standard-p.js" type="text/javascript"');
+  $meta .= enclose('script','','src="'.$hurl.'/highslide.js type="text/javascript"');
   $meta .= enclose('script','','src="'.$hurl.'/gen_validatorv2.js" type="text/javascript"');
 	return $meta;
 }

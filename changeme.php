@@ -28,6 +28,10 @@ $uploaddir = ''; // world writable folder for uploaded images. System absolute p
 $width = 200;
 $height = 200;
 
+// text replacements
+$patterns = array("%\[\[(.*?)\]\]%","%bug #(\d+)%i");
+$replacements = array("[[http://wiki.theappleman.me.uk/$1|$1]]","[[http://bugs.theappleman.me.uk/task/$1|bug #$1]]");
+
 // the following variables
 // are used for header bits and the RSS feed
 $email = "";
