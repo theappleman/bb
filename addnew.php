@@ -25,7 +25,7 @@ if ($_POST['cat'] == "other") {
 } else { $cat = $_POST['cat']; }
 
 if ($_POST['title']) { 
-	if ( preg_match("/[^@]+\@.*?$/",$_POST['title']) ) {
+	if ( preg_match("/[^@]+\@.*\..*$/",$_POST['title']) ) {
 		$name = explode(" ",$_POST['title']);
 	        $address = array_pop($name);
 		$title = strip_tags(htmlspecialchars(implode(" ",$name)));
