@@ -11,7 +11,7 @@ $_REQUEST = array(NULL);
 
 if ($id == "") { $id = "10"; }
 if ($page != "") { $id = $page*$id . ', ' . $id; }
-$query = 'SELECT id,title,date,intro,commentable,rateable,rating,image
+$query = 'SELECT id,title,date,intro,commentable,image
 	FROM '.$db_prefix.'data
 	WHERE section = "'.$cat.'"
 		AND moderated != 1
@@ -34,7 +34,6 @@ if ($result) {
     $loop .= enclose('div',get_day($line['date']),'class="bigdate"');
     $loop .= enclose('div',enclose('a',html_entity_decode($line['title']),'href="'.$hurl.'/show/'.$line['id'].'"'),'class="title"');
     $loop .= enclose('div',$line['date'],'class="date"');
-    if ($line['rateable'] != 1) { $loop .= enclose('div',chrate($line['id']),'class="rate"'); }
     $line['intro'] .= show_pic($line['image']);
     $loop .= enclose('div',nl2br(fixup(html_entity_decode($line['intro']))),'class="text"');
     if ($line['commentable'] == 2) {
@@ -44,7 +43,7 @@ if ($result) {
       }
       else { $loop .= enclose('div',enclose('a','No more comments','href="'.$hurl.'/show/'.$line['id'].'"'),'class="foot"'); }
     if (comments($line['id']) >= 1) {
-      $query2 = 'SELECT id,title,date,intro,rateable,rating,image
+      $query2 = 'SELECT id,title,date,intro,image
         FROM '.$db_prefix.'data
         WHERE moderated != 1
           AND commentref="'.$line['id'].'"
@@ -59,7 +58,6 @@ if ($result) {
         $nloop .= enclose('div',get_day($line2['date']),'class="bigdate"');
         $nloop .= enclose('div',enclose('a',html_entity_decode($line2['title']),'href="'.$hurl.'/show/'.$line['id'].'"'),'class="title"');
         $nloop .= enclose('div',$line2['date'],'class="date"');
-        if ($line2['rateable'] != 1) { $nloop .= enclose('div',chrate($line2['id']),'class="rate"'); }
         $line2['intro'] .= show_pic($line2['image']);
         $nloop .= enclose('div',nl2br(fixup(html_entity_decode($line2['intro']))),'class="text"');
         if (comments($line['id']) != 1) { $comment = 's'; } else { $comment = NULL; }

@@ -7,12 +7,12 @@ require_once('functions.php');
 $id = $_REQUEST['id'];
 $_REQUEST = array(NULL);
 
-$query = 'SELECT title,date,intro,commentable,rateable,rating,image
+$query = 'SELECT title,date,intro,commentable,image
 	FROM '.$db_prefix.'data
 	WHERE id ="' . $id . '"
 	LIMIT 1';
 $result = $db->fetch($query,$cache_time,$id);
-$query2 = 'SELECT id,title,date,intro,rateable,rating,commentable,image
+$query2 = 'SELECT title,date,intro,image
 	FROM '.$db_prefix.'data
 	WHERE moderated != 1
 		AND commentref="'.$id.'"
@@ -31,7 +31,6 @@ if ($result) {
   $entry .= enclose('div',get_day($line['date']),'class="bigdate"');
   $entry .= enclose('div',enclose('a',html_entity_decode($line['title']),'href="'.$hurl.'/show/'.$id.'"'),'class="title"');
   $entry .= enclose('div',$line['date'],'class="date"');
-  if ($line['rateable'] != 1) { $entry .= enclose('div',chrate($id),'class="rate"'); }
   $line['intro'] .= show_pic($line['image']);
   $entry .= enclose('div',nl2br(fixup(html_entity_decode($line['intro']))),'class="text"');
   if ($line['commentable'] >= 1) {
@@ -42,31 +41,29 @@ if ($result) {
   $body .= enclose('div',$entry,'class="entry"');
 
   if ($line['commentable'] >= 1) {
-    if ($result2) { foreach($result2 as $line2) {
-      $loop = NULL;
-      $foot = NULL;
-      $rate = NULL;
-      $com_num += 1;
-      $loop .= enclose('div',get_day($line2['date']),'class="bigdate"');
-      $loop .= enclose('div',enclose('a',html_entity_decode($line2['title']),''),'class="title"');
-      $foot .= enclose('div',$line2['date'],'class="date"');
-      if ($line2['rateable'] != 1) { $loop .= enclose('div',chrate($line2['id']),'class="rate"'); }
-      $line2['intro'] .= show_pic($line2['image']);
-      $loop .= enclose('div',nl2br(fixup(html_entity_decode($line2['intro']))),'class="text"');
-      if ($line2['commentable'] >= 1) {
-        if (comments($line2['id']) != 1) { $comment = 's'; } else { $comment = NULL; }
-        $foot .= enclose('a',comments($line2['id']). ' comment'.$comment,'href="'.$hurl.'/show/'.$line2['id'].'"');
-      }
-      $loop .= enclose('div',$foot,'class="foot"');
-      $comments .= enclose('div',$loop,'class="entry"');
-    }
-    }
+    if ($result2) { 
+    	foreach($result2 as $line2) {
+      		$loop = NULL;
+      		$foot = NULL;
+                $rate = NULL;
+                $com_num += 1;
+                $loop .= enclose('div',get_day($line2['date']),'class="bigdate"');
+                $loop .= enclose('div',enclose('a',html_entity_decode($line2['title']),''),'class="title"');
+                $foot .= enclose('div',$line2['date'],'class="date"');
+                $line2['intro'] .= show_pic($line2['image']);
+                $loop .= enclose('div',nl2br(fixup(html_entity_decode($line2['intro']))),'class="text"');
+                $loop .= enclose('div',$foot,'class="foot"');
+                $comments .= enclose('div',$loop,'class="entry"');
+	}
+    	}
     $body .= enclose('div',$comments,'id="comments"');
     $bot .= enclose('div',$com_num,'class="bigdate"');
     if ($com_num != 1) { $pl = 's'; } else { $pl = NULL; }
     $bot .= enclose('div','comment'.$pl,'class="title"');
     $bot .= enclose('div',enclose('a','Comments through RSS feed','href="'.$hurl.'/rss/comments/'.$id.'"'),'class="text"');
-    if ($line['commentable'] == 2) { if ($line['commentable'] == 2) { $bot .= enclose('div',enclose('a','Post a comment','href="'.$hurl.'/p/comments/'.$id.'#postbox" onclick="return hs.htmlExpand(this, { objectType: \'ajax\'} )"'),'class="foot"'); } }
+    if ($line['commentable'] == 2) { 
+	$bot .= enclose('div',enclose('a','Post a comment','href="'.$hurl.'/p/comments/'.$id.'#postbox" onclick="return hs.htmlExpand(this, { objectType: \'ajax\'} )"'),'class="foot"'); 
+    }
     else { $bot .= enclose('div',enclose('a','No more comments',''),'class="foot"'); }
     $body .= enclose('div',$bot,'class="entry"');
   }

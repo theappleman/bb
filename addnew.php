@@ -16,8 +16,6 @@ if (isset($_POST['moderated'])) { $moderated = 0; }	else { $moderated = 1; }
 if (isset($_POST['sticky'])) { $sticky = 0; } else { $sticky = 1; }
 if (isset($_POST['commentable'])) { $commentable = $_POST['commentable']; } else { $commentable = 0; }
 
-if (isset($_POST['rateable'])) { $rateable = 0; } else { $rateable = 1; }
-
 if (isset($_POST['commentref']) && $_POST['commentref'] != 0) { $commentref = $_POST['commentref']; } else { $commentref=0; }
 
 if ($_POST['cat'] == "") { $allowed = false; }
@@ -28,13 +26,13 @@ if ($_POST['cat'] == "other") {
 	} else { $cat = "other"; }
 } else { $cat = $_POST['cat']; }
 
-$title = htmlentities(strip_tags($_POST['title']));
-$intro = htmlentities(strip_tags($_POST['intro']));
+if ($_POST['title']) { $title = strip_tags($_POST['title']); } else { $allowed = false; $title = $_POST['title']; }
+if ($_POST['intro']) { $intro = strip_tags($_POST['intro']); } else { $allowed = false; $intro = $_POST['intro']; }
 
 if ( preg_match("%\[URL=.*?\].*?\[/URL\]%i",$intro) ) { $allowed = false; }
 
 $transaction_key = $_POST['transaction_key'];
-$_REQUEST = array(NULL);
+$_REQUEST[] = array();
 
 if (is_uploaded_file($_FILES['userfile']['tmp_name']) && is_image($_FILES['userfile']['tmp_name']) ) {
 		$rand = mt_rand();
@@ -63,7 +61,8 @@ if($allowed == true) {
 				"'.$rateable.'"
 				)') or die('Sorry, there was a problem and your post could not be completed. ' .mysql_error() );
 	} else { exit("Double post detected!"); }
-} else { exit("There has been an error and you cannot post."); }
+} else { echo "$title - $intro - ";
+exit("There has been an error and you cannot post.");}
 
 if ($commentref == 0) {
 	$db->fetch('SELECT title,date,intro,commentable,rateable,rating,image
