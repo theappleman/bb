@@ -33,6 +33,7 @@ function fixup($text) {
     $text = preg_replace($key,$value,$text);
   }
   $textrep = array(
+    '%\[\[(.*?)\]\]'=>'[[$1|-link-]]',
     '%\[\[(.*?)\|(.*?)\]\]%'=>'<a href="$1" title="$1" >$2</a>',
     '%\{\{(.*?)\|(.*?)\}\}%'=>'<a href="$2" class="highslide" rel="highslide" onclick="return hs.expand(this)" ><img src="$1" /></a>',
     '%\{\{(.*?)\}\}%'=>'<a href="$1" class="highslide" rel="highslide" onclick="return hs.expand(this)" ><img src="$1" /></a>',
@@ -54,10 +55,10 @@ function fixup($text) {
 function show_pic($image) {
   global $uploaddir, $hurl;
   if ($image != "" && is_image($uploaddir.$image)) {
-    list($thumb,$rand,$filename) = explode('-',$image,3);
-    if($thumb == "thumb" && is_image($uploaddir."thumb-" . $rand . '-' . $filename)) {
-      $thumbname = "thumb-" . $rand . '-' . $filename;
-      $filename = $rand . '-' . $filename;
+    list($thumb,$rand) = explode('-',$image,2);
+    if($thumb == "thumb" && is_image($uploaddir."thumb-" . $rand)) {
+      $thumbname = "thumb-" . $rand;
+      $filename = $rand;
     } else {
       $thumbname = $image;
       $filename = $image;

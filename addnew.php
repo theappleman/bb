@@ -34,9 +34,17 @@ if ( preg_match("%\[URL=.*?\].*?\[/URL\]%i",$intro) ) { $allowed = false; }
 $transaction_key = $_POST['transaction_key'];
 $_REQUEST[] = array();
 
-if (is_uploaded_file($_FILES['userfile']['tmp_name']) && is_image($_FILES['userfile']['tmp_name']) ) {
+if (is_uploaded_file($_FILES['userfile']['tmp_name']) && $type = is_image($_FILES['userfile']['tmp_name']) ) {
 		$rand = mt_rand();
-		$uploadfilename = $rand . '-' . basename($_FILES['userfile']['name']);
+		switch($type) {
+			case "image/jpeg": $type = ".jpg";
+			break;
+			case "image/gif": $type=".gif";
+			break;
+			case "image/png": $type=".png";
+			break;
+		}
+		$uploadfilename = $rand.$type;
 		$uploadfile = $uploaddir . $uploadfilename;
 		if (move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile)) {
       if(make_thumb($uploadfilename)) { $thumb = "thumb-"; } else { $thumb = NULL; }
