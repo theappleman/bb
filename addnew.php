@@ -27,8 +27,8 @@ if ($_POST['cat'] == "other") {
 	} else { $cat = "other"; }
 } else { $cat = $_POST['cat']; }
 
-$title = strip_tags(htmlentities($_POST['title']));
-$intro = strip_tags(htmlentities($_POST['intro']),"<a>");
+$title = htmlentities(strip_tags($_POST['title']));
+$intro = htmlentities(strip_tags($_POST['intro']));
 
 $transaction_key = $_POST['transaction_key'];
 $sess_id = $_POST['session_id'];
