@@ -10,7 +10,7 @@ $page = $_REQUEST['page'];
 $_REQUEST = array(NULL);
 
 if ($id == "") { $id = "10"; }
-if ($page != "") { $id = $page*$id . ',' . $id; }
+if ($page != "") { $id = $id . ' OFFSET ' . $page*$id; }
 $query = 'SELECT id,title,date,intro,commentable,image
 	FROM '.$db_prefix.'data
 	WHERE section = "'.$cat.'"
@@ -46,7 +46,7 @@ if ($result) {
         WHERE commentref="'.$line['id'].'"
         ORDER BY sticky ASC, date DESC
         LIMIT 1';
-      $result2 = $db->fetch($query2,$cache_time,$cat.$line['id']."1com");
+      $result2 = $db->fetch($query2,$cache_time,$line['id']."1com");
       foreach($result2 as $line2) {
         $nloop = NULL;
         $foot = NULL;
