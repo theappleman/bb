@@ -271,9 +271,6 @@ getElementByClass : function (el, tagName, className) {
 getSelfRendered : function() {
 	var s =
 		 '<div class="highslide-header"><ul>'
-		+	'<li class="highslide-previous"><a onclick="return hs.previous(this)" href="#">'+ hs.previousText +'</a></li>'
-		+	'<li class="highslide-next"><a onclick="return hs.next(this)" href="#">'+ hs.nextText +'</a></li>'
-		+	'<li class="highslide-move"><a href="#" onclick="return false">'+ hs.moveText +'</a></li>'
 		+	'<li class="highslide-close"><a onclick="return hs.close(this)" title="'+ hs.closeTitle +'" href="#">'
 			+ hs.closeText +'</a></li>'
 		+'</ul></div>'

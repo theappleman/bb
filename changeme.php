@@ -62,7 +62,7 @@ CREATE TABLE IF NOT EXISTS `data` (
   `commentref` bigint(4) unsigned default NULL COMMENT 'ID of entry that the comment belongs to',
   `sticky` tinyint(1) NOT NULL default '1' COMMENT 'sticky flag, shows as the top',
   `ip` varchar(50) collate utf8_unicode_ci NOT NULL COMMENT 'IP address of the poster',
-  `useragent` varchar(100) collate utf8_unicode_ci NOT NULL COMMENT 'Posters User-Agent',
+  `useragent` varchar(255) collate utf8_unicode_ci NOT NULL COMMENT 'Posters User-Agent',
   PRIMARY KEY  (`id`)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='Main table for the website system';
 
