@@ -84,7 +84,7 @@ function is_image($filename) {
 }
 
 function make_thumb($filename) {
-  global $width, $height, $uploaddir;
+  global $width, $height, $uploaddir, $filtertype;
   $fullfile = $uploaddir . $filename;
   $thumbfile = $uploaddir . 'thumb-' . $filename;
 	if ($image_type = is_image($fullfile)) {
@@ -97,14 +97,17 @@ function make_thumb($filename) {
 		switch($image_type) {
 			case 'image/gif': $image = imagecreatefromgif($fullfile);
           imagecopyresampled($image_p, $image, 0, 0, 0, 0, $width, $height, $width_orig, $height_orig);
+	  if($filtertype) { imagefilter($image_p,$filtertype); }
           case 'image/gif': $image = imagegif($image_p,$thumbfile);
 				break;
 			case 'image/jpeg': $image = imagecreatefromjpeg($fullfile);
           imagecopyresampled($image_p, $image, 0, 0, 0, 0, $width, $height, $width_orig, $height_orig);
+	  if($filtertype) { imagefilter($image_p,$filtertype); }
           case 'image/jpeg': $image = imagejpeg($image_p,$thumbfile);
 				break;
 			case 'image/png': $image = imagecreatefrompng($fullfile);
           imagecopyresampled($image_p, $image, 0, 0, 0, 0, $width, $height, $width_orig, $height_orig);
+	  if($filtertype) { imagefilter($image_p,$filtertype); }
           case 'image/png': $image = imagepng($image_p,$thumbfile);
 				break;
 			default: exit("Somehow, there is an error");
