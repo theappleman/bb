@@ -15,7 +15,6 @@ $result = $db->fetch($query,$cache_time,$id);
 $query2 = 'SELECT id,title,date,intro,rateable,rating,commentable,image
 	FROM '.$db_prefix.'data
 	WHERE moderated != 1
-		AND date <= "'.date($datefmt).'"
 		AND commentref="'.$id.'"
 		AND rating >= -50
 	ORDER BY date ASC';

@@ -71,15 +71,13 @@ if ($commentref == 0) {
 	FROM '.$db_prefix.'data
 	WHERE section = "'.$cat.'"
 		AND moderated != 1
-		AND date <= "'.date($datefmt).'"
 		AND rating >= -50
-	ORDER BY sticky ASC,lastupd DESC, date DESC',0,single_section($cat));
+	ORDER BY sticky ASC,lastupd DESC, date DESC LIMIT 10',0,single_section($cat));
   header('Location:'.$hurl.'/'.single_section($cat));
 } else { $db->exec('UPDATE '.$db_prefix.'data SET lastupd = "'.date($datefmt).'" WHERE id = "'.$commentref.'" LIMIT 1') or die('Could not update post time (don\'t worry, your post has gone through).');
 $query2 = 'SELECT id,title,date,intro,rateable,rating,commentable,image
 	FROM '.$db_prefix.'data
 	WHERE moderated != 1
-		AND date <= "'.date($datefmt).'"
 		AND commentref="'.$id.'"
 		AND rating >= -50
 	ORDER BY date ASC';

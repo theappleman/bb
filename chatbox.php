@@ -15,7 +15,6 @@ $query = 'SELECT id,title,date,intro,commentable,rateable,rating,image
 	FROM '.$db_prefix.'data
 	WHERE section = "'.$cat.'"
 		AND moderated != 1
-		AND date <= "'.date($datefmt).'"
 		AND rating >= -50
 	ORDER BY sticky ASC,lastupd DESC, date DESC ';
 if ($id != "0") { $query .= ' LIMIT '.$id; }
@@ -47,7 +46,6 @@ if (comments($line['id']) >= 1) {
 		FROM '.$db_prefix.'data
 		WHERE moderated != 1
 			AND commentref="'.$line['id'].'"
-			AND date <= "'.date($datefmt).'"
 			AND rating >= -50
 		ORDER BY sticky ASC, date DESC
 		LIMIT 1';
