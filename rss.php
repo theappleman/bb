@@ -35,28 +35,28 @@ if ($id != "" && $cat == "comments" && $id != "0")
 	if ($id >= 1) { $query .='LIMIT '.$id; $type .= $id; }
 		else { $query .='LIMIT 20'; $type .= 20; }
 	}
-$result = $db->fetch($query,$cache_time,$type);
+$result = $db->fetch($query,60*60,$type);
 
 $return = NULL;
 $channel = NULL;
 
-$channel .= enclose('title',$sitename.' '.$cat,'');
-$channel .= enclose('link',$hurl,'');
-$channel .= enclose('description',$meta_desc,'');
-$channel .= enclose('language','en-gb','');
-$channel .= enclose('pubDate',date('r',strtotime(date($datefmt))),'');
+$channel .= enclose('title',$sitename.' '.$cat);
+$channel .= enclose('link',$hurl);
+$channel .= enclose('description',$meta_desc);
+$channel .= enclose('language','en-gb');
+$channel .= enclose('pubDate',date('r',strtotime(date($datefmt))));
 $channel .= enclo_s('atom:link','href="'.$hurl.$_SERVER['REQUEST_URI'].'" rel="self" type="application/rss+xml"');
 $nl = array("\r\n","\n","\r");
 if ($result) {
   foreach($result as $line) {
     $item = NULL;
-    $item .= enclose('title',strip_tags(str_replace($nl,"",html_entity_decode($line['title']))),'');
-    $item .= enclose('description',strip_tags(str_replace($nl,"",html_entity_decode($line['intro']))),'');
-    $item .= enclose('pubDate',date('r',strtotime($line['date'])),'');
+    $item .= enclose('title',str_replace($nl,"",$line['title']));
+    $item .= enclose('description',str_replace($nl,"",$line['intro']));
+    $item .= enclose('pubDate',date('r',strtotime($line['date'])));
     if ($cat == "comments") { $perm = $id; }
       else {	$perm = $line['id']; }
-    $item .= enclose('guid',$hurl.'/show/'.$perm,'');
-    $items .= enclose('item',$item,'');
+    $item .= enclose('guid',$hurl.'/show/'.$perm);
+    $items .= enclose('item',$item);
   }
 }
 $channel = enclose('channel',$channel.$items,'');

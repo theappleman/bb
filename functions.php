@@ -6,6 +6,12 @@ require_once('userconf.php');
 require_once('class_db.php');
 $db = new db();
 
+if (!function_exists("imagefilter")) {
+  function imagefilter($filter="") {
+    return true;
+   }
+}
+
 function postbox($cat,$id,$message="") {
 global $hurl, $accept;
   $box = NULL;
@@ -29,15 +35,17 @@ global $hurl, $accept;
  }
 function fixup($text) {
   global $patterns;
-  $text = preg_replace(array_keys($patterns),array_values($patterns),$text);
-  $patterns = array(
+  foreach($patterns as $key=>$value) {
+    $text = preg_replace($key,$value,$text);
+  }
+  $textrep = array(
     '%\[\[(.*?)\|(.*?)\]\]%'=>'<a href="$1" title="$1" >$2</a>',
     '%\{\{(.*?)\|(.*?)\}\}%'=>'<a href="$2" class="highslide" rel="highslide" onclick="return hs.expand(this)" ><img src="$1" /></a>',
     '%\{\{(.*?)\}\}%'=>'<a href="$1" class="highslide" rel="highslide" onclick="return hs.expand(this)" ><img src="$1" /></a>',
     '%\s\s+%'=>' ',
     '%\*(.*?)\*%'=>'<b>*$1*</b>'
     );
-  $text = preg_replace(array_keys($patterns),array_values($patterns),$text);
+  $text = preg_replace(array_keys($textrep),array_values($textrep),$text);
   return $text;
  }
 
@@ -121,7 +129,7 @@ function head($cat="",$id="") {
   $meta .= enclose('script','','src="'.$hurl.'/ie7-standard-p.js" type="text/javascript"');
   $meta .= enclose('script','','src="'.$hurl.'/highslide.js" type="text/javascript"');
   $meta .= enclose('script','','src="'.$hurl.'/gen_validatorv2.js" type="text/javascript"');
-  $meta .= enclose('script','hs.graphicsDir = "'.$hurl.'/graphics/"; hs.outlineType = "outer-glow";','type="text/javascript"');
+  $meta .= enclose('script','hs.graphicsDir = "'.$hurl.'/graphics/";','type="text/javascript"');
 	return $meta;
 }
 

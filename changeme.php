@@ -13,7 +13,7 @@ $cache_time = "300"; // TTL. Don't set this too high.
 
 $sitename = ""; // Kinda obvious? unless you can't read that...
 $hurl = ""; // It is best to set this. Very rarely it is ok to leave it blank. Base URL.
-$datefmt = "Y-m-d H:i:s";
+$datefmt = "Y-m-d H:i:s"; // Another valid format is "c".
 $default = ""; // default category.
 $style = ""; // stylesheet name
 
@@ -27,6 +27,7 @@ $uploaddir = ''; // world writable folder for uploaded images. System absolute p
 // thumbnail max sizes DO NOT SET $height TO 0 (ZERO)
 $width = 200;
 $height = 200;
+$filtertype = NULL; // Leave blank for no filter. PHP 5+
 
 // text replacements
 $patterns = array(''=>'');

@@ -27,8 +27,8 @@ if ($_POST['cat'] == "other") {
 	} else { $cat = "other"; }
 } else { $cat = $_POST['cat']; }
 
-if ($_POST['title']) { $title = strip_tags($_POST['title']); } else { $allowed = false; $title = $_POST['title']; }
-if ($_POST['intro']) { $intro = strip_tags($_POST['intro']); } else { $allowed = false; $intro = $_POST['intro']; }
+if ($_POST['title']) { $title = htmlentities(strip_tags($_POST['title'])); } else { $allowed = false; $title = $_POST['title']; }
+if ($_POST['intro']) { $intro = htmlentities(strip_tags($_POST['intro'])); } else { $allowed = false; $intro = $_POST['intro']; }
 
 if ($title == "" or $intro == "") { $allowed = false; }
 

@@ -69,7 +69,7 @@ slideshowGroup : null, // defines groups for next/previous links and keystrokes
 minWidth: 200,
 minHeight: 200,
 allowSizeReduction: true, // allow the image to reduce to fit client size. If false, this overrides minWidth and minHeight
-outlineType : 'drop-shadow', // set null to disable outlines
+outlineType : 'outer-glow', // set null to disable outlines
 wrapperClassName : 'highslide-wrapper', // for enhanced css-control
 
 // END OF YOUR SETTINGS

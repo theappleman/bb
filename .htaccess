@@ -1,5 +1,6 @@
 Options -Indexes
 AddDefaultCharset UTF-8
+AddHandler php5-cgi .php
 RewriteEngine on
 
 RewriteCond %{HTTP_REFERER} ^$
