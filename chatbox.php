@@ -31,10 +31,12 @@ if ($result) {
     $loop = NULL; $foot = NULL; $comments = NULL; $rate = NULL;
 
     $loop .= enclose('div',get_day($line['date']),'class="bigdate"');
-    if (levenshtein($line['ip'],$_SERVER['REMOTE_ADDR']) <= 25 && levenshtein($line['useragent'],$_SERVER['HTTP_USER_AGENT']) <= 50) { $edit = enclose('a','edit','href="'.$hurl.'/e/'.$line['id'].'#edit" onclick="return hs.htmlExpand(this, { objectType: \'ajax\'} )"'); } else { $edit = NULL; }
+    if (levenshtein($line['ip'],$_SERVER['REMOTE_ADDR']) <= 6 && levenshtein($line['useragent'],$_SERVER['HTTP_USER_AGENT']) <= 50) { $edit = enclose('a','edit','href="'.$hurl.'/e/'.$line['id'].'#edit" onclick="return hs.htmlExpand(this, { objectType: \'ajax\'} )"'); } else { $edit = NULL; }
     $loop .= enclose('div',enclose('a',$line['title'],'href="'.$hurl.'/show/'.$line['id'].'"'),'class="title"');
     $loop .= enclose('div',$line['date'].$edit,'class="date"');
-    $line['intro'] .= show_pic($line['image']);
+    $image .= show_pic($line['image']);
+    $loop .= enclose('div',fixup($image),'class="image"');
+    $image = NULL;
     $loop .= enclose('div',fixup(nl2br($line['intro'])),'class="text"');
     if ($line['commentable'] == 2) {
         $loop .= enclose('div',
@@ -56,9 +58,9 @@ if ($result) {
         $rate = NULL;
         $nloop .= enclose('div',get_day($line2['date']),'class="bigdate"');
         $nloop .= enclose('div',enclose('a',$line2['title'],'href="'.$hurl.'/show/'.$line['id'].'"'),'class="title"');
-	if (levenshtein($line2['ip'],$_SERVER['REMOTE_ADDR']) <= 25 && levenshtein($line2['useragent'],$_SERVER['HTTP_USER_AGENT']) <= 50) { $edit = enclose('a','edit','href="'.$hurl.'/e/'.$line2['id'].'#edit" onclick="return hs.htmlExpand(this, { objectType: \'ajax\'} )"'); } else { $edit = NULL; }
+	if (levenshtein($line2['ip'],$_SERVER['REMOTE_ADDR']) <= 6 && levenshtein($line2['useragent'],$_SERVER['HTTP_USER_AGENT']) <= 50) { $edit = enclose('a','edit','href="'.$hurl.'/e/'.$line2['id'].'#edit" onclick="return hs.htmlExpand(this, { objectType: \'ajax\'} )"'); } else { $edit = NULL; }
         $nloop .= enclose('div',$line2['date'].$edit,'class="date"');
-        $line2['intro'] .= show_pic($line2['image']);
+        $nloop .= enclose('div',fixup(show_pic($line2['image'])),'class="image"');
         $nloop .= enclose('div',fixup(nl2br(html_entity_decode($line2['intro']))),'class="text"');
         if (comments($line['id']) != 1) { $comment = 's'; } else { $comment = NULL; }
         $foot .= enclose('a',comments($line['id']). ' comment'.$comment,'href="'.$hurl.'/show/'.$line['id'].'#comments" onclick="return hs.htmlExpand(this, { objectType: \'ajax\'} )"');

@@ -29,14 +29,14 @@ if ($result) {
   foreach($result as $line) {
   $entry .= enclose('div',get_day($line['date']),'class="bigdate"');
   $entry .= enclose('div',enclose('a',html_entity_decode($line['title']),'href="'.$hurl.'/show/'.$id.'"'),'class="title"');
-  $line['intro'] .= show_pic($line['image']);
+  $entry .= enclose('div',fixup(show_pic($line['image'])),'class="image"');
   $entry .= enclose('div',$line['date'],'class="date"');
   $entry .= enclose('div',nl2br(fixup(html_entity_decode($line['intro']))),'class="text"');
   if ($line['commentable'] >= 1) {
     if (comments($id) != 1) { $comment = 's'; } else { $comment = NULL; }
     $foot .= enclose('a',comments($id). ' comment'.$comment,'href="'.$hurl.'/show/'.$id.'"');
   }
-  if (levenshtein($line['ip'],$_SERVER['REMOTE_ADDR']) <= 25 && levenshtein($line['useragent'],$_SERVER['HTTP_USER_AGENT']) <= 50) { $edit = enclose('a','edit','href="'.$hurl.'/e/'.$id.'#edit" onclick="return hs.htmlExpand(this, { objectType: \'ajax\'} )"'); } else { $edit = NULL; }
+  if (levenshtein($line['ip'],$_SERVER['REMOTE_ADDR']) <= 6 && levenshtein($line['useragent'],$_SERVER['HTTP_USER_AGENT']) <= 50) { $edit = enclose('a','edit','href="'.$hurl.'/e/'.$id.'#edit" onclick="return hs.htmlExpand(this, { objectType: \'ajax\'} )"'); } else { $edit = '&nbsp;'; }
   $entry .= enclose('div',$edit,'class="foot"');
   $body .= enclose('div',$entry,'class="entry"');
 
@@ -50,9 +50,9 @@ if ($result) {
                 $loop .= enclose('div',get_day($line2['date']),'class="bigdate"');
                 $loop .= enclose('div',enclose('a',html_entity_decode($line2['title']),''),'class="title"');
                 $loop .= enclose('div',$line2['date'],'class="date"');
-                $line2['intro'] .= show_pic($line2['image']);
+                $loop .= enclose('div',fixup(show_pic($line2['image'])),'class="image"');
                 $loop .= enclose('div',nl2br(fixup(html_entity_decode($line2['intro']))),'class="text"');
-		if (levenshtein($line2['ip'],$_SERVER['REMOTE_ADDR']) <= 25 && levenshtein($line2['useragent'],$_SERVER['HTTP_USER_AGENT']) <= 50) { $edit = enclose('a','edit','href="'.$hurl.'/e/'.$line2['id'].'#edit" onclick="return hs.htmlExpand(this, { objectType: \'ajax\'} )"'); } else { $edit = NULL; }
+		if (levenshtein($line2['ip'],$_SERVER['REMOTE_ADDR']) <= 6 && levenshtein($line2['useragent'],$_SERVER['HTTP_USER_AGENT']) <= 50) { $edit = enclose('a','edit','href="'.$hurl.'/e/'.$line2['id'].'#edit" onclick="return hs.htmlExpand(this, { objectType: \'ajax\'} )"'); } else { $edit = '&nbsp;'; }
                 $loop .= enclose('div',$edit,'class="foot"');
                 $comments .= enclose('div',$loop,'class="entry"');
 	}

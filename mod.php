@@ -14,7 +14,7 @@
 	if ($ipres){
 		foreach($ipres as $line){
 			$image = $line['image'];
-			if (levenshtein($line['ip'],$_SERVER['REMOTE_ADDR']) > 25 or levenshtein($line['useragent'],$_SERVER['HTTP_USER_AGENT']) > 50) { exit('Not your post.'); }
+			if (levenshtein($line['ip'],$_SERVER['REMOTE_ADDR']) > 6 or levenshtein($line['useragent'],$_SERVER['HTTP_USER_AGENT']) > 50) { exit('Not your post.'); }
 		}
 	} else { exit('No such ID.'); }
 
@@ -35,17 +35,19 @@
 	$nqry = 'UPDATE '.$db_prefix.'data SET title = "'.$title.'", intro = "'.$intro.'", image = "'.$image.'" WHERE id = '.$id.' LIMIT 1';
 
 	if ($allowed == true) { if(check_transaction_key($transaction_key)){ $db->exec($nqry); } }
-	if ($line['commentref'] === FALSE) {
+	if ($line['commentref'] == "0") {
 	header('Location:'.$hurl.'/show/'.$id);
 	} else {
-		header('Location:'.$hurl.'/show/'.$line['commentref']);
+	header('Location:'.$hurl.'/show/'.$line['commentref']);
 	}
 	}
 	if ($action == 'delete'){
+	if (isset($_POST['image'])) {
 		$db->exec('DELETE
 			FROM '.$db_prefix.'data
 			WHERE id = '.$id.'
 			LIMIT 1');
 		header('Location:'.$hurl);
+	} else { exit('Sorry, you have to tick the box.'); }
 	}
 ?>

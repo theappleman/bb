@@ -26,7 +26,7 @@
 		        $box .= enclo_s('input','type="hidden" name="transaction_key" value="'.get_transaction_key().'"');
 			$box .= enclo_s('input','type="hidden" name="id" value="'.$id.'"');
 	    		$box .= enclose('p','Name: '.enclo_s('input','name="title" tabindex="1" accesskey="q" value="'.$line['title'].'"').'&nbsp;'.enclo_s('input','type="file" accesskey="s" name="userfile" tabindex="3" accept="'.$accept.'"').enclo_s('input','type="checkbox" name="image"'),'class="name"');
-			$box .= enclose('textarea',$line['intro'],'name="intro" rows="5" columns="100" tabindex="2" accesskey="w"');
+			$box .= enclose('textarea',nl2br($line['intro']),'name="intro" rows="5" columns="100" tabindex="2" accesskey="w"');
 			$box .= enclose('div',enclo_s('input','type="submit" name="action" value="edit"').enclo_s('input','type="submit" name="action" value="delete"'),'class="foot"');
 			$box = enclose('form',$box,'name="'.$name.'" action="'.$hurl.'/mod.php" method="post" enctype="multipart/form-data"');
 			$box = enclose('div',$box,'class="entry"');

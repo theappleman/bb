@@ -11,11 +11,13 @@ function fixup($text) {
 
   $text = preg_replace(array_keys($patterns),array_values($patterns),$text);
 
-  $patterns = array('%\[\[(.*?)\|(.*?)\]\]%'=>'<a href=\"$1\" title=\"$1\" >$2</a>',
-    '%\{\{(.*?)\|(.*?)\}\}%'=>'<a href=\"$2\" class=\"highslide\" rel=\"highslide\" onclick=\"return hs.expand(this)\" ><img src=\"$1\" /></a>',
-    '%\{\{(.*?)\}\}%'=>'<a href=\"$1\" class=\"highslide\" rel=\"highslide\" onclick=\"return hs.expand(this)\" ><img src=\"$1\" /></a>',
+  $patterns = array(
+    '%\[\[(.*?)\|(.*?)\]\]%'=>'<a href="$1" title="$1" >$2</a>',
+    '%\{\{(.*?)\|(.*?)\}\}%'=>'<a href="$2" class="highslide" rel="highslide" onclick="return hs.expand(this)" ><img src="$1" /></a>',
+    '%\{\{(.*?)\}\}%'=>'<a href="$1" class="highslide" rel="highslide" onclick="return hs.expand(this)" ><img src="$1" /></a>',
     '%\s\s+%'=>' ',
-    '%\*(.*?)\*%'=>'<b>*$1*</b>');
+    '%\*(.*?)\*%'=>'<b>*$1*</b>'
+    );
 
   $text = preg_replace(array_keys($patterns),array_values($patterns),$text); /*
   $text = preg_replace("","",$text); // [[text|URL]] => <a href="URL">text</a>

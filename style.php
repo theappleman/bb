@@ -49,6 +49,9 @@ div.bigdate {
 	padding: 5px;
 	float: left;
 }
+div.image {
+	float: left;
+}
 div.title {
 	font-size: 24;
 	font-variant: small-caps;
