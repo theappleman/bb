@@ -37,7 +37,7 @@ if ($result) {
     if ($line['rateable'] != 1) { $loop .= enclose('div',chrate($line['id']),'class="rate"'); }
     $line['intro'] .= show_pic($line['image']);
     $loop .= enclose('div',nl2br(fixup(html_entity_decode($line['intro']))),'class="text"');
-    if ($line['commentable'] == 2) { $loop .= enclose('div',enclose('a','Post a comment','href="'.$hurl.'/show/'.$line['id'].'#comments" onclick="return hs.htmlExpand(this, { objectType: \'ajax\', preserveContent: true} )"'),'class="foot"'); }
+    if ($line['commentable'] == 2) { $loop .= enclose('div',enclose('a','Post a comment','href="'.$hurl.'/show/'.$line['id'].'"'),'class="foot"'); }
       else { $loop .= enclose('div',enclose('a','No more comments','href="'.$hurl.'/show/'.$line['id'].'"'),'class="foot"'); }
     if (comments($line['id']) >= 1) {
       $query2 = 'SELECT id,title,date,intro,rateable,rating,image
@@ -59,7 +59,7 @@ if ($result) {
         $line2['intro'] .= show_pic($line2['image']);
         $nloop .= enclose('div',nl2br(fixup(html_entity_decode($line2['intro']))),'class="text"');
         if (comments($line['id']) != 1) { $comment = 's'; } else { $comment = NULL; }
-        $foot .= enclose('a',comments($line['id']). ' comment'.$comment,'href="'.$hurl.'/show/'.$line['id'].'"');
+        $foot .= enclose('a',comments($line['id']). ' comment'.$comment,'href="'.$hurl.'/show/'.$line['id'].'#comments" onclick="return hs.htmlExpand(this, { objectType: \'ajax\'} )"');
         $nloop .= enclose('div',$foot,'class="foot"');
         $comments .= enclose('div',$nloop,'class="entry"');
       } // foreach
