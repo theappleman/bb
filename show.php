@@ -28,10 +28,10 @@ if ($result) {
   foreach($result as $line) {
   $commnum = comments($id);
   $entry .= enclose('div',get_day($line['date']),'class="bigdate"');
-  $entry .= enclose('div',enclose('a',html_entity_decode($line['title']),'href="'.$hurl.'/show/'.$id.'"'),'class="title"');
+  $entry .= enclose('div',enclose('a',$line['title'],'href="'.$hurl.'/show/'.$id.'"'),'class="title"');
   $entry .= enclose('div',fixup(show_pic($line['image'])),'class="image"');
   $entry .= enclose('div',$line['date'],'class="date"');
-  $entry .= enclose('div',nl2br(fixup(html_entity_decode($line['intro']))),'class="text"');
+  $entry .= enclose('div',fixup(nl2br($line['intro'])),'class="text"');
   if ($line['commentable'] >= 1) {
     if ($commnum != 1) { $comment = 's'; } else { $comment = NULL; }
     $foot .= enclose('a',$commnum. ' comment'.$comment,'href="'.$hurl.'/show/'.$id.'"');
@@ -47,9 +47,9 @@ if ($result) {
                 $rate = NULL;
                 $com_num += 1;
                 $loop .= enclose('div',get_day($line2['date']),'class="bigdate"');
-                $loop .= enclose('div',enclose('a',html_entity_decode($line2['title']),''),'class="title"');
+                $loop .= enclose('div',enclose('a',$line2['title'],''),'class="title"');
                 $loop .= enclose('div',fixup(show_pic($line2['image'])),'class="image"');
-                $loop .= enclose('div',nl2br(fixup(html_entity_decode($line2['intro']))),'class="text"');
+                $loop .= enclose('div',nl2br(fixup($line2['intro'])),'class="text"');
                 $loop .= enclose('div',$line2['date'],'class="foot"');
                 $comments .= enclose('div',$loop,'class="entry"');
 	}

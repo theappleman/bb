@@ -6,9 +6,6 @@ require_once('functions.php');
 
 $allowed = true;
 
-$ip = $_SERVER['REMOTE_ADDR'];
-$useragent = $_SERVER['HTTP_USER_AGENT'];
-
 if (isset($_POST['reset'])) { $date = date($datefmt); }
 else {
 	if ($_POST['date'] != "") { $date = htmlspecialchars($_POST['date']); }
@@ -27,8 +24,8 @@ if ($_POST['cat'] == "other") {
 	} else { $cat = "other"; }
 } else { $cat = $_POST['cat']; }
 
-if ($_POST['title']) { $title = htmlentities(strip_tags($_POST['title'])); } else { $allowed = false; $title = $_POST['title']; }
-if ($_POST['intro']) { $intro = htmlentities(strip_tags($_POST['intro'])); } else { $allowed = false; $intro = $_POST['intro']; }
+if ($_POST['title']) { $title = htmlspecialchars(strip_tags($_POST['title'])); } else { $allowed = false; $title = $_POST['title']; }
+if ($_POST['intro']) { $intro = htmlspecialchars(strip_tags($_POST['intro'])); } else { $allowed = false; $intro = $_POST['intro']; }
 
 if ($title == "" or $intro == "") { $allowed = false; }
 

@@ -54,7 +54,7 @@ if ($result) {
         $nloop .= enclose('div',enclose('a',$line2['title'],'href="'.$hurl.'/show/'.$line['id'].'"'),'class="title"');
         $nloop .= enclose('div',$line2['date'],'class="date"');
         $nloop .= enclose('div',fixup(show_pic($line2['image'])),'class="image"');
-        $nloop .= enclose('div',fixup(nl2br(html_entity_decode($line2['intro']))),'class="text"');
+        $nloop .= enclose('div',fixup(nl2br($line2['intro'])),'class="text"');
         if ($commnum != 1) { $comment = 's'; } else { $comment = NULL; }
         $nloop .= enclose('div',enclose('a',$commnum. ' comment'.$comment,'href="'.$hurl.'/show/'.$line['id'].'"'),'class="foot"');
         $comments .= enclose('div',$nloop,'class="entry"');
