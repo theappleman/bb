@@ -29,7 +29,6 @@ if(!in_array($cat, $nochat)) { $body .= enclose('div',postbox($cat,0),'class="en
 if ($result) {
   foreach($result as $line) {
     $loop = NULL; $foot = NULL; $comments = NULL; $rate = NULL;
-    $commnum = comments($line['id']);
     $loop .= enclose('div',get_day($line['date']),'class="bigdate"');
     if ( preg_match("/\s?\@[a-z0-9]*?$/",$line['title']) ) {
     	list($line['title'],$address) = get_name_md5($line['title']);
@@ -47,6 +46,7 @@ if ($result) {
         'class="foot"');
       }
       else { $loop .= enclose('div',enclose('a','No more comments','href="'.$hurl.'/show/'.$line['id'].'"'),'class="foot"'); }
+      $commnum = comments($line['id']);
     if ($commnum >= 1) {
       $query2 = 'SELECT id,title,date,intro,image
         FROM '.$db_prefix.'data

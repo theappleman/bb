@@ -11,6 +11,23 @@ function get_name_md5($line) {
 	return array(chop($name),$address);
 }
 
+function make_post($title,$intro,$date,$image=NULL,$commentable=0,$id=0) {
+  $post = NULL;
+  $post .= enclose('div',get_day($date),'class="bigdate"');
+  if ( preg_match("/\s?\@[a-z0-9]*?$/",$title) ) {
+    list($title,$address) = get_name_md5($title);
+    if ( !$image ) {
+      $post .= enclose('div',enclo_s('img',"src=\"http://www.gravatar.com/avatar/".$address."?d=$hurl/black.jpg\""),'class="image"');
+    } 
+  }
+  $post .= enclose('div',enclose('a',$title,'href="'.$hurl.'/show/'.$id.'"'),'class="title"');
+  $post .= enclose('div',$date,'class="date"');
+  if ($image) { $post .= enclose('div',fixup(show_pic($image)),'class="image"'); }
+  $post .= enclose('div',fixup(nl2br($intro)),'class="text"');
+  
+  return $post;
+} // unfinished
+
 function postbox($cat,$id,$message="") {
 global $hurl, $accept;
   $box = NULL;
@@ -59,8 +76,9 @@ function fixup($text) {
   }
 
 function show_pic($image) {
+  if (!$image) { return ''; }
   global $uploaddir, $hurl;
-  if ($image != "" && is_image($uploaddir.$image)) {
+  if ( is_image($uploaddir.$image)) {
     list($thumb,$rand) = explode('-',$image,2);
     if($thumb == "thumb" && is_image($uploaddir."thumb-" . $rand)) {
       $thumbname = "thumb-" . $rand;
@@ -69,8 +87,8 @@ function show_pic($image) {
       $thumbname = $image;
       $filename = $image;
     }
-    return "\n{{".$hurl."/uploaded/".$thumbname."|".$hurl."/uploaded/".$filename."}}";
-  } else { return ''; }
+    return "{{".$hurl."/uploaded/".$thumbname."|".$hurl."/uploaded/".$filename."}}";
+  } else { return "[[$hurl/uploaded/$image|$image]]"; }
 }
 
 function is_image($filename) {
