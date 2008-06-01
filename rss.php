@@ -57,7 +57,7 @@ if ($result) {
   }
     $item .= enclose('title',str_replace($nl,"",$line['title']));
     $item .= enclose('author',str_replace($nl,"",$line['section']));
-    $item .= enclose('description',str_replace($nl,"",$line['intro']));
+    $item .= enclose('description',fixup(str_replace($nl,"",$line['intro'])));
     $item .= enclose('pubDate',date('r',strtotime($line['date'])));
     if ($cat == "comments") { $perm = $id; }
       else {	$perm = $line['id']; }
