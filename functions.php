@@ -192,7 +192,11 @@ function menu() {
   $array = explode(",",$rry);
 
 	$rslt = NULL;
-	foreach (array_unique($array) as $table) { $rslt .= enclose('a',$table,'href="'.$hurl.'/'.$table.'"'); }
+	foreach (array_unique($array) as $table) { 
+		if (!preg_match("/_private$/") {
+			$rslt .= enclose('a',$table,'href="'.$hurl.'/'.$table.'"'); 
+			}
+	}
 	$return .= enclose('div','Cats:'.$rslt,'class="mainmenu"');
 
   if ( isset($cat) ) {
