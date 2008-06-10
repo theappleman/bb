@@ -39,10 +39,11 @@ if ($title == "" or $intro == "") { $allowed = false; }
 
 if ( preg_match("%\[URL=.*?\].*?\[/URL\]%i",$intro) ) { $allowed = false; }
 if ( preg_match("%a href%i",$intro) ) { $allowed = false; }
+if ( preg_match("%http%i",$intro) and $intro == fixup($intro) ) { $allowed = false; }
 
 $transaction_key = $_POST['transaction_key'];
 $_REQUEST[] = array();
-
+if ($allowed == true) {
 if (is_uploaded_file($_FILES['userfile']['tmp_name'])) {
   if ( $type = is_image($_FILES['userfile']['tmp_name']) ) {
 		$rand = mt_rand();
@@ -66,7 +67,7 @@ if (is_uploaded_file($_FILES['userfile']['tmp_name'])) {
 	    $image = $uploadfilename;
 	    }
 } else { $image = NULL; }
-
+}
 if($allowed == true) {
 	if (check_transaction_key($transaction_key)) {
 		$db->exec('INSERT INTO '.$db_prefix.'data
