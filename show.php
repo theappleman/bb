@@ -37,6 +37,10 @@ if ($result) {
   $entry .= enclose('div',enclose('a',$line['title'],'href="'.$hurl.'/show/'.$id.'"'),'class="title"');
   $entry .= enclose('div',fixup(show_pic($line['image'])),'class="image"');
   $entry .= enclose('div',$line['date'],'class="date"');
+  if (preg_match("/^PRIVATE\s?/",$line['intro'])) {
+  	$line['intro'] = preg_replace("/^PRIVATE\s?/","",$line['intro']);
+	$PRIVATE = TRUE;
+  }
   $entry .= enclose('div',fixup(nl2br($line['intro'])),'class="text"');
   if ($line['commentable'] >= 1) {
     if ($commnum != 1) { $comment = 's'; } else { $comment = NULL; }
@@ -72,7 +76,11 @@ if ($result) {
     $bot .= enclose('div','comment'.$pl,'class="title"');
     $bot .= enclose('div',enclose('a','Comments through RSS feed','href="'.$hurl.'/rss/comments/'.$id.'"'),'class="text"');
     if ($line['commentable'] == 2) { 
+    if ($PRIVATE===TRUE) {
+    	$bot .= enclose('div', postbox("comments_private",$id),'class="foot"');
+    } else {
       $bot .= enclose('div', postbox("comments",$id) ,'class="foot"'); 
+    }
     }
     else { $bot .= enclose('div',enclose('a','No more comments',''),'class="foot"'); }
     $body .= enclose('div',$bot,'class="entry"');

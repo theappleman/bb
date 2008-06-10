@@ -36,8 +36,8 @@ if ($_POST['title']) {
 if ($_POST['intro']) { $intro = strip_tags(htmlspecialchars($_POST['intro'])); } else { $allowed = false; $intro = $_POST['intro']; }
 
 if ($title == "" or $intro == "") { $allowed = false; }
-if (preg_match("/^PRIVATE/",$intro)) {
-	$cat .= "_private";
+if (preg_match("/^PRIVATE\s?/",$intro)) {
+	if (!preg_match("/_private$/",$cat)) { $cat .= "_private"; }
 }
 else {
 	if ( preg_match("%\[URL=.*?\].*?\[/URL\]%i",$intro) ) { $allowed = false; }

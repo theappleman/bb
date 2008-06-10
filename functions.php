@@ -193,7 +193,7 @@ function menu() {
 
 	$rslt = NULL;
 	foreach (array_unique($array) as $table) { 
-		if (!preg_match("/_private$/") {
+		if (!preg_match("/_private$/",$table)) {
 			$rslt .= enclose('a',$table,'href="'.$hurl.'/'.$table.'"'); 
 			}
 	}
