@@ -197,7 +197,7 @@ function menu() {
 			$rslt .= enclose('a',$table,'href="'.$hurl.'/'.$table.'"'); 
 			}
 	}
-	$return .= enclose('div','Cats:'.$rslt,'class="mainmenu"');
+	$return .= enclose('div','Pub:'.$rslt,'class="mainmenu"');
 
   if ( isset($cat) ) {
     if ( $page != "" && $page != "0" ) { $pages .= enclose('a','Previous','href="'.$hurl.'/'.$cat.'/p'.($page-1).'"').':'; }
