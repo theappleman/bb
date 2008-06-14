@@ -11,23 +11,6 @@ function get_name_md5($line) {
 	return array(chop($name),$address);
 }
 
-function make_post($title,$intro,$date,$image=NULL,$commentable=0,$id=0) {
-  $post = NULL;
-  $post .= enclose('div',get_day($date),'class="bigdate"');
-  if ( preg_match("/\s?\@[a-z0-9]*?$/",$title) ) {
-    list($title,$address) = get_name_md5($title);
-    if ( !$image ) {
-      $post .= enclose('div',enclo_s('img',"src=\"http://www.gravatar.com/avatar/".$address."?d=$hurl/black.jpg\""),'class="image"');
-    } 
-  }
-  $post .= enclose('div',enclose('a',$title,'href="'.$hurl.'/show/'.$id.'"'),'class="title"');
-  $post .= enclose('div',$date,'class="date"');
-  if ($image) { $post .= enclose('div',fixup(show_pic($image)),'class="image"'); }
-  $post .= enclose('div',fixup(nl2br($intro)),'class="text"');
-  
-  return $post;
-} // unfinished
-
 function postbox($cat,$id,$message="") {
 global $hurl, $accept;
   $box = NULL;
