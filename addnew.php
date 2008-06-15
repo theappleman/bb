@@ -43,6 +43,7 @@ else {
 	if ( preg_match("%\[URL=.*?\].*?\[/URL\]%i",$intro) ) { $allowed = false; }
 	if ( preg_match("%a href%i",$intro) ) { $allowed = false; }
 	if ( preg_match("%http%i",$intro) and $intro == fixup($intro) ) { $allowed = false; }
+	if (preg_match("/google.us/i",$intro)) { $allowed = false; }
 }
 
 $transaction_key = $_POST['transaction_key'];
