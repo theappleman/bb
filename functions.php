@@ -72,8 +72,11 @@ function show_pic($image) {
       $filename = $image;
     }
     return "{{".$hurl."/uploaded/".$thumbname."|".$hurl."/uploaded/".$filename."}}";
-  } else { if ($snapcode) { $snap = "class=\"snap_shots\"";}
-  return "<a href=\"$hurl/uploaded/$image\" $snap >$image</a>"; }
+  } else { 
+    if ( file_exists($uploaddir.$image) ) {
+      if ($snapcode) { $snap = "class=\"snap_shots\"";}
+      return "<a href=\"$hurl/uploaded/$image\" $snap >$image</a>"; }
+    }
 }
 
 function is_image($filename) {
