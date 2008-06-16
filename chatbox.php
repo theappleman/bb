@@ -5,22 +5,20 @@
 require_once('functions.php');
 
 $cat = $_REQUEST['cat'];
-$id = $_REQUEST['id'];
 $page = $_REQUEST['page'];
 $_REQUEST = array(NULL);
 
-if ($id == "") { $id = "10"; }
-if ($page != "") { $id = $id . ' OFFSET ' . $page*$id; }
+if ($page != "") { $id = $out . ' OFFSET ' . $page*$out; } else { $id = $out; }
 $query = 'SELECT id,title,date,intro,commentable,image
 	FROM '.$db_prefix.'data WHERE section = "'.$cat.'"
   ORDER BY sticky ASC,lastupd DESC, date DESC ';
-if ($id != "0") { $query .= ' LIMIT '.$id; }
+if ($out != "0") { $query .= ' LIMIT '.$id; }
 
 $result = $db->fetch($query,$cache_time,$cat.$page);
 
 $return = NULL;$body = NULL;$head = NULL;
 $head .= enclose("title",$sitename.' '. $cat,"");
-$head .= head($cat,$id);
+$head .= head($cat,$out);
 
 $body .= enclose('div',$sitename,'id="head"');
 
@@ -36,16 +34,17 @@ if ($result) {
 		$loop .= enclose('div',enclo_s('img',"src=\"http://www.gravatar.com/avatar/".$address."?d=$hurl/black.jpg\""),'class="image"');
 	}
     }
-    $loop .= enclose('div',enclose('a',$line['title'],'href="'.$hurl.'/show/'.$line['id'].'"'),'class="title"');
+    if( $link ) { $show = '/show/'; } else { $show = '/show.php?id='; }
+    $loop .= enclose('div',enclose('a',$line['title'],'href="'.$hurl.$show.$line['id'].'"'),'class="title"');
     $loop .= enclose('div',$line['date'],'class="date"');
     $loop .= enclose('div',fixup(show_pic($line['image'])),'class="image"');
     $loop .= enclose('div',fixup(nl2br($line['intro'])),'class="text"');
     if ($line['commentable'] == 2) {
         $loop .= enclose('div',
-          enclose('a','Post a comment','href="'.$hurl.'/show/'.$line['id'].'"'),
+          enclose('a','Post a comment','href="'.$hurl.$show.$line['id'].'"'),
         'class="foot"');
       }
-      else { $loop .= enclose('div',enclose('a','No more comments','href="'.$hurl.'/show/'.$line['id'].'"'),'class="foot"'); }
+      else { $loop .= enclose('div',enclose('a','No more comments','href="'.$hurl.$show.$line['id'].'"'),'class="foot"'); }
       $commnum = comments($line['id']);
     if ($commnum >= 1) {
       $query2 = 'SELECT id,title,date,intro,image
@@ -63,12 +62,12 @@ if ($result) {
 		$nloop .= enclose('div',enclo_s('img',"src=\"http://www.gravatar.com/avatar/".$address."?d=$hurl/black.jpg\""),'class="image"');
 	}
 	}
-        $nloop .= enclose('div',enclose('a',$line2['title'],'href="'.$hurl.'/show/'.$line['id'].'"'),'class="title"');
+        $nloop .= enclose('div',enclose('a',$line2['title'],'href="'.$hurl.$show.$line['id'].'"'),'class="title"');
         $nloop .= enclose('div',$line2['date'],'class="date"');
         $nloop .= enclose('div',fixup(show_pic($line2['image'])),'class="image"');
         $nloop .= enclose('div',fixup(nl2br($line2['intro'])),'class="text"');
         if ($commnum != 1) { $comment = 's'; } else { $comment = NULL; }
-        $nloop .= enclose('div',enclose('a',$commnum. ' comment'.$comment,'href="'.$hurl.'/show/'.$line['id'].'"'),'class="foot"');
+        $nloop .= enclose('div',enclose('a',$commnum. ' comment'.$comment,'href="'.$hurl.$show.$line['id'].'"'),'class="foot"');
         $comments .= enclose('div',$nloop,'class="entry"');
       } // foreach
       $loop .= enclose('div',$comments,'id="comments"');

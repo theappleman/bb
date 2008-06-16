@@ -18,6 +18,8 @@ $hurl = ""; // It is best to set this. Very rarely it is ok to leave it blank. B
 $datefmt = "Y-m-d H:i:s"; // Another valid format is "c".
 $default = ""; // default category.
 $style = ""; // stylesheet name
+$out = 15; // The number of items to take out of the database
+$link = false; // Set true to use mod_rewrite
 
 $menu = array('Link1'=>'http://url.to/link/1'); // array containing links for the main menu
 $snapcode = ""; // Your snap shots, just the number

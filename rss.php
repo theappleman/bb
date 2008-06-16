@@ -42,6 +42,8 @@ $result = $db->fetch($query,$cache_time,"rss".$type);
 $return = NULL;
 $channel = NULL;
 
+if( $link ) { $show = '/show/'; } else { $show = '/show.php?id='; }
+
 $channel .= enclose('title',$sitename.' '.$cat);
 $channel .= enclose('link',$hurl);
 $channel .= enclose('description',$meta_desc);
@@ -61,7 +63,7 @@ if ($result) {
     $item .= enclose('pubDate',date('r',strtotime($line['date'])));
     if ($cat == "comments") { $perm = $id; }
       else {	$perm = $line['id']; }
-    $item .= enclose('guid',$hurl.'/show/'.$perm);
+    $item .= enclose('guid',$hurl.$show.$perm);
     $items .= enclose('item',$item);
   }
 }

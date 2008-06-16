@@ -18,7 +18,7 @@ $query2 = 'SELECT id,title,date,intro,image
 	ORDER BY date ASC';
 $result2 = $db->fetch($query2,$cache_time,$id."com");
 $com_num = 0;
-
+if( $link ) { $show = '/show/'; } else { $show = '/show.php?id='; }
 $return = NULL;$head = NULL;$body = NULL;$comments = NULL;$bot = NULL;$box = NULL;$script=NULL;
 $head .= enclose('title',$sitename,'');
 $head .= head("comments",$id);
@@ -34,7 +34,7 @@ if ($result) {
   		$entry .= enclose('div',enclo_s('img',"src=\"http://www.gravatar.com/avatar/".$address."?d=$hurl/black.jpg\""),'class="image"');
 	}
   }
-  $entry .= enclose('div',enclose('a',$line['title'],'href="'.$hurl.'/show/'.$id.'"'),'class="title"');
+  $entry .= enclose('div',enclose('a',$line['title'],'href="'.$hurl.$show.$id.'"'),'class="title"');
   $entry .= enclose('div',fixup(show_pic($line['image'])),'class="image"');
   $entry .= enclose('div',$line['date'],'class="date"');
   if (preg_match("/^PRIVATE\s?/",$line['intro'])) {
@@ -44,7 +44,7 @@ if ($result) {
   $entry .= enclose('div',fixup(nl2br($line['intro'])),'class="text"');
   if ($line['commentable'] >= 1) {
     if ($commnum != 1) { $comment = 's'; } else { $comment = NULL; }
-    $foot .= enclose('a',$commnum. ' comment'.$comment,'href="'.$hurl.'/show/'.$id.'"');
+    $foot .= enclose('a',$commnum. ' comment'.$comment,'href="'.$hurl.$show.$id.'"');
   }
   $entry .= enclose('div',$foot,'class="foot"');
   $body .= enclose('div',$entry,'class="entry"');
@@ -74,7 +74,8 @@ if ($result) {
     $bot .= enclose('div',$com_num,'class="bigdate"');
     if ($com_num != 1) { $pl = 's'; } else { $pl = NULL; }
     $bot .= enclose('div','comment'.$pl,'class="title"');
-    $bot .= enclose('div',enclose('a','Comments through RSS feed','href="'.$hurl.'/rss/comments/'.$id.'"'),'class="text"');
+    if( $link ) { $rss = '/rss/comments/'; } else { $rss = '/rss.php?cat=comments&id='; }
+    $bot .= enclose('div',enclose('a','Comments through RSS feed','href="'.$hurl.$rss.$id.'"'),'class="text"');
     if ($line['commentable'] == 2) { 
     if ($PRIVATE===TRUE) {
     	$bot .= enclose('div', postbox("comments_private",$id),'class="foot"');
