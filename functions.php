@@ -129,9 +129,10 @@ function make_thumb($filename) {
 }
 
 function head($cat="",$id="") {
-  global $style, $sitename, $hurl;
+  global $style, $sitename, $hurl, $link;
 	$meta = enclose('link','','rel="stylesheet" href="'.$hurl.'/'.$style.'.php" type="text/css" title="default"');
-  $meta .= enclose('link','','rel="alternate" type="application/rss+xml" href="'.$hurl.'/rss/'.$cat.'/'.$id.'" title="' . $sitename . ' feed"');
+	if( $link ) { $rss = '/rss/'; $di = '/'; } else { $rss = '/rss.php?cat='; $di = '&id='; }
+  $meta .= enclose('link','','rel="alternate" type="application/rss+xml" href="'.$hurl.$rss.$cat.$di.$id.'" title="' . $sitename . ' feed"');
   $meta .= enclose('script','','src="'.$hurl.'/ie7-standard-p.js" type="text/javascript"');
   $meta .= enclose('script','','src="'.$hurl.'/highslide.js" type="text/javascript"');
   $meta .= enclose('script','','src="'.$hurl.'/gen_validatorv2.js" type="text/javascript"');
@@ -161,10 +162,10 @@ function comments($id) {
 }
 
 function menu() {
-	global $page, $cat, $menu, $hurl, $db, $snapcode, $cache_time, $db_prefix, $nochat;
+	global $page, $cat, $menu, $hurl, $db, $snapcode, $cache_time, $db_prefix, $nochat, $link;
 	$return = NULL;
-	foreach ($menu as $key=>$link) {
-		$sitemenu .= enclose('a',ucwords($key),'href="'.$link.'"');
+	foreach ($menu as $key=>$knil) {
+		$sitemenu .= enclose('a',ucwords($key),'href="'.$knil.'"');
 		}
 	$return .= enclose("div",'Links:'.$sitemenu,'class="mainmenu"');
 
@@ -178,16 +179,18 @@ function menu() {
   $array = explode(",",$rry);
 
 	$rslt = NULL;
+	if( $link ) { $elbat = '/'; } else { $elbat = '/chatbox.php?cat='; }
 	foreach (array_unique($array) as $table) { 
 		if (!preg_match("/_private$/",$table)) {
-			$rslt .= enclose('a',$table,'href="'.$hurl.'/'.$table.'"'); 
+			$rslt .= enclose('a',$table,'href="'.$hurl.$elbat.$table.'"'); 
 			}
 	}
 	$return .= enclose('div','Pub:'.$rslt,'class="mainmenu"');
 
   if ( isset($cat) ) {
-    if ( $page != "" && $page != "0" ) { $pages .= enclose('a','Previous','href="'.$hurl.'/'.$cat.'/p'.($page-1).'"').':'; }
-   $pages .= 'Page:'.enclose('a','Next','href="'.$hurl.'/'.$cat.'/p'.($page+1).'"');
+  	if( $link ) { $egap = '/p'; } else { $egap = '&page='; }
+    if ( $page != "" && $page != "0" ) { $pages .= enclose('a','Previous','href="'.$hurl.$elbat.$cat.$egap.($page-1).'"').':'; }
+   $pages .= 'Page:'.enclose('a','Next','href="'.$hurl.$elbat.$cat.$egap.($page+1).'"');
   }
 
   if ($pages) { $return .= enclose('div',$pages,'class=mainmenu'); }

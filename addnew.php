@@ -134,7 +134,7 @@ if ($res){
 		LIMIT 10',1,$sec);
 	}
 }
-
-header('Location:'.$hurl.'/show/'.$commentref); }
+if( $link ) { $show = '/show/'; } else { $show = '/show.php?id='; }
+header('Location:'.$hurl.$show.$commentref); }
 
 ?>
