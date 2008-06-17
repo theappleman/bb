@@ -90,7 +90,7 @@ if($allowed == true) {
 	} else { exit("Double post detected!"); }
 } else { echo "$title - $intro - ";
 exit("There has been an error and you cannot post.");}
-
+if( $link ) { $show = '/show/'; } else { $show = '/show.php?id='; }
 if ($commentref == 0) {
 	$db->fetch('SELECT title,date,intro,commentable,image
 	FROM '.$db_prefix.'data
@@ -102,7 +102,7 @@ if ($commentref == 0) {
 	ORDER BY sticky ASC, lastupd DESC, date DESC
 	LIMIT 10',1,$cat);
 	$db->fetch('SELECT DISTINCT section FROM '.$db_prefix.'data',1,"sections");
-  header('Location:'.$hurl.'/show/'.$db->last_id);
+  header('Location:'.$hurl.$show.$db->last_id);
 } else {
 $db->exec('UPDATE '.$db_prefix.'data SET lastupd = "'.date($datefmt).'" WHERE id = "'.$commentref.'" LIMIT 1') or die('Could not update post time (don\'t worry, your post has gone through).');
 $query2 = 'SELECT id,title,date,intro,commentable,image
@@ -134,7 +134,6 @@ if ($res){
 		LIMIT 10',1,$sec);
 	}
 }
-if( $link ) { $show = '/show/'; } else { $show = '/show.php?id='; }
 header('Location:'.$hurl.$show.$commentref); }
 
 ?>
