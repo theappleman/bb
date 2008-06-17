@@ -71,11 +71,6 @@ if ($result) {
 	}
     	}
     $body .= enclose('div',$comments,'id="comments"');
-    $bot .= enclose('div',$com_num,'class="bigdate"');
-    if ($com_num != 1) { $pl = 's'; } else { $pl = NULL; }
-    $bot .= enclose('div','comment'.$pl,'class="title"');
-    if( $link ) { $rss = '/rss/comments/'; } else { $rss = '/rss.php?cat=comments&id='; }
-    $bot .= enclose('div',enclose('a','Comments through RSS feed','href="'.$hurl.$rss.$id.'"'),'class="text"');
     if ($line['commentable'] == 2) { 
     if ($PRIVATE===TRUE) {
     	$bot .= enclose('div', postbox("comments_private",$id),'class="foot"');

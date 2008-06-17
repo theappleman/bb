@@ -167,7 +167,7 @@ function menu() {
 	foreach ($menu as $key=>$knil) {
 		$sitemenu .= enclose('a',ucwords($key),'href="'.$knil.'"');
 		}
-	$return .= enclose("div",'Links:'.$sitemenu,'class="mainmenu"');
+	$return .= enclose("div",$sitemenu,'class="mainmenu"');
 
 	$rslt = $db->fetch('SELECT DISTINCT section FROM '.$db_prefix.'data',$cache_time,"sections");
 
@@ -185,12 +185,12 @@ function menu() {
 			$rslt .= enclose('a',$table,'href="'.$hurl.$elbat.$table.'"'); 
 			}
 	}
-	$return .= enclose('div','Pub:'.$rslt,'class="mainmenu"');
+	$return .= enclose('div',$rslt,'class="mainmenu"');
 
   if ( isset($cat) ) {
   	if( $link ) { $egap = '/p'; } else { $egap = '&page='; }
     if ( $page != "" && $page != "0" ) { $pages .= enclose('a','Previous','href="'.$hurl.$elbat.$cat.$egap.($page-1).'"').':'; }
-   $pages .= 'Page:'.enclose('a','Next','href="'.$hurl.$elbat.$cat.$egap.($page+1).'"');
+   $pages .= enclose('a','Next','href="'.$hurl.$elbat.$cat.$egap.($page+1).'"');
   }
 
   if ($pages) { $return .= enclose('div',$pages,'class=mainmenu'); }
