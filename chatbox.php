@@ -50,9 +50,11 @@ if ($result) {
       $query2 = 'SELECT id,title,date,intro,image
         FROM '.$db_prefix.'data
         WHERE commentref="'.$line['id'].'"
+		AND section = "comments"
         ORDER BY sticky ASC, date DESC
         LIMIT 1';
       $result2 = $db->fetch($query2,$cache_time,$line['id']."1com");
+      if ($result2) {
       foreach($result2 as $line2) {
         $nloop = NULL;$foot = NULL;$rate = NULL;
         $nloop .= enclose('div',get_day($line2['date']),'class="bigdate"');
@@ -70,6 +72,7 @@ if ($result) {
         $nloop .= enclose('div',enclose('a',$commnum. ' comment'.$comment,'href="'.$hurl.$show.$line['id'].'"'),'class="foot"');
         $comments .= enclose('div',$nloop,'class="entry"');
       } // foreach
+      }
       $loop .= enclose('div',$comments,'id="comments"');
     } // if
     $body .= enclose('div',$loop,'class="entry"');

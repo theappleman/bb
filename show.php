@@ -65,7 +65,7 @@ if ($result) {
 		}
                 $loop .= enclose('div',enclose('a',$line2['title'],''),'class="title"');
                 $loop .= enclose('div',fixup(show_pic($line2['image'])),'class="image"');
-                $loop .= enclose('div',nl2br(fixup($line2['intro'])),'class="text"');
+                $loop .= enclose('div',nl2br(fixup(preg_replace("/^PRIVATE\s?/","",$line2['intro']))),'class="text"');
                 $loop .= enclose('div',$line2['date'],'class="foot"');
                 $comments .= enclose('div',$loop,'class="entry"');
 	}

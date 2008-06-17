@@ -155,7 +155,7 @@ function single_section($cat) {
 function comments($id) {
 	global $db,$db_prefix,$cache_time;
 	$com_num = 0;
-	$query = 'SELECT id FROM '.$db_prefix.'data WHERE commentref = "'.$id.'" AND section = "comments"';
+	$query = 'SELECT id FROM '.$db_prefix.'data WHERE commentref = "'.$id.'"';
 	$result = $db->fetch($query,$cache_time,$id."coms");
 	if ($result) { foreach ($result as $r) { $com_num += 1; } }
 	return $com_num;
