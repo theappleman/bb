@@ -63,11 +63,11 @@ if ($result) {
     $item .= enclose('pubDate',date('r',strtotime($line['date'])));
     if ($cat == "comments") { $perm = $id; }
       else {	$perm = $line['id']; }
-    $item .= enclose('guid',$hurl.$show.$perm);
+    $item .= enclose('link',$hurl.$show.$perm);
     $items .= enclose('item',$item);
   }
 }
-$channel = enclose('channel',$channel.$items,'');
+$channel = enclose('channel',$channel.$items);
 $return = enclose('rss',$channel,'version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"');
 header('Content-type: application/rss+xml');
 echo $return;
