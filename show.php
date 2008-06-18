@@ -20,7 +20,7 @@ $result2 = $db->fetch($query2,$cache_time,$id."com");
 $com_num = 0;
 if( $link ) { $show = '/show/'; } else { $show = '/show.php?id='; }
 $return = NULL;$head = NULL;$body = NULL;$comments = NULL;$bot = NULL;$box = NULL;$script=NULL;
-$head .= enclose('title',$sitename,'');
+$head .= enclose('title',$sitename);
 $head .= head("comments",$id);
 
 $body .= enclose('div',$sitename,'id="head"');
