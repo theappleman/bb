@@ -189,7 +189,7 @@ function menu() {
 
   if ( isset($cat) ) {
   	if( $link ) { $egap = '/p'; } else { $egap = '&page='; }
-    if ( $page != "" && $page != "0" ) { $pages .= enclose('a','Previous','href="'.$hurl.$elbat.$cat.$egap.($page-1).'"').':'; }
+    if ( $page != "" && $page != "0" ) { $pages .= enclose('a','Previous','href="'.$hurl.$elbat.$cat.$egap.($page-1).'"'); }
    $pages .= enclose('a','Next','href="'.$hurl.$elbat.$cat.$egap.($page+1).'"');
   }
 
