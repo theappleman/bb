@@ -11,26 +11,28 @@ function get_name_md5($line) {
 	return array(chop($name),$address);
 }
 
-function get_age ($date)
+function get_age($date)
 {
+	global $fuzzy;
+	if (!$fuzzy) { return $date; }
 	$age = time() - strtotime($date);
 	if ($age > 60*60*24*365*2) {
-	        $age_str = $age/60/60/24/365;
+	        $age_str = intval($age/60/60/24/365);
 	        $age_str .= " years ago";
 	} elseif ($age > 60*60*24*(365/12)*2) {
-		$age_str = $age/60/60/24/(365/12);
+		$age_str = intval($age/60/60/24/(365/12));
 		$age_str .= " months ago";
 	} elseif ($age > 60*60*24*7*2) {
-                $age_str = $age/60/60/24/7;
+                $age_str = intval($age/60/60/24/7);
 		$age_str .= " weeks ago";
 	} elseif ($age > 60*60*24*2) {
-		$age_str = $age/60/60/24;
+		$age_str = intval($age/60/60/24);
 		$age_str .= " days ago";
 	} elseif ($age > 60*60*2) {
-		$age_str = $age/60/60;
+		$age_str = intval($age/60/60);
 		$age_str .= " hours ago";
 	} elseif ($age > 60*2) {
-		$age_str = $age/60;
+		$age_str = intval($age/60);
 		$age_str .= " min ago";
 	} elseif ($age > 2) {
 		$age_str = $age;

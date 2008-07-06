@@ -17,6 +17,7 @@ $sitename = ""; // Kinda obvious? unless you can't read that...
 $hurl = ""; // It is best to set this. Very rarely it is ok to leave it blank. Base URL.
 $datefmt = "Y-m-d H:i:s"; // Another valid format is "c".
 $default = ""; // default category.
+$fuzzy = true; // turn on fuzzy dates. not an expensive operation, there is little reason to have this off
 $style = ""; // stylesheet name
 $out = 15; // The number of items to take out of the database
 $link = false; // Set true to use mod_rewrite
