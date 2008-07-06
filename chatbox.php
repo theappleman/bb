@@ -36,7 +36,7 @@ if ($result) {
     }
     if( $link ) { $show = '/show/'; } else { $show = '/show.php?id='; }
     $loop .= enclose('div',enclose('a',$line['title'],'href="'.$hurl.$show.$line['id'].'"'),'class="title"');
-    $loop .= enclose('div',$line['date'],'class="date"');
+    $loop .= enclose('div',get_age($line['date']),'class="date"');
     $loop .= enclose('div',fixup(show_pic($line['image'])),'class="image"');
     $loop .= enclose('div',fixup(nl2br($line['intro'])),'class="text"');
     if ($line['commentable'] == 2) {
@@ -65,7 +65,7 @@ if ($result) {
 	}
 	}
         $nloop .= enclose('div',enclose('a',$line2['title'],'href="'.$hurl.$show.$line['id'].'"'),'class="title"');
-        $nloop .= enclose('div',$line2['date'],'class="date"');
+        $nloop .= enclose('div',get_age($line2['date']),'class="date"');
         $nloop .= enclose('div',fixup(show_pic($line2['image'])),'class="image"');
         $nloop .= enclose('div',fixup(nl2br($line2['intro'])),'class="text"');
         if ($commnum != 1) { $comment = 's'; } else { $comment = NULL; }
