@@ -66,7 +66,7 @@ if (is_uploaded_file($_FILES['userfile']['tmp_name'])) {
       if(make_thumb($uploadfilename)) { $thumb = "thumb-"; } else { $thumb = NULL; }
       $image = $thumb.$uploadfilename;
 		} else { $allowed = false; }
-  } else {  $uploadfilename = date("YmdHis") . '-' . $_FILES['userfile']['name'];
+  } else {  $uploadfilename = date("YmdHis") . '-' . str_replace(" ","_",$_FILES['userfile']['name']);
             $uploadfile = $uploaddir . $uploadfilename;
             move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile);
 	    $image = $uploadfilename;
