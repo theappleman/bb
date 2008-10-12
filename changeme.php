@@ -10,13 +10,12 @@ $db_pass = ""; // password for said user
 $db_data = ""; // name of the database being used
 
 $db_prefix = ""; // prefix of database tables
-$cache_dir = ""; // Full path to a cache directory, not web readable.
-$cache_time = "300"; // Cache time. Depending on traffic I guess.
+$cache_dir = ""; // Full path to a cache directory, not web readable. Needs trailing slash.
+$cache_time = "0"; // Cache time. Depending on traffic I guess.
 
 $sitename = ""; // Kinda obvious? unless you can't read that...
-$hurl = ""; // It is best to set this. Very rarely it is ok to leave it blank. Base URL.
+$hurl = ""; // It is best to set this. Very rarely it is ok to leave it blank. Base URL. Does not needs trailing slash.
 $datefmt = "Y-m-d H:i:s"; // Another valid format is "c".
-$default = ""; // default category.
 $fuzzy = true; // turn on fuzzy dates. not an expensive operation, there is little reason to have this off
 $style = ""; // stylesheet name
 $out = 15; // The number of items to take out of the database
@@ -27,13 +26,13 @@ $snapcode = ""; // Your snap shots, just the number
 
 $nochat = array('comments'); // categories that will not be easily postable to.
 
-$uploaddir = ''; // world writable folder for uploaded images. System absolute path - past the $hurl
+$uploaddir = ''; // world writable folder for uploaded images. System absolute path - past the $hurl. Needs trailing slash
 // thumbnail max sizes DO NOT SET $height TO 0 (ZERO)
-$width = 200;
-$height = 200;
+$width = 500;
+$height = 500;
 
 // text replacements
-$patterns = array(''=>'');
+$patterns = array(/*''=>''*/);
 
 // the following variables
 // are used for header bits and the RSS feed
