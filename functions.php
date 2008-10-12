@@ -165,7 +165,6 @@ function head($cat="",$id="") {
 	$meta .= enclose('link','','rel="alternate" type="application/rss+xml" href="'.$hurl.$rss.$cat.$di.$id.'" title="' . $sitename . ' feed"');
 	$meta .= enclose('link','','rel="stylesheet" href="'.$hurl.'/iv.css" type="text/css"'); // image viewer
 	$meta .= enclose('script','','src="'.$hurl.'/iv.js" type="text/javascript"');
-	$meta .= enclose('script','','src="'.$hurl.'/ie7-standard-p.js" type="text/javascript"');
 	$meta .= '<meta name="robots" content="noindex, nofollow">';
 	return $meta;
 }
