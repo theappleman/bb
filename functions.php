@@ -54,11 +54,6 @@ global $hurl, $accept;
 		$box .= enclose('textarea',$message,'name="intro" rows="5" cols="100" tabindex="2" accesskey="w"');
 		$box .= enclose('div',enclo_s('input','type="submit" tabindex=4" value="Lets go!"')/*.enclo_s('input','type="reset" value="Reset"')*/,'class="foot"');
 		$box = enclose('form',$box,'name="'.$name.'" action="'.$hurl.'/addnew.php" method="post" enctype="multipart/form-data"');
-		$box .= enclose('script','var frmvalidator  = new Validator("'.$name.'");
-				frmvalidator.addValidation("title","req","Name is required");
-        frmvalidator.addValidation("title","maxlength=100","Name must be less than 100 characters");
-				frmvalidator.addValidation("intro","req","Comment is required");
-        frmvalidator.addValidation("intro","maxlength=1000","Comment must be less than 1000 characters");','type="text/javascript"');
     return $box;
 }
 
@@ -171,7 +166,6 @@ function head($cat="",$id="") {
 	$meta .= enclose('link','','rel="stylesheet" href="'.$hurl.'/iv.css" type="text/css"'); // image viewer
 	$meta .= enclose('script','','src="'.$hurl.'/iv.js" type="text/javascript"');
 	$meta .= enclose('script','','src="'.$hurl.'/ie7-standard-p.js" type="text/javascript"');
-	$meta .= enclose('script','','src="'.$hurl.'/gen_validatorv2.js" type="text/javascript"');
 	$meta .= '<meta name="robots" content="noindex, nofollow">';
 	return $meta;
 }
