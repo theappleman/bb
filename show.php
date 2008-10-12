@@ -28,12 +28,6 @@ if ($result) {
   foreach($result as $line) {
   $commnum = comments($id);
   $entry .= enclose('div',get_day($line['date']),'class="bigdate"');
-  if ( preg_match("/\s?\@[a-z0-9]*?$/",$line['title']) ) {
-  list($line['title'],$address) = get_name_md5($line['title']);
-	if ( !$line['image'] ) {
-  		$entry .= enclose('div',enclo_s('img',"src=\"http://www.gravatar.com/avatar/".$address."?d=$hurl/black.jpg\""),'class="image"');
-	}
-  }
   $entry .= enclose('div',enclose('a',$line['title'],'href="'.$hurl.$show.$id.'"'),'class="title"');
   $entry .= enclose('div',fixup(show_pic($line['image'])),'class="image"');
   $entry .= enclose('div',get_age($line['date']),'class="date"');
@@ -54,15 +48,8 @@ if ($result) {
     	foreach($result2 as $line2) {
       		$loop = NULL;
       		$foot = NULL;
-                $rate = NULL;
                 $com_num += 1;
                 $loop .= enclose('div',get_day($line2['date']),'class="bigdate"');
-		if ( preg_match("/\s?\@[a-z0-9]*?$/",$line2['title']) ) {
-			list($line2['title'],$address) = get_name_md5($line2['title']);
-			if ( !$line2['image'] ) {
-				$loop .= enclose('div',enclo_s('img',"src=\"http://www.gravatar.com/avatar/".$address."?d=$hurl/black.jpg\""),'class="image"');
-			}
-		}
                 $loop .= enclose('div',enclose('a',$line2['title'],''),'class="title"');
                 $loop .= enclose('div',fixup(show_pic($line2['image'])),'class="image"');
                 $loop .= enclose('div',nl2br(fixup(preg_replace("/^PRIVATE\s?/","",$line2['intro']))),'class="text"');

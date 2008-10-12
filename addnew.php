@@ -25,14 +25,9 @@ if ($_POST['cat'] == "other") {
 } else { $cat = $_POST['cat']; }
 
 if ($_POST['title']) { 
-	if ( preg_match("/[^@]+\@.*\..*$/",$_POST['title']) ) {
-		$name = explode(" ",$_POST['title']);
-	        $address = array_pop($name);
-		$title = strip_tags(htmlspecialchars(implode(" ",$name)));
-		if (!$title) { $title = preg_replace("/([^@]+)\@.*?$/","$1",$address);  }
-		$title .= "@".md5(strtolower($address));
-	}
-	else { $title = strip_tags(htmlspecialchars($_POST['title'])); } } else { $allowed = false; $title = $_POST['title']; }
+	$title = strip_tags(htmlspecialchars($_POST['title']));
+} else { $allowed = false; $title = $_POST['title']; }
+
 if ($_POST['intro']) { $intro = strip_tags(htmlspecialchars($_POST['intro'])); } else { $allowed = false; $intro = $_POST['intro']; }
 
 if ($title == "" or $intro == "") { $allowed = false; }
@@ -40,39 +35,45 @@ if (preg_match("/^PRIVATE\s?/",$intro)) {
 	if (!preg_match("/_private$/",$cat)) { $cat .= "_private"; }
 }
 else {
-	if ( preg_match("%\[URL=.*?\].*?\[/URL\]%i",$intro) ) { $allowed = false; }
-	if ( preg_match("%a href%i",$intro) ) { $allowed = false; }
-	if ( preg_match("%http%i",$intro) and $intro == fixup($intro) ) { $allowed = false; }
-	if (preg_match("/google.us/i",$intro)) { $allowed = false; }
+	if ( preg_match("%\[URL=.*?\].*?\[/URL\]%i",$intro) ) { $allowed = false; } // Use of URL BB-code
+	if ( preg_match("%a href%i",$intro) ) { $allowed = false; } // Use of HTML anchor
+	if ( preg_match("%http%i",$intro) and $intro == fixup($intro) ) { $allowed = false; } // Use of the string "http" outside of wiki-like url syntax
+	if ( preg_match("/google.us/i",$intro)) { $allowed = false; } // Use of the string "google.us"
 }
 
 $transaction_key = $_POST['transaction_key'];
 $_REQUEST[] = array();
+// Assuming nothing has gone horribly wrong above, handle the upload.
 if ($allowed == true) {
-if (is_uploaded_file($_FILES['userfile']['tmp_name'])) {
-  if ( $type = is_image($_FILES['userfile']['tmp_name']) ) {
-		$rand = mt_rand();
-		switch($type) {
-			case "image/jpeg": $type = ".jpg";
-			break;
-			case "image/gif": $type=".gif";
-			break;
-			case "image/png": $type=".png";
-			break;
+	if (is_uploaded_file($_FILES['userfile']['tmp_name'])) {
+		if (
+			$type = is_image($_FILES['userfile']['tmp_name']) ) {
+			$rand = mt_rand();
+			switch($type) {
+				case "image/jpeg": 	$type = ".jpg";
+							break;
+
+				case "image/gif": 	$type=".gif";
+							break;
+		
+				case "image/png": 	$type=".png";
+							break;
+			}
+			$uploadfilename = $rand.$type;
+			$uploadfile = $uploaddir . $uploadfilename;
+			if (move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile)) {
+				if(make_thumb($uploadfilename)) { $thumb = "thumb-"; } else { $thumb = NULL; }
+				$image = $thumb.$uploadfilename;
+			} else { $allowed = false; }
+		} else {
+			$uploadfilename = date("YmdHis") . '-' . str_replace(" ","_",$_FILES['userfile']['name']);
+			$uploadfile = $uploaddir . $uploadfilename;
+			move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile);
+			$image = $uploadfilename;
 		}
-		$uploadfilename = $rand.$type;
-		$uploadfile = $uploaddir . $uploadfilename;
-		if (move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile)) {
-      if(make_thumb($uploadfilename)) { $thumb = "thumb-"; } else { $thumb = NULL; }
-      $image = $thumb.$uploadfilename;
-		} else { $allowed = false; }
-  } else {  $uploadfilename = date("YmdHis") . '-' . str_replace(" ","_",$_FILES['userfile']['name']);
-            $uploadfile = $uploaddir . $uploadfilename;
-            move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile);
-	    $image = $uploadfilename;
-	    }
-} else { $image = NULL; }
+	} else { $image = NULL; }
 }
+
 if($allowed == true) {
 	if (check_transaction_key($transaction_key)) {
 		$db->exec('INSERT INTO '.$db_prefix.'data
@@ -82,7 +83,7 @@ if($allowed == true) {
 				"'.$date.'",
 				"'.$date.'",
 				"' . $intro . '",
-        "'.$image.'",
+				"'.$image.'",
 				"' . $commentable . '",
 				"' . $commentref . '",
 				"'.$sticky.'"

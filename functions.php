@@ -6,11 +6,6 @@ require_once('userconf.php');
 require_once('class_db.php');
 $db = new db();
 
-function get_name_md5($line) {
-	list($name,$address) = explode("@",$line);
-	return array(chop($name),$address);
-}
-
 function get_age($date)
 {
 	global $fuzzy;
