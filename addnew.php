@@ -24,7 +24,7 @@ if ($_POST['cat'] == "other") {
 	} else { $cat = "other"; }
 } else { $cat = $_POST['cat']; }
 
-if ($_POST['title']) { 
+if ($_POST['title']) {
 	$title = strip_tags(htmlspecialchars($_POST['title']));
 } else { $allowed = false; $title = $_POST['title']; }
 
@@ -55,7 +55,7 @@ if ($allowed == true) {
 
 				case "image/gif": 	$type=".gif";
 							break;
-		
+
 				case "image/png": 	$type=".png";
 							break;
 			}
@@ -121,7 +121,7 @@ $db->fetch($query2,1,$commentref."com");
 $db->fetch($query3,1,$commentref."1com");
 $db->fetch($query4,1,$commentref."coms");
 
-$res = $db->fetch('SELECT section 
+$res = $db->fetch('SELECT section
 	FROM '.$db_prefix.'data
 	WHERE id = "'.$commentref.'"
 	LIMIT 1');
