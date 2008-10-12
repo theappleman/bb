@@ -103,13 +103,21 @@ function show_pic($image) {
       $thumbname = $image;
       $filename = $image;
     }
-    return "<a href=\"".$hurl."/uploaded/".$filename."\"><img src=\"".$hurl."/uploaded/".$thumbname."\" /></a>";
+	  list($width,$height) = img_size($filename);
+    return "<a href=\"".$hurl."/uploaded/".$filename."\" rel=\"iv:${width}x${height}\"><img src=\"".$hurl."/uploaded/".$thumbname."\" /></a>";
   } else { 
     if ( file_exists($uploaddir.$image) ) {
       if ($snapcode) { $snap = "class=\"snap_shots\"";}
       return "<a href=\"$hurl/uploaded/$image\" $snap >$image</a>"; }
     }
 }
+
+function img_size($image) {
+	global $uploaddir;
+	list($width,$height) = @getimagesize($uploaddir.$image);
+	return array($width,$height);
+}
+
 
 function is_image($filename) {
 	$type=@getimagesize($filename);
@@ -164,10 +172,12 @@ function head($cat="",$id="") {
   global $style, $sitename, $hurl, $link;
 	$meta = enclose('link','','rel="stylesheet" href="'.$hurl.'/'.$style.'.css" type="text/css" title="default"');
 	if( $link ) { $rss = '/rss/'; $di = '/'; } else { $rss = '/rss.php?cat='; $di = '&id='; }
-  $meta .= enclose('link','','rel="alternate" type="application/rss+xml" href="'.$hurl.$rss.$cat.$di.$id.'" title="' . $sitename . ' feed"');
-  $meta .= enclose('script','','src="'.$hurl.'/ie7-standard-p.js" type="text/javascript"');
-  $meta .= enclose('script','','src="'.$hurl.'/gen_validatorv2.js" type="text/javascript"');
-  $meta .= '<meta name="robots" content="noindex, nofollow">';
+	$meta .= enclose('link','','rel="alternate" type="application/rss+xml" href="'.$hurl.$rss.$cat.$di.$id.'" title="' . $sitename . ' feed"');
+	$meta .= enclose('link','','rel="stylesheet" href="'.$hurl.'/iv.css" type="text/css"'); // image viewer
+	$meta .= enclose('script','','src="'.$hurl.'/iv.js" type="text/javascript"');
+	$meta .= enclose('script','','src="'.$hurl.'/ie7-standard-p.js" type="text/javascript"');
+	$meta .= enclose('script','','src="'.$hurl.'/gen_validatorv2.js" type="text/javascript"');
+	$meta .= '<meta name="robots" content="noindex, nofollow">';
 	return $meta;
 }
 
