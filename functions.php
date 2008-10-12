@@ -38,7 +38,6 @@ function get_age($date)
 	return $age_str;
 }
 
-
 function postbox($cat,$id,$message="") {
 global $hurl, $accept;
   $box = NULL;
@@ -95,7 +94,7 @@ function show_pic($image) {
     }
 	  list($width,$height) = img_size($filename);
     return "<a href=\"".$hurl."/uploaded/".$filename."\" rel=\"iv:${width}x${height}\"><img src=\"".$hurl."/uploaded/".$thumbname."\" /></a>";
-  } else { 
+  } else {
     if ( file_exists($uploaddir.$image) ) {
       if ($snapcode) { $snap = "class=\"snap_shots\"";}
       return "<a href=\"$hurl/uploaded/$image\" $snap >$image</a>"; }
@@ -107,7 +106,6 @@ function img_size($image) {
 	list($width,$height) = @getimagesize($uploaddir.$image);
 	return array($width,$height);
 }
-
 
 function is_image($filename) {
 	$type=@getimagesize($filename);
@@ -122,17 +120,17 @@ function make_thumb($filename) {
   $fullfile = $uploaddir . $filename;
   $thumbfile = $uploaddir . 'thumb-' . $filename;
 	if ($image_type = is_image($fullfile)) {
-		
+
     list($width_orig, $height_orig) = getimagesize($fullfile);
-    
+
     if ($width > $width_orig && $height > $height_orig) { return false; }
-		
+
     $ratio_orig = $width_orig/$height_orig;
 		if ($width/$height > $ratio_orig) { $width = $height*$ratio_orig; }
     else { $height = $width/$ratio_orig; }
-		
+
     $image_p = imagecreatetruecolor($width, $height);
-    
+
 		switch($image_type) {
 			case 'image/gif': $image = imagecreatefromgif($fullfile);
 				break;
@@ -142,9 +140,9 @@ function make_thumb($filename) {
 				break;
 			default: exit("Somehow, there is an error");
 		}
-    
+
     imagecopyresampled($image_p, $image, 0, 0, 0, 0, $width, $height, $width_orig, $height_orig);
-    
+
     switch($image_type) {
     case 'image/png': $image = imagepng($image_p,$thumbfile);
       break;
@@ -208,9 +206,9 @@ function menu() {
 
 	$rslt = NULL;
 	if( $link ) { $elbat = '/'; } else { $elbat = '/chatbox.php?cat='; }
-	foreach (array_unique($array) as $table) { 
+	foreach (array_unique($array) as $table) {
 		if (!preg_match("/_private$/",$table)) {
-			$rslt .= enclose('a',$table,'href="'.$hurl.$elbat.$table.'"'); 
+			$rslt .= enclose('a',$table,'href="'.$hurl.$elbat.$table.'"');
 			}
 	}
 	$return .= enclose('div',$rslt,'class="mainmenu"');

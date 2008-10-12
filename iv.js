@@ -1,5 +1,3 @@
-
-
 // can't live without x(y)
 function x(y){return document.getElementById(y)}
 
@@ -94,4 +92,3 @@ function DOMLoad(y){var d=0;var f=function(){if(d++)return;y()};
   clearInterval(t);f()}},10);window.onload=f;}
 
 DOMLoad(ivInit);
-

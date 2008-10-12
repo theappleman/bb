@@ -44,7 +44,7 @@ if ($result) {
   $body .= enclose('div',$entry,'class="entry"');
 
   if ($line['commentable'] >= 1) {
-    if ($result2) { 
+    if ($result2) {
     	foreach($result2 as $line2) {
       		$loop = NULL;
       		$foot = NULL;
@@ -58,11 +58,11 @@ if ($result) {
 	}
     	}
     $body .= enclose('div',$comments,'id="comments"');
-    if ($line['commentable'] == 2) { 
+    if ($line['commentable'] == 2) {
     if ($PRIVATE===TRUE) {
     	$bot .= enclose('div', postbox("comments_private",$id),'class="foot"');
     } else {
-      $bot .= enclose('div', postbox("comments",$id) ,'class="foot"'); 
+      $bot .= enclose('div', postbox("comments",$id) ,'class="foot"');
     }
     }
     else { $bot .= enclose('div',enclose('a','No more comments',''),'class="foot"'); }
