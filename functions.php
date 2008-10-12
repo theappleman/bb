@@ -65,7 +65,8 @@ global $hurl, $accept;
 				frmvalidator.addValidation("intro","req","Comment is required");
         frmvalidator.addValidation("intro","maxlength=1000","Comment must be less than 1000 characters");','type="text/javascript"');
     return $box;
- }
+}
+
 function fixup($text) {
   global $patterns;
   foreach($patterns as $key=>$value) {
@@ -75,8 +76,6 @@ function fixup($text) {
     '%#(.*?)@(irc\.[^\s]+)%i'=>'[[irc://$2/$1|#$1@$2]]',
     '%\[\[([^\|]*?)\]\]%'=>'[[$1|-link-]]',
     '%\[\[(.*?)\|(.*?)\]\]%'=>'<a href="$1" title="$1" >$2</a>',
-    '%\{\{(.*?)\|(.*?)\}\}%'=>'<a href="$2" class="highslide" rel="highslide" onclick="return hs.expand(this)" ><img src="$1" /></a>',
-    '%\{\{(.*?)\}\}%'=>'<a href="$1" class="highslide" rel="highslide" onclick="return hs.expand(this)" ><img src="$1" /></a>',
     '%\s\s+%'=>' ',
     '%\*(.*?)\*%'=>'<b>*$1*</b>'
     );
@@ -104,7 +103,7 @@ function show_pic($image) {
       $thumbname = $image;
       $filename = $image;
     }
-    return "{{".$hurl."/uploaded/".$thumbname."|".$hurl."/uploaded/".$filename."}}";
+    return "<a href=\"".$hurl."/uploaded/".$filename."\"><img src=\"".$hurl."/uploaded/".$thumbname."\" /></a>";
   } else { 
     if ( file_exists($uploaddir.$image) ) {
       if ($snapcode) { $snap = "class=\"snap_shots\"";}
@@ -163,13 +162,11 @@ function make_thumb($filename) {
 
 function head($cat="",$id="") {
   global $style, $sitename, $hurl, $link;
-	$meta = enclose('link','','rel="stylesheet" href="'.$hurl.'/'.$style.'.php" type="text/css" title="default"');
+	$meta = enclose('link','','rel="stylesheet" href="'.$hurl.'/'.$style.'.css" type="text/css" title="default"');
 	if( $link ) { $rss = '/rss/'; $di = '/'; } else { $rss = '/rss.php?cat='; $di = '&id='; }
   $meta .= enclose('link','','rel="alternate" type="application/rss+xml" href="'.$hurl.$rss.$cat.$di.$id.'" title="' . $sitename . ' feed"');
   $meta .= enclose('script','','src="'.$hurl.'/ie7-standard-p.js" type="text/javascript"');
-  $meta .= enclose('script','','src="'.$hurl.'/highslide.js" type="text/javascript"');
   $meta .= enclose('script','','src="'.$hurl.'/gen_validatorv2.js" type="text/javascript"');
-  $meta .= enclose('script','hs.graphicsDir = "'.$hurl.'/graphics/";','type="text/javascript"');
   $meta .= '<meta name="robots" content="noindex, nofollow">';
 	return $meta;
 }
