@@ -1,0 +1,178 @@
+Creating your commits
+---------------------
+
+1) Make commits in logical units
+
+A single commit should not change many things; It should change a single thing.
+
+The commit message should describe the technical detail of the change (e.g.
+what the patch hopes to change, and reasons for changing it).
+
+Be as specific as possible. It is very unlikely that your patch only needs a
+single line to describe your change.
+
+If the description of the patch gets too long, it's a sign that your patch
+should be split into 2 or more commits.
+
+For example, if your changes include both bug fixes and performance
+enhancements, separate those changes into patches for the bug fixes and
+patches for the performance enhancements.
+
+On the other hand, if you make a single change to numerous files, group those
+changes into a single patch (or a small series, if a lot of files have the
+change).
+
+2) Do not include unnecessary files and/or commented or unused code
+
+A patch should only touch what needs to be changed.
+It should not include items that are not related to the change.
+
+Added code should be used immediately. A patch should not depend on another
+patch which has not yet been included, unless it is in the same series or a
+follow-up to someone else's patch/series.
+
+3) Sign your work
+
+To improve tracking of who did what, and to ensure that contributions are
+allowed to be distributed freely and openly, you must "sign-off" your work.
+
+Different sign-offs carry different weights for different purposes. The order
+of weight, starting with the most important, is as follows:
+	- Signed-off-by:
+	- Acked-by:
+	- Tested-by:
+	- Cc:
+
+A real name (no pseudonyms or anonymous contributors) is used in most
+of the sign-off lines (the exception is Cc, where the address may be a mailing
+list).
+This line has legal implications. If you are not proud of your work, do not
+send it in.
+Except for Cc:, a line must be given from the person to which the line is
+attributed to.
+
+A patch must contain at least one Signed-off-by: line.
+
+3a) Signed-off-by:
+
+The Signed-off-by: line indicates that the signer was involved in the
+development of the patch.
+
+The sign-off is a simple line at the end of the explanation for
+the patch, which certifies that you wrote it or otherwise have
+the right to pass it on as a open-source patch.  The rules are
+pretty simple: if you can certify the below:
+
+        Developer's Certificate of Origin 1.1
+
+        By making a contribution to this project, I certify that:
+
+        (a) The contribution was created in whole or in part by me and I
+            have the right to submit it under the open source license
+            indicated in the file; or
+
+        (b) The contribution is based upon previous work that, to the best
+            of my knowledge, is covered under an appropriate open source
+            license and I have the right under that license to submit that
+            work with modifications, whether created in whole or in part
+            by me, under the same open source license (unless I am
+            permitted to submit under a different license), as indicated
+            in the file; or
+
+        (c) The contribution was provided directly to me by some other
+            person who certified (a), (b) or (c) and I have not modified
+            it.
+
+        (d) I understand and agree that this project and the contribution
+            are public and that a record of the contribution (including all
+            personal information I submit with it, including my sign-off) is
+            maintained indefinitely and may be redistributed consistent with
+            this project or the open source license(s) involved.
+
+Then you can add a Signed-off-by: line to your commit message.
+
+3b) Acked-by:
+
+Acked-by: indicates that the patch has been reviewed and found
+acceptable according to the Reviewer's Statement:
+
+        Reviewer's statement of oversight
+
+        By offering my Acked-by: line, I state that:
+
+         (a) I have carried out a technical review of this patch to
+             evaluate its appropriateness and readiness for inclusion into
+             the project.
+
+         (b) Any problems, concerns, or questions relating to the patch
+             have been communicated back to the submitter.  I am satisfied
+             with the submitter's response to my comments.
+
+         (c) While there may be things that could be improved with this
+             submission, I believe that it is, at this time, (1) a
+             worthwhile modification to the project, and (2) free of known
+             issues which would argue against its inclusion.
+
+         (d) While I have reviewed the patch and believe it to be sound, I
+             do not (unless explicitly stated elsewhere) make any
+             warranties or guarantees that it will achieve its stated
+             purpose or function properly in any given situation.
+
+An Acked-by: line is a statement of opinion that the patch is an
+appropriate modification of the project without any remaining serious
+technical issues. Any interested reviewer (who has done the work) can
+offer an Acked-by: line for a patch. This tag serves to give credit to
+reviewers and to inform maintainers of the degree of review which has been
+done on the patch. Acked-by: lines, when supplied by reviewers known to
+understand the subject area and to perform thorough reviews, will normally
+increase the likelihood of your patch getting into the project.
+
+3c) Tested-by:
+
+A Tested-by: tag indicates that the patch has been successfully tested (in
+some environment) by the person named.  This tag informs maintainers that
+some testing has been performed, provides a means to locate testers for
+future patches, and ensures credit for the testers.
+
+If the patch is in response to a bug report, the patch should contain a
+Tested-by: line from the bug reporter (unless the reporter already has a line
+of greater weight).
+
+3d) Cc:
+
+A person who has provided comments to the patch may be added to the commit
+message with a Cc: line. This is the only tag which might be added without
+explicit action by the person named.
+A Cc: to a mailing list should be given by an appropriate member of the mailing
+list (usually the owner or maintainer of the list or subsystem).
+
+Sending in your patches
+-----------------------
+
+1) Patches
+
+Best practice for patches via email is to use git-format-patch(1).
+Feed the patch inline, into the message body. Some mail clients can't do this
+very well. If yours cannot, use git-send-email(1).
+
+Ensure the complete patch is in plain text, otherwise it is very likely to be
+dropped.
+
+Ensure the Subject: line is prefixed with [PATCH] or it's variants:
+	- Patch / Series Number
+		[PATCH n/m]
+	- Revision
+		[PATCH v2]
+	- RFCs
+		[PATCH/RFC]
+These are not mutually exclusive (e.g. a valid prefix [PATCH v2 03/11]).
+
+2) Pull request
+
+Ensure the address and branch name are on the same line with nothing else.
+Include a diffstat, and do not edit the branch until inclusion or rejection.
+
+A pull request should have the Subject: line prefixed with [PULL], with the
+name of the project and/or a summary of the changes.
+
+The branch should contain the equivalent of a single patch series.
