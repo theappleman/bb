@@ -14,7 +14,7 @@ RewriteRule ^([1-9][0-9-]*)$ show.php?id=$1&cat=%1
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{HTTP_HOST} ^([^\.]+)\.applehq\.eu
-RewriteRule ^p([0-9]+)$ chatbox.php?cat=%1&page=$1
+RewriteRule ^-([0-9]+)$ chatbox.php?cat=%1&page=$1
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
