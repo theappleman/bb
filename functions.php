@@ -226,7 +226,7 @@ function menu($show=false) {
 			}
 			$thurl .= $table;
 			$thurl .= $rhurl;
-			$rslt .= enclose('a',$table,'href="'.$hurl.'"');
+			$rslt .= enclose('a',$table,'href="'.$thurl.'"');
 			}
 	}
 	$return .= enclose('div',$rslt,'class="mainmenu"');
