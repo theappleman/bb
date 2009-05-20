@@ -1,0 +1,5 @@
+- Fix the Next bug (functions.php:menu())
+- Clean everything up
+
+Subdomains
+- Don't redirect to comments cat when commenting

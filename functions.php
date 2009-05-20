@@ -240,6 +240,7 @@ function menu($show=false) {
    	 $pages .= enclose('a','Previous','href="'.$hurl.$egap.($page-1).'"'); }
     }
    $pages .= enclose('a','Next','href="'.$hurl.$egap.($page+1).'"');
+   /* always show next link, this function has no way of knowing if there are more */
   }
 
   if ($pages) { $return .= enclose('div',$pages,'class=mainmenu'); }

@@ -198,6 +198,7 @@ if ($commentref == 0) {
 				LIMIT 10',1,$sec);
 		}
 	}
+	/* redirect to parent cat, not "comments" */
 	header('Location:'.$hurl.$show.$commentref);
 }
 
