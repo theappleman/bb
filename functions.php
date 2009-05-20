@@ -233,7 +233,12 @@ function menu($show=false) {
 
   if ($show==false) {
 	if( $link ) { $egap = '/-'; } else { $egap = '&page='; }
-    if ( $page != "" && $page != "0" ) { $pages .= enclose('a','Previous','href="'.$hurl.$egap.($page-1).'"'); }
+    if ( $page != "" && $page != "0" ) {
+    	if($page == "1") {
+   	 $pages .= enclose('a','Previous','href="'.$hurl.'/"');
+	}else{
+   	 $pages .= enclose('a','Previous','href="'.$hurl.$egap.($page-1).'"'); }
+    }
    $pages .= enclose('a','Next','href="'.$hurl.$egap.($page+1).'"');
   }
 
