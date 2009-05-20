@@ -49,10 +49,7 @@ if ($_POST['cat'] == "") {
 
 if ($_POST['title']) {
 	$title = strip_tags(htmlspecialchars($_POST['title']));
-} else {
-	$allowed = false;
-	$title = $_POST['title'];
-}
+} else { $title = "Anonymous"; }
 
 if ($_POST['intro']) {
 	$intro = strip_tags(htmlspecialchars($_POST['intro']));
