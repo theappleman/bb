@@ -1,4 +1,13 @@
-Copyright © 2007-2009 Daniel Cordero
+NOTE: This licence applies to most of the code in 'bb'. Two exceptions:
+	class_db.php was written by Troy Wolf (troywolf.com) and modified
+		by Daniel Cordero. The precise license is unknown.
+	(Probably still copyrighted by the owner and not public	domain)
+	iv.{j,cs}s was written by Yoran Heling (yorhel.nl). It is licenced
+		under the GNU Affero GPL version 3.
+		The text version of the GNU AGPLv3 has a sha256sum of:
+	57c8ff33c9c0cfc3ef00e650a1cc910d7ee479a8bc509f6c9209a7c2a11399d6
+
+Copyright © 2007, 2008, 2009 Daniel Cordero
 
 This software is provided 'as-is', without any express or implied
 warranty. In no event will the authors be held liable for any damages
