@@ -1,4 +1,6 @@
-.hg
+syntax: glob
+
+.git
 userconf.php
 uploaded
 cache
