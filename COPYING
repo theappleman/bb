@@ -7,6 +7,13 @@ NOTE: This licence applies to most of the code in 'bb'. Two exceptions:
 		The text version of the GNU AGPLv3 has a sha256sum of:
 	57c8ff33c9c0cfc3ef00e650a1cc910d7ee479a8bc509f6c9209a7c2a11399d6
 
+
+If you copy a section of the Software, you do not need to copy my
+copyright line and the license text below as long as the resulting
+Software is under an OSI-certified license.
+
+-----
+
 Copyright © 2007, 2008, 2009 Daniel Cordero
 
 This software is provided 'as-is', without any express or implied
