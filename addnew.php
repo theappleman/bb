@@ -13,6 +13,9 @@ if ($_POST['cat'] == "other")
 	$cat = $_POST['cat'];
 }
 
+if ($cat === false)
+	die("I need a category.");
+
 require_once('functions.php');
 
 $allowed = true;
@@ -34,7 +37,7 @@ if (isset($_POST['sticky'])) {
 if (isset($_POST['commentable'])) {
 	$commentable = $_POST['commentable'];
 } else {
-	$commentable = 0;
+	if ($cat == "comments") { $commentable = 0; } else { $commentable = 2; }
 }
 
 if (isset($_POST['commentref']) && $_POST['commentref'] != 0) {
