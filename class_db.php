@@ -315,7 +315,7 @@ class db {
         }
         break;
       case "sqlite":
-        if (!$data = sqlite_array_query($this->cnn, $this->sql, SQLITE_ASSOC)) {
+        if (!$data = @sqlite_array_query($this->cnn, $this->sql, SQLITE_ASSOC)) {
 	  $this->log .= "Query execution failed. moo!<br />";
 	  return false;
 	}
