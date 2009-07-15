@@ -26,6 +26,16 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{HTTP_HOST} ^([^\.]+)\.applehq\.eu
 RewriteRule ^rss/?$ rss.php?cat=%1
 
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{HTTP_HOST} ^([^\.]+)\.applehq\.eu
+RewriteRule ^atom/([0-9]+)$ atom.php?cat=%1&id=$1
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{HTTP_HOST} ^([^\.]+)\.applehq\.eu
+RewriteRule ^atom/?$ atom.php?cat=%1
+
 RewriteCond %{HTTP_HOST} ^([^\.]+)\.applehq\.eu
 RewriteRule ^$ chatbox.php?cat=%1
 
