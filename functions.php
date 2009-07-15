@@ -5,7 +5,7 @@
 require_once('userconf.php');
 require_once('class_db.php');
 
-$db = new db();
+$db = new db($db_user == "" ? 1 : 0);
 
 function hurl($secure, $cat, $rhurl)
 {

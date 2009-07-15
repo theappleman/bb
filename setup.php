@@ -3,15 +3,32 @@
 	This is just a layout for the config file: change this now!
 	Rename this file userconf.php as well
 */
-// The next 4 variables are required for the system to work, the rest make it work properly.
+
+/* MySQL users: */
+/*
+ * The next 5 variables are required for the system to work, the rest make it work properly.
+ * Don't touch these if you are using SQLite
+ */
 $db_host = "localhost"; // database hostname
 $db_user = ""; // username for the database
 $db_pass = ""; // password for said user
 $db_data = ""; // name of the database being used
-
 $db_prefix = ""; // prefix of database tables
-$cache_dir = ""; // Full path to a cache directory, not web readable. Needs trailing slash.
+/* end MySQL */
+
+$cache_dir = ""; /*
+		  * Full path to a cache directory, should not be visible to the public.
+		  * Needs trailing slash.
+		  * Needs to be writable by the web server
+		  */
 $cache_time = "0"; // Cache time. Depending on traffic I guess.
+
+/*
+ * SQLite users:
+ * Uncomment to use SQLite
+ */
+// $db_host = "${cache_dir}sqlite.db";
+/* end SQLite */
 
 $sitename = $cat; // string to use at the top of each page
 $secure = false; // Use HTTPS?
