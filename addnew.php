@@ -79,7 +79,7 @@ else {
 	if (preg_match("%http%i",$intro) and $intro == fixup($intro)) {
 		$allowed = false;
 	} // Use of the string "http" outside of wiki-like url syntax
-	if (reg_match("/google.us/i",$intro)) {
+	if (preg_match("/google.us/i",$intro)) {
 		$allowed = false;
 	} // Use of the string "google.us"
 }
