@@ -167,7 +167,6 @@ if ($commentref == 0) {
 	$db->exec('UPDATE '.$db_prefix.'data
 		SET lastupd = "'.date($datefmt).'"
 		WHERE id = "'.$commentref.'"
-		LIMIT 1
 	') or die('Could not update post time (don\'t worry, your post has gone through).');
 	$query2 = 'SELECT id,title,date,intro,commentable,image
 		FROM '.$db_prefix.'data

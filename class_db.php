@@ -82,11 +82,30 @@ class db {
         }
         break;
       case "sqlite":
-        if (!$this->cnn = sqlite_open($this->server), 0666, $sqliteerror) {
+	$test = is_file($this->server);
+        if (!$this->cnn = sqlite_open($this->server, 0666, $sqliteerror)) {
 	   $this->log .= "sqlite_open() failed<br />";
 	   $this->log .= "$sqliteerror<br />";
 	   return false;
 	 }
+	if (!$test) {
+		sqlite_query($this->cnn, "CREATE TABLE 'data' (
+					  'id' integer primary key,
+					  'title' varchar(100),
+					  'date' datetime,
+					  'lastupd' datetime,
+					  'intro' text,
+					  'image' varchar(256),
+					  'section' varchar(100),
+					  'commentable' tinyint(1),
+					  'commentref' bigint(4),
+					  'sticky' tinyint(1) default '1'
+					)");
+		sqlite_query($this->cnn, "CREATE TABLE 'transactions' (
+					  'transaction_key' varchar(24),
+					  UNIQUE ('transaction_key')
+					)");
+	}
 	 break;
     }
     return true;
@@ -159,7 +178,7 @@ class db {
         }
         break;
       case "sqlite":
-        if (!$res = @sqlite_exec($this->cnn, $this->sql, $sqliteerror))
+        if (!$res = @sqlite_exec($this->cnn, $this->sql, $sqliteerror)) {
 	  $this->log .= "Query execution failed.<br />";
 	  $this->log .= "$sqliteerror<br />";
 	}
@@ -296,12 +315,10 @@ class db {
         }
         break;
       case "sqlite":
-        if (!$data = @sqlite_array_query($this->cnn, $this->sqlite, SQLITE_ASSOC)) {
-	  $this->log .= "Query execution failed.<br />";
+        if (!$data = sqlite_array_query($this->cnn, $this->sql, SQLITE_ASSOC)) {
+	  $this->log .= "Query execution failed. moo!<br />";
 	  return false;
 	}
-
-
     }
     return $data;
   }
