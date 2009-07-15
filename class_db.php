@@ -63,6 +63,10 @@ class db {
         $pwd 		      = $db_pass;
         $this->db     = $db_data;
         break;
+      case 1:
+        $this->db_type = "sqlite";
+	$this->server  = $db_host;
+	break;
     }
     switch($this->db_type) {
       case "mysql":
@@ -77,6 +81,13 @@ class db {
           return false;
         }
         break;
+      case "sqlite":
+        if (!$this->cnn = sqlite_open($this->server), 0666, $sqliteerror) {
+	   $this->log .= "sqlite_open() failed<br />";
+	   $this->log .= "$sqliteerror<br />";
+	   return false;
+	 }
+	 break;
     }
     return true;
   }
@@ -147,6 +158,12 @@ class db {
           return false;
         }
         break;
+      case "sqlite":
+        if (!$res = @sqlite_exec($this->cnn, $this->sql, $sqliteerror))
+	  $this->log .= "Query execution failed.<br />";
+	  $this->log .= "$sqliteerror<br />";
+	}
+	break;
     }
 
     /*
@@ -159,6 +176,10 @@ class db {
         $this->rows_affected = mysql_affected_rows($this->cnn);
         $this->log .= $this->rows_affected." rows affected<br />";
         return $this->rows_affected;
+	break;
+      case "sqlite":
+        return sqlite_changes($this->cnn);
+	break;
     }
   }
 
@@ -274,6 +295,13 @@ class db {
           $data[] = $row;
         }
         break;
+      case "sqlite":
+        if (!$data = @sqlite_array_query($this->cnn, $this->sqlite, SQLITE_ASSOC)) {
+	  $this->log .= "Query execution failed.<br />";
+	  return false;
+	}
+
+
     }
     return $data;
   }
