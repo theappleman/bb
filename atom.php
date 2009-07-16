@@ -66,7 +66,7 @@ if ($result) {
 		 */
 		$item .= enclose('title',str_replace($nl,"",$line['title']));
 		$item .= enclose('author',str_replace($nl,"",$line['section']));
-		$item .= enclose('summary',
+		$item .= enclose('content',
 				 fixup(str_replace($nl," ",$line['intro'])));
 		$item .= enclose('updated',date('c',strtotime($line['date'])));
 		if ($cat == "comments") {
