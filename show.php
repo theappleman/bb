@@ -8,10 +8,10 @@ $_REQUEST = array(NULL);
 
 require_once('functions.php');
 
-$query = 'SELECT title,date,intro,commentable,image
-	FROM '.$db_prefix.'data
-	WHERE id ="' . $id . '"
-	LIMIT 1';
+$query = sprintf("SELECT title,date,intro,commentable,image
+	FROM '%s'
+	WHERE id = '%d'
+	LIMIT 1", "${db_prefix}data", "$id");
 
 $result = $db->fetch(
 	$query,
@@ -19,10 +19,10 @@ $result = $db->fetch(
 	$id
 	);
 
-$query2 = 'SELECT id,title,date,intro,image
-	FROM '.$db_prefix.'data
-	WHERE commentref="'.$id.'"
-	ORDER BY date ASC';
+$query2 = sprintf("SELECT id,title,date,intro,image
+	FROM '%s'
+	WHERE commentref = '%d'
+	ORDER BY date ASC", "${db_prefix}data", "$id");
 
 $result2 = $db->fetch(
 	$query2,

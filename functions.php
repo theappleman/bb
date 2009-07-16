@@ -86,13 +86,13 @@ function fixup($text)
   return $text;
  }
 
- function finish_up($head,$body,$show=false) {
+function finish_up($head,$body,$show=false) {
   $body = enclose('div',$body,'id="content"') . menu($show);
   $head = enclose('head',$head,'');
   $body = enclose('body',$body,'');
   $finish = enclose('html',$head . $body,'xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"');
   return $finish;
-  }
+}
 
 function show_pic($image) {
   if (!$image) { return ''; }
@@ -194,8 +194,9 @@ function single_section($cat) {
 
 function comments($id) {
 	global $db,$db_prefix,$cache_time;
+
 	$com_num = 0;
-	$query = 'SELECT id FROM '.$db_prefix.'data WHERE commentref = "'.$id.'"';
+	$query = sprintf("SELECT id FROM '%s' WHERE commentref = '%d'", "${db_prefix}data", "$id");
 	$result = $db->fetch($query,$cache_time,$id."coms");
 	if ($result) { foreach ($result as $r) { $com_num += 1; } }
 	return $com_num;
@@ -210,7 +211,7 @@ function menu($show=false) {
 		}
 	$return .= enclose("div",$sitemenu,'class="mainmenu"');
 
-	$rslt = $db->fetch('SELECT DISTINCT section FROM '.$db_prefix.'data',$cache_time,"sections");
+	$rslt = $db->fetch(sprintf("SELECT DISTINCT section FROM '%s'", "${db_prefix}data"), $cache_time, "sections");
 
 	if ($rslt) {
     foreach($rslt as $ln) {
@@ -270,7 +271,7 @@ function enclo_s($type,$opts) { return '<' . $type . ' ' . $opts . ' />'; }
 
 function check_transaction_key($key) {
 	global $db_prefix, $db;
-	if (false === $db->exec('INSERT INTO '.$db_prefix.'transactions (transaction_key) VALUES ("'.$key.'")')) { return false; }
+	if (false === $db->exec(sprintf("INSERT INTO '%s' (transaction_key) VALUES ('%s')","${db_prefix}transactions", "$key"))) { return false; }
 	else { return true; }
 }
 

@@ -10,12 +10,12 @@ require_once('functions.php');
 
 $id = $page != "" ? $out . ' OFFSET ' . $page * $out : $out;
 
-$query = 'SELECT id,title,date,intro,commentable,image
-	FROM '.$db_prefix.'data WHERE section = "'.$cat.'"
-	ORDER BY sticky ASC,lastupd DESC, date DESC ';
+$query = sprintf("SELECT id,title,date,intro,commentable,image
+	FROM '%s' WHERE section = '%s'
+	ORDER BY sticky ASC,lastupd DESC, date DESC ", "${db_prefix}data", "$cat");
 
 if ($out != "0")
-	$query .= ' LIMIT '.$id;
+	$query .= sprintf(" LIMIT %s", $id);
 
 if($link) {
 	$show = '/';
@@ -60,12 +60,12 @@ if ($result) {
 		}
 
 		if ($commnum >= 1) {
-			$query2 = 'SELECT id,title,date,intro,image
-				FROM '.$db_prefix.'data
-				WHERE commentref="'.$line['id'].'"
-				AND section = "comments"
+			$query2 = sprintf("SELECT id,title,date,intro,image
+				FROM '%s'
+				WHERE commentref = '%d'
+				AND section = 'comments'
 				ORDER BY sticky ASC, date DESC
-				LIMIT 1';
+				LIMIT 1", "${db_prefix}data", $line['id']);
 			$result2 = $db->fetch($query2,$cache_time,$line['id']."1com");
 
 			if ($result2) {

@@ -8,27 +8,27 @@ $_REQUEST = array(NULL);
 
 require_once('functions.php');
 
-$query = 'SELECT id,title,date,intro,section FROM '.$db_prefix.'data ';
+$query = sprintf("SELECT id,title,date,intro,section FROM %s ", "${db_prefix}data");
 
 if ($id != "" && $cat == "comments" && $id != "0") {
-	$query .= 'WHERE section = "comments"
-				AND commentref = "'.$id.'"
+	$query .= sprintf("WHERE section = 'comments'
+				AND commentref = %d
 				AND date <= "'.date($datefmt).'"
-			ORDER BY date DESC';
+			ORDER BY date DESC", "$id");
 	$type = $id.$section;
 } else {
 	if($cat != "") {
-		$query .= '
-		WHERE section LIKE "%'.$cat.'%"
-			AND date <= "'.date($datefmt).'"';
+		$query .= sprintf("
+		WHERE section LIKE '%%%s%%'
+			AND date <= %s", "$cat", date($datefmt));
 	$type = $cat;
 	} else {
-		$query .= 'WHERE date <= "'.date($datefmt).'"';
+		$query .= sprintf("WHERE date <= %s", date($datefmt));
 		$type = "all";
 	}
 	$query .= " ORDER BY date DESC ";
 	if ($id >= 1) {
-		$query .='LIMIT '.$id; $type .= $id;
+		$query .= sprintf("LIMIT %d", "$id"); $type .= $id;
 	} else {
 		$query .='LIMIT 20'; $type .= 20;
 	}

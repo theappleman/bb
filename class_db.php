@@ -181,6 +181,7 @@ class db {
         if (!$res = @sqlite_exec($this->cnn, $this->sql, $sqliteerror)) {
 	  $this->log .= "Query execution failed.<br />";
 	  $this->log .= "$sqliteerror<br />";
+	  return false;
 	}
 	break;
     }

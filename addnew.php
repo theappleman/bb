@@ -126,18 +126,13 @@ if ($allowed == true) {
 
 if ($allowed == true) {
 	if (check_transaction_key($transaction_key)) {
-		$db->exec('INSERT INTO '.$db_prefix.'data
-			(title,section, date,lastupd, intro, image, commentable, commentref,sticky)
-			VALUES ("' . $title . '",
-				"'. $cat .'",
-				"'.$date.'",
-				"'.$date.'",
-				"' . $intro . '",
-				"'.$image.'",
-				"' . $commentable . '",
-				"' . $commentref . '",
-				"'.$sticky.'"
-				)') or die('Sorry, there was a problem and your post could not be completed. ' .mysql_error());
+		$db->exec(sprintf("INSERT INTO '%s'
+			(title, section, date, lastupd, intro, image, commentable, commentref, sticky)
+			VALUES ('%s', '%s', '%s', '%s', '%s', '%s', %d, %d, %d)",
+				"${db_prefix}data", "$title", "$cat", "$date",
+				"$date", "$intro", "$image", "$commentable",
+				"$commentref", "$sticky")
+		) or die('Sorry, there was a problem and your post could not be completed.<br />' .$db->log);
 	} else {
 		exit("Double post detected!");
 	}
@@ -152,52 +147,55 @@ if($link) {
 	$show = '/show.php?id=';
 }
 if ($commentref == 0) {
-	$db->fetch('SELECT title,date,intro,commentable,image
-	FROM '.$db_prefix.'data
-	WHERE id ="' . $db->last_id . '"
-	LIMIT 1',1,$db->last_id);
-	$db->fetch('SELECT id,title,date,intro,commentable,image
-	FROM '.$db_prefix.'data
-	WHERE section = "'.$cat.'"
+	$db->fetch(sprintf("SELECT title,date,intro,commentable,image
+	FROM' %s'
+	WHERE id = '%d'
+	LIMIT 1", "${db_prefix}data", "$db->last_id"),1,$db->last_id);
+
+	$db->fetch(sprintf("SELECT id,title,date,intro,commentable,image
+	FROM '%s'
+	WHERE section = '%s'
 	ORDER BY sticky ASC, lastupd DESC, date DESC
-	LIMIT 10',1,$cat);
-	$db->fetch('SELECT DISTINCT section FROM '.$db_prefix.'data',1,"sections");
-  header('Location:'.$hurl.$show.$db->last_id);
+	LIMIT 10", "${db_prefix}data", "$cat"),1,$cat);
+
+	$db->fetch(sprintf("SELECT DISTINCT section FROM '%s'", "${db_prefix}data"),1,"sections");
+	header('Location:'.$hurl.$show.$db->last_id);
 } else {
-	$db->exec('UPDATE '.$db_prefix.'data
-		SET lastupd = "'.date($datefmt).'"
-		WHERE id = "'.$commentref.'"
-	') or die('Could not update post time (don\'t worry, your post has gone through).');
-	$query2 = 'SELECT id,title,date,intro,commentable,image
-		FROM '.$db_prefix.'data
-		WHERE commentref="'.$commentref.'"
-		ORDER BY date ASC';
-	$query3 = 'SELECT id,title,date,intro,image
-		FROM '.$db_prefix.'data
-		WHERE commentref="'.$commentref.'"
+	$db->exec(sprintf("UPDATE '%s' SET lastupd = '%s' WHERE id = '%d'",
+			"${db_prefix}data", date($datefmt), "$commentref"))
+		or die("Could not update post time (don't worry, your post has gone through).");
+
+	$query2 = sprintf("SELECT id,title,date,intro,commentable,image
+		FROM '%s'
+		WHERE commentref = '%d'
+		ORDER BY date ASC", "${db_prefix}data", "$commentref");
+	$query3 = sprintf("SELECT id,title,date,intro,image
+		FROM '%s'
+		WHERE commentref = '%d'
 		ORDER BY sticky ASC, lastupd DESC
-		LIMIT 1';
-	$query4 = 'SELECT id
-		FROM '.$db_prefix.'data
-		WHERE commentref = "'.$commentref.'"
-			AND section = "comments"';
+		LIMIT 1", "${db_prefix}data", "$commentref");
+	$query4 = sprintf("SELECT id
+		FROM '%s'
+		WHERE commentref = '%d'
+			AND section = 'comments'",
+		"${db_prefix}data", "$commentref");
 
 	$db->fetch($query2,1,$commentref."com");
 	$db->fetch($query3,1,$commentref."1com");
 	$db->fetch($query4,1,$commentref."coms");
 
-	$res = $db->fetch('SELECT section
-		FROM '.$db_prefix.'data
-		WHERE id = "'.$commentref.'"
-		LIMIT 1');
+	$res = $db->fetch(sprintf("SELECT section
+		FROM '%s'
+		WHERE id = '%d'
+		LIMIT 1", "${db_prefix}data", "$commentref"));
 	if ($res) {
 		foreach ($res as $line) {
 			$sec = $line['section'];
-			$db->fetch('SELECT id,title,date,intro,commentable,image
-				FROM '.$db_prefix.'data
-				WHERE section = "'.$sec.'"
+			$db->fetch(sprintf("SELECT id,title,date,intro,commentable,image
+				FROM '%s'
+				WHERE section = '%s'
 				ORDER BY sticky ASC, lastupd DESC, date DESC
-				LIMIT 10',1,$sec);
+				LIMIT 10", "${db_prefix}data", "sec"),1,$sec);
 		}
 	}
 	/* redirect to parent cat, not "comments" */
