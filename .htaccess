@@ -2,10 +2,6 @@ Options -Indexes
 AddDefaultCharset UTF-8
 RewriteEngine on
 
-RewriteCond %{HTTP_REFERER} ^$
-RewriteCond %{REQUEST_METHOD} ^POST$
-RewriteRule ^addnew.php - [F]
-
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{HTTP_HOST} ^([^\.]+)\.applehq\.eu
