@@ -13,19 +13,14 @@ $query = sprintf("SELECT id,title,date,intro,section FROM %s ", "${db_prefix}dat
 if ($id != "" && $cat == "comments" && $id != "0") {
 	$query .= sprintf("WHERE section = 'comments'
 				AND commentref = %d
-				AND date <= %s
-			ORDER BY date DESC", "$id", date($datefmt));
+			ORDER BY date DESC", "$id");
 	$type = $id.$section;
 } else {
 	if($cat != "") {
-		$query .= sprintf("
-		WHERE section LIKE '%%%s%%'
-			AND date <= '%s'", "$cat", date($datefmt));
-	$type = $cat;
-	} else {
-		$query .= sprintf("WHERE date <= %s", date($datefmt));
+		$query .= sprintf("WHERE section LIKE '%%%s%%'", "$cat");
+		$type = $cat;
+	} else
 		$type = "all";
-	}
 	$query .= " ORDER BY date DESC ";
 	if ($id >= 1) {
 		$query .= sprintf("LIMIT %d", "$id");

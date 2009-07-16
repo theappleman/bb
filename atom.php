@@ -18,17 +18,14 @@ if ($id != "" && $cat == "comments" && $id != "0") {
 	$type = $id.$section;
 } else {
 	if($cat != "") {
-		$query .= sprintf("
-		WHERE section LIKE '%%%s%%'
-			AND date <= %s", "$cat", date($datefmt));
-	$type = $cat;
-	} else {
-		$query .= sprintf("WHERE date <= %s", date($datefmt));
+		$query .= sprintf("WHERE section LIKE '%%%s%%' AND date <= %s", "$cat", date($datefmt));
+		$type = $cat;
+	} else
 		$type = "all";
-	}
 	$query .= " ORDER BY date DESC ";
 	if ($id >= 1) {
-		$query .= sprintf("LIMIT %d", "$id"); $type .= $id;
+		$query .= sprintf("LIMIT %d", "$id");
+		$type .= $id;
 	} else {
 		$query .='LIMIT 20'; $type .= 20;
 	}
