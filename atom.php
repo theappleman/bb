@@ -49,10 +49,9 @@ if ($link) {
 }
 
 $channel .= enclose('title',$sitename);
-$channel .= e_nclos('link','href="'.$hurl.'"');
-$channel .= enclose('description',$meta_desc);
-$channel .= enclose('language','en-gb');
-$channel .= enclose('updated',date('r'));
+$channel .= enclo_s('link','href="'.$hurl.'"');
+$channel .= enclose('subtitle',$meta_desc);
+$channel .= enclose('updated',date('c'));
 $channel .= enclo_s('atom:link',
 	'href="'.$hurl.$_SERVER['REQUEST_URI']
 	.'" rel="self" type="application/atom+xml"');
@@ -69,20 +68,20 @@ if ($result) {
 		$item .= enclose('author',str_replace($nl,"",$line['section']));
 		$item .= enclose('summary',
 				 fixup(str_replace($nl," ",$line['intro'])));
-		$item .= enclose('updated',date('r',strtotime($line['date'])));
+		$item .= enclose('updated',date('c',strtotime($line['date'])));
 		if ($cat == "comments") {
 			$perm = $id;
 		} else {
 			$perm = $line['id'];
 		}
-		$item .= e_nclos('link','href="'.$hurl.$show.$perm.'"');
-		$items .= enclose('enntry',$item);
+		$item .= enclo_s('link','href="'.$hurl.$show.$perm.'"');
+		$items .= enclose('entry',$item);
 	}
 }
 
 $channel .= $items;
 $return = enclose('feed',$channel,
-	'version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"');
+	'xmlns="http://www.w3.org/2005/Atom"');
 header('Content-type: application/atom+xml');
 echo $return;
 ?>
