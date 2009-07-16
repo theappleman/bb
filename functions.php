@@ -12,7 +12,10 @@ function hurl($secure, $cat, $rhurl)
 	$hurl = $secure ? "https://" : "http://";
 	$hurl .= $cat;
 	$hurl .= $rhurl;
+	return $hurl;
 }
+
+$hurl = hurl($secure, $cat, $rhurl);
 
 function get_age($date, $fuzzy=true)
 {
