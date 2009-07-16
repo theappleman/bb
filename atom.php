@@ -13,7 +13,6 @@ $query = sprintf("SELECT id,title,date,intro,section FROM %s ", "${db_prefix}dat
 if ($id != "" && $cat == "comments" && $id != "0") {
 	$query .= sprintf("WHERE section = 'comments'
 				AND commentref = %d
-				AND date <= "'.date($datefmt).'"
 			ORDER BY date DESC", "$id");
 	$type = $id.$section;
 } else {
