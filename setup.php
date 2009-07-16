@@ -21,7 +21,7 @@ $cache_dir = ""; /*
 		  * Needs trailing slash.
 		  * Needs to be writable by the web server
 		  */
-$cache_time = "0"; // Cache time. Depending on traffic I guess.
+$cache_time = 0; // Cache time. Depending on traffic I guess.
 
 /*
  * SQLite users:
@@ -46,8 +46,8 @@ $nochat = array('comments'); // categories that will not be easily postable to.
 
 $uploaddir = ''; // world writable folder for uploaded images. System absolute path - past the $hurl. Needs trailing slash
 // thumbnail max sizes DO NOT SET $height TO 0 (ZERO)
-$width = 500;
-$height = 500;
+$width = 320;
+$height = 240;
 
 // text replacements
 $patterns = array(/*''=>''*/);
