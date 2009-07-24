@@ -73,10 +73,11 @@ if ($result) {
 				$loop = $foot = NULL;
 				$com_num += 1;
 				$loop .= enclose('div',get_day($line2['date']),'class="bigdate"');
-				$loop .= enclose('div',enclose('a',$line2['title'],''),'class="title"');
+				$loop .= enclose('div',enclose('a',$line2['title'],'href="#'.$com_num.'"'),'class="title"');
 				$loop .= enclose('div',fixup(show_pic($line2['image'])),'class="image"');
 				$loop .= enclose('div',nl2br(fixup(preg_replace("/^PRIVATE\s?/","",$line2['intro']))),'class="text"');
 				$loop .= enclose('div',get_age($line2['date']),'class="foot"');
+				$comments .= enclose('a','','name="'.$com_num.'"');
 				$comments .= enclose('div',$loop,'class="entry"');
 				}
 			}
