@@ -64,7 +64,7 @@ global $hurl, $accept;
     $box .= enclo_s('input','type="hidden" name="MAX_FILE_SIZE" value="2097152" ');
 		$box .= enclose('p','Name: '.enclo_s('input','name="title" tabindex="1" value="Anonymous" accesskey="q"').'&nbsp;'.enclo_s('input','type="file" accesskey="s" name="userfile" tabindex="3"'),'class="name"');
 		$box .= enclose('textarea',$message,'name="intro" rows="5" cols="100" tabindex="2" accesskey="w"');
-		$box .= enclose('div',enclo_s('input','type="submit" tabindex=4" value="Lets go!"')/*.enclo_s('input','type="reset" value="Reset"')*/,'class="foot"');
+		$box .= enclose('div',enclo_s('input','type="submit" tabindex=4" value="Lets go!"'),'class="foot"');
 		$box = enclose('form',$box,'action="'.$hurl.'/addnew.php" method="post" enctype="multipart/form-data"');
     return $box;
 }
