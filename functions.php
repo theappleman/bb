@@ -80,7 +80,7 @@ function fixup($text)
     '%\[\[([^\|]*?)\]\]%'=>'[[$1|-link-]]',
     '%\[\[(.*?)\|(.*?)\]\]%'=>'<a href="$1" title="$1" >$2</a>',
     '%\s\s+%'=>' ',
-    '%\*(.*?)\*%'=>'<b>*$1*</b>'
+    '%\*([^\s]*?)\*%'=>'<b>*$1*</b>'
     );
   $text = preg_replace(array_keys($textrep),array_values($textrep),$text);
   return $text;
