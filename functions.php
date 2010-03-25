@@ -3,9 +3,30 @@
 // contains function definitions and essential stuff
 
 require_once('userconf.php');
-require_once('class_db.php');
 
-$db = new db($db_user == "" ? 1 : 0);
+$db = NULL;
+try {
+	$db = new PDO($connstr, $db_user, $db_pass);
+	$db->exec('CREATE TABLE IF NOT EXISTS "'. $db->quote("${db_prefix}data") .'" (
+		"id" integer primary key,
+		"title" varchar(100),
+		"date" datetime,
+		"lastupd" datetime,
+		"intro" text,
+		"image" varchar(256),
+		"section" varchar(100),
+		"commentable" tinyint(1),
+		"commentref" bigint(4),
+		"sticky" tinyint(1) default 1,
+		UNIQUE ("id")
+		)');
+	$db->exec('CREATE TABLE IF NOT EXISTS "'. $db->quote("${db_prefix}transactions") .'" (
+		"transaction_key" varchar(24),
+		UNIQUE ("transaction_key")
+	)');
+} catch (PDOException $e) {
+	die("Error: " . $e->getMessage() . "<br />");
+}
 
 function hurl($secure, $cat, $rhurl)
 {
@@ -196,8 +217,11 @@ function comments($id) {
 	global $db,$db_prefix,$cache_time;
 
 	$com_num = 0;
-	$query = sprintf("SELECT id FROM '%s' WHERE commentref = '%d'", "${db_prefix}data", "$id");
-	$result = $db->fetch($query,$cache_time,$id."coms");
+	$query = $db->prepare('SELECT id FROM "'. $db->quote("${db_prefix}data") .'" WHERE commentref = ?');
+	$result = $query->execute(array("$id"));
+	if (!$result)
+		die("Comments failed.");
+	$result = $query->fetchAll();
 	if ($result) { foreach ($result as $r) { $com_num += 1; } }
 	return $com_num;
 }
@@ -211,14 +235,11 @@ function menu($show=false) {
 		}
 	$return .= enclose("div",$sitemenu,'class="mainmenu"');
 
-	$rslt = $db->fetch(sprintf("SELECT DISTINCT section FROM '%s'", "${db_prefix}data"), $cache_time, "sections");
-
-	if ($rslt) {
-    foreach($rslt as $ln) {
-    $rry .= $ln['section'] .',';
-    }
-  }
-  $array = explode(",",$rry);
+	$rslt = $db->query('SELECT DISTINCT section FROM "'. $db->quote("${db_prefix}data").'"');
+	if ($rslt)
+		foreach($rslt as $ln)
+			$rry .= $ln['section'] .',';
+	$array = explode(",",$rry);
 
 	$rslt = NULL;
 	foreach (array_unique($array) as $table) {
@@ -271,7 +292,8 @@ function enclo_s($type,$opts) { return '<' . $type . ' ' . $opts . ' />'; }
 
 function check_transaction_key($key) {
 	global $db_prefix, $db;
-	if (false === $db->exec(sprintf("INSERT INTO '%s' (transaction_key) VALUES ('%s')","${db_prefix}transactions", "$key"))) { return false; }
+	$q = $db->prepare('INSERT INTO "'. $db->quote("${db_prefix}transactions") .'" (transaction_key) VALUES (?)');
+	if (false === $q->execute(array("$key"))) { return false; }
 	else { return true; }
 }
 

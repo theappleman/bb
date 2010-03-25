@@ -4,47 +4,27 @@
 	Rename this file userconf.php as well
 */
 
-/* MySQL users: */
-/*
- * The next 5 variables are required for the system to work, the rest make it work properly.
- * Don't touch these if you are using SQLite
- */
-$db_host = "localhost"; // database hostname
-$db_user = ""; // username for the database
-$db_pass = ""; // password for said user
-$db_data = ""; // name of the database being used
+/* PDO settings */
+// $connstr = "mysql:host=$host;dbname=$database"; $db_user ""; $db_pass =""; // MySQL example
+$connstr = "sqlite:db.db"; // SQLite; but be in a world-writable folder
 $db_prefix = ""; // prefix of database tables
-/* end MySQL */
 
-$cache_dir = ""; /*
-		  * Full path to a cache directory, should not be visible to the public.
-		  * Needs trailing slash.
-		  * Needs to be writable by the web server
-		  */
-$cache_time = 0; // Cache time. Depending on traffic I guess.
-
-/*
- * SQLite users:
- * Uncomment to use SQLite
- */
-// $db_host = "${cache_dir}sqlite.db";
-/* end SQLite */
+$rhurl = ""; // domain name (incl. .) e.g. ".applehq.eu"; remember to change .htaccess REQUIRED
+$link = false; // Set true to use mod_rewrite
 
 $sitename = $cat; // string to use at the top of each page
 $secure = false; // Use HTTPS?
-$rhurl = ""; // domain name (incl. .) e.g. ".applehq.eu"
 $datefmt = "Y-m-d H:i:s"; // Another valid format is "c".
 $fuzzy = true; // turn on fuzzy dates. not an expensive operation, there is little reason to have this off
 $style = "style"; // stylesheet name
 $out = 15; // The number of items to take out of the database
-$link = false; // Set true to use mod_rewrite
 
 $menu = array(/*'Link1'=>'http://url.to/link/1'*/); // array containing links for the main menu
 $snapcode = ""; // Your snap shots, just the number
 
 $nochat = array('comments'); // categories that will not be easily postable to.
 
-$uploaddir = ''; // world writable folder for uploaded images. System absolute path - past the $hurl. Needs trailing slash
+$uploaddir = getcwd()."/uploaded/"; // world writable folder for uploaded images. System absolute path - past the $hurl. Needs trailing slash
 // thumbnail max sizes DO NOT SET $height TO 0 (ZERO)
 $width = 320;
 $height = 240;
@@ -66,7 +46,7 @@ Create the world-writeable uploaded folder. It must be named `uploaded`
 Create the world-writeable cache folder.
 You may want to make a .htaccess rule for Indexes, if wanted.
 
--- SQL instructions to install the data table
+-- MySQL instructions to install the data table
 -- If using $db_prefix, change data and transactions to `${db_prefix}data` and `${db_prefix}transactions` respectively.
 
 CREATE TABLE IF NOT EXISTS `data` (

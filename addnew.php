@@ -126,18 +126,17 @@ if ($allowed == true) {
 
 if ($allowed == true) {
 	if (check_transaction_key($transaction_key)) {
-		$db->exec(sprintf("INSERT INTO '%s'
-			(title, section, date, lastupd, intro, image, commentable, commentref, sticky)
-			VALUES ('%s', '%s', '%s', '%s', '%s', '%s', %d, %d, %d)",
-				"${db_prefix}data", "$title", "$cat", "$date",
+		$addin = $db->prepare('INSERT INTO "'. $db->quote("${db_prefix}data") .'"
+			(title,section,date,lastupd,intro,image,commentable,commentref,sticky)
+			VALUES (?,?,?,?,?,?,?,?,?)');
+		$addin->execute(array("$title", "$cat", "$date",
 				"$date", "$intro", "$image", "$commentable",
 				"$commentref", "$sticky")
-		) or die('Sorry, there was a problem and your post could not be completed.<br />' .$db->log);
+		) or die('Sorry, there was a problem and your post could not be completed.');
 	} else {
 		exit("Double post detected!");
 	}
 } else {
-	echo "$title - $intro - ";
 	exit("There has been an error and you cannot post.");
 }
 
@@ -147,58 +146,12 @@ if($link) {
 	$show = '/show.php?id=';
 }
 if ($commentref == 0) {
-	$db->fetch(sprintf("SELECT title,date,intro,commentable,image
-	FROM' %s'
-	WHERE id = '%d'
-	LIMIT 1", "${db_prefix}data", "$db->last_id"),1,$db->last_id);
-
-	$db->fetch(sprintf("SELECT id,title,date,intro,commentable,image
-	FROM '%s'
-	WHERE section = '%s'
-	ORDER BY sticky ASC, lastupd DESC, date DESC
-	LIMIT 10", "${db_prefix}data", "$cat"),1,$cat);
-
-	$db->fetch(sprintf("SELECT DISTINCT section FROM '%s'", "${db_prefix}data"),1,"sections");
-	header('Location:'.$hurl.$show.$db->last_id);
+	header('Location:'.$hurl.$show.$db->lastInsertId());
 } else {
-	$db->exec(sprintf("UPDATE '%s' SET lastupd = '%s' WHERE id = '%d'",
-			"${db_prefix}data", date($datefmt), "$commentref"))
-		or die("Could not update post time (don't worry, your post has gone through).");
+	$utime = $db->prepare('UPDATE "'. $db->quote("${db_prefix}data") .'" SET lastupd = ? WHERE id = ?');
+	$utime->execute(array(date($datefmt), $commentref));
 
-	$query2 = sprintf("SELECT id,title,date,intro,commentable,image
-		FROM '%s'
-		WHERE commentref = '%d'
-		ORDER BY date ASC", "${db_prefix}data", "$commentref");
-	$query3 = sprintf("SELECT id,title,date,intro,image
-		FROM '%s'
-		WHERE commentref = '%d'
-		ORDER BY sticky ASC, lastupd DESC
-		LIMIT 1", "${db_prefix}data", "$commentref");
-	$query4 = sprintf("SELECT id
-		FROM '%s'
-		WHERE commentref = '%d'
-			AND section = 'comments'",
-		"${db_prefix}data", "$commentref");
-
-	$db->fetch($query2,1,$commentref."com");
-	$db->fetch($query3,1,$commentref."1com");
-	$db->fetch($query4,1,$commentref."coms");
-
-	$res = $db->fetch(sprintf("SELECT section
-		FROM '%s'
-		WHERE id = '%d'
-		LIMIT 1", "${db_prefix}data", "$commentref"));
-	if ($res) {
-		foreach ($res as $line) {
-			$sec = $line['section'];
-			$db->fetch(sprintf("SELECT id,title,date,intro,commentable,image
-				FROM '%s'
-				WHERE section = '%s'
-				ORDER BY sticky ASC, lastupd DESC, date DESC
-				LIMIT 10", "${db_prefix}data", "sec"),1,$sec);
-		}
-	}
-	/* redirect to parent cat, not "comments" */
+	/* TODO: redirect to parent cat, not "comments" */
 	header('Location:'.$hurl.$show.$commentref);
 }
 

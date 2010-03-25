@@ -7,28 +7,23 @@ $id = $_REQUEST['id'];
 $_REQUEST = array(NULL);
 
 require_once('functions.php');
+$opts = array(':id' => $id);
+$getpost = $db->prepare('SELECT title,date,intro,commentable,image
+		FROM "'. $db->quote("${db_prefix}data") .'"
+		WHERE id = :id
+		LIMIT 1');
+$getpostcom = $db->prepare('SELECT id,title,date,intro,image
+		FROM "'. $db->quote("${db_prefix}data") .'"
+		WHERE commentref = :id
+		ORDER BY date ASC');
+$result = $getpost->execute($opts);
+$result2 = $getpostcom->execute($opts);
 
-$query = sprintf("SELECT title,date,intro,commentable,image
-	FROM '%s'
-	WHERE id = '%d'
-	LIMIT 1", "${db_prefix}data", "$id");
+if (!$result or !$result2)
+	die("Queries failed.");
 
-$result = $db->fetch(
-	$query,
-	$cache_time,
-	$id
-	);
-
-$query2 = sprintf("SELECT id,title,date,intro,image
-	FROM '%s'
-	WHERE commentref = '%d'
-	ORDER BY date ASC", "${db_prefix}data", "$id");
-
-$result2 = $db->fetch(
-	$query2,
-	$cache_time,
-	$id."com"
-	);
+$result = $getpost->fetchAll();
+$result2 = $getpostcom->fetchAll();
 
 $com_num = 0;
 $show = $link ? '/' : '/show.php?id=';
